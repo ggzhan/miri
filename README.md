@@ -1,7 +1,11 @@
 # Miriam Pimputkar – Massage & Polarity – website
 
-One-page website for Miriam Pimputkar – Massage & Polarity (Winterthur). Mobile-first, static HTML (every word is in
+Website for Miriam Pimputkar – Massage & Polarity (Winterthur). Mobile-first, static HTML (every word is in
 the page source for Google and AI search), schema.org `HealthAndBeautyBusiness` + `FAQPage` data.
+
+Pages (each its own title, description and canonical URL; listed in `sitemap.xml`):
+`/` Start · `/angebot/` · `/polarity/` · `/preise/` · `/buchen/` (booking + FAQ) · `/ueber-mich/` ·
+`/erfahrungen/` · `/gutschein/` · `/kontakt/`
 
 **Preview:** https://ggzhan.github.io/miri/
 
@@ -11,7 +15,7 @@ burnt orange `#c46627`), with darker ambers for text so it stays readable.
 
 ## Files
 
-- `build.mjs` – all content (top of the file) and the page template; generates `index.html`. Don't edit `index.html` by hand.
+- `build.mjs` – all content (top of the file) and one template per page (`PAGES`); generates every `index.html`, `sitemap.xml` and `robots.txt`. Don't edit the generated files by hand.
 - `styles.css` – the whole stylesheet; colour tokens at the top.
 - `img/sketches/*.svg` – the stick-figure drawings as vectors (traced from the original drawings with potrace).
   They scale to any size, have transparent backgrounds and use `fill="currentColor"`, so inlined they take the text colour.
@@ -23,9 +27,9 @@ burnt orange `#c46627`), with darker ambers for text so it stays readable.
 
 ## Booking (Acuity)
 
-The `#buchen` section is our own treatment picker (sketch style). Choosing a treatment loads Acuity's calendar
+The booking page (`/buchen/`) is our own treatment picker (sketch style). Choosing a treatment loads Acuity's calendar
 for that appointment type in an iframe, only then (privacy + speed); without JavaScript every choice is a plain
-link to Acuity. Appointment-type ids, durations and prices live in `C.booking` in `build.mjs` and must match Acuity.
+link to Acuity. Treatment cards on other pages link to `/buchen/?typ=<id>`, which opens that calendar directly. Appointment-type ids, durations and prices live in `C.booking` in `build.mjs` and must match Acuity.
 No Acuity API key is used or needed — never commit one.
 
 Acuity settings to change (Miri's account, not code):

@@ -94,7 +94,7 @@ section + section { border-top: 1px solid var(--line); }
 .more summary { color: var(--amber-dark); font-weight: 600; }
 .more p:first-of-type { margin-top: 8px; }
 .extras { margin-top: 28px; padding: 22px 26px; border-radius: 18px; background: var(--warm); display: flex; flex-wrap: wrap; gap: 8px 28px; align-items: center; }
-.extras h3 { font-size: 18px; margin: 0; }
+.extras .h3 { font-size: 18px; margin: 0; }
 .extras ul { display: flex; flex-wrap: wrap; gap: 6px 24px; margin: 0; padding-left: 18px; color: var(--muted); }
 
 /* polarity */
@@ -297,3 +297,22 @@ details[open] > summary::before { content: "–"; }
   .site-header .btn .short { display: inline; }
   .brand small { font-size: 12.5px; }
 }
+
+/* =====================================================================
+   MULTI-PAGE: page header, linked cards on the start page
+   ===================================================================== */
+.h3 { font-size: 22px; }                         /* an h2 that looks like an h3 (keeps the heading order) */
+.page-hero { padding: 56px 0 8px; }
+.page-hero h1 { font-size: clamp(34px, 4.4vw, 52px); }
+.page-hero .sketch { height: 130px; }
+.page-hero + section { border-top: 0; padding-top: 32px; }
+.navlist a[aria-current="page"] { color: var(--ink); border-color: var(--amber); }
+.card-link { text-decoration: none; color: var(--ink); transition: border-color .15s, transform .15s; }
+.card-link:hover, .card-link:focus-visible { border-color: var(--amber); transform: translateY(-2px); outline: none; }
+.card-link .more-link { font-weight: 600; color: var(--amber-dark); font-size: 15px; margin-top: auto; }
+@media (max-width: 860px) {
+  .page-hero { padding: 32px 0 4px; }
+  .page-hero .sketch { height: 104px; }
+  .page-hero + section { padding-top: 20px; }
+}
+.recs a { color: var(--amber-dark); }

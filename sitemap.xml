@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.example.ch/</loc></url>
+  <url><loc>https://www.example.ch/angebot/</loc></url>
+  <url><loc>https://www.example.ch/polarity/</loc></url>
+  <url><loc>https://www.example.ch/preise/</loc></url>
+  <url><loc>https://www.example.ch/buchen/</loc></url>
+  <url><loc>https://www.example.ch/ueber-mich/</loc></url>
+  <url><loc>https://www.example.ch/erfahrungen/</loc></url>
+  <url><loc>https://www.example.ch/gutschein/</loc></url>
+  <url><loc>https://www.example.ch/kontakt/</loc></url>
+</urlset>

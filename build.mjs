@@ -2,7 +2,7 @@
 // so every word is in the HTML source for Google and AI crawlers.
 // Run: node build.mjs            preview build (noindex) — what GitHub Pages serves
 //      LAUNCH=1 node build.mjs   launch build (indexable)
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, mkdirSync } from 'node:fs';
 
 /* =====================================================================
    CONTENT
@@ -233,29 +233,33 @@ const IMG = {
   giftBack: ['gutschein-hinten.jpg', 'Geschenkgutschein, Rückseite mit Platz für Namen und Wert', 900, 639],
   map: ['map.png', 'Karte: Massagepraxis an der Münzgasse 2, Winterthur Altstadt', 871, 592],
 };
+// path prefix of the page being rendered ('' for the home page, '../' for /angebot/ etc.)
+let P = '';
 const img = (k, o = {}) => {
   const [f, alt, w, h] = IMG[k];
-  return `<img src="img/${f}" alt="${o.deco ? '' : alt}" width="${w}" height="${h}" loading="${o.eager ? 'eager' : 'lazy'}"${o.cls ? ` class="${o.cls}"` : ''}${o.style ? ` style="${o.style}"` : ''}>`;
+  return `<img src="${P}img/${f}" alt="${o.deco ? '' : alt}" width="${w}" height="${h}" loading="${o.eager ? 'eager' : 'lazy'}"${o.cls ? ` class="${o.cls}"` : ''}${o.style ? ` style="${o.style}"` : ''}>`;
 };
 const mail = `<a href="mailto:${C.email}">${C.email}</a>`;
 const acuity = (id, embed = false) => `https://app.acuityscheduling.com/schedule.php?owner=${C.acuityOwner}${id ? `&appointmentType=${id}` : ''}${embed ? '&ref=embedded_csp' : ''}`;
 const ALL_TYPES = [...C.booking.first, ...C.booking.regular];
-// a link that opens Acuity directly without JS, or the embedded calendar for that type with JS
-const bookLink = (id, text, cls = '') => {
-  const t = ALL_TYPES.find(x => x.id === id);
-  return `<a${cls ? ` class="${cls}"` : ''} href="${acuity(id)}" data-type="${id}" data-label="${t.n} · ${t.t} · ${t.p}">${text}</a>`;
-};
+const typeLabel = id => { const t = ALL_TYPES.find(x => x.id === id); return `${t.n} · ${t.t} · ${t.p}`; };
+// on the booking page: opens Acuity directly without JS, or the embedded calendar for that type with JS
+const pickLink = (id, text, cls = '') => `<a${cls ? ` class="${cls}"` : ''} href="${acuity(id)}" data-type="${id}" data-label="${typeLabel(id)}">${text}</a>`;
+// anywhere else: goes to the booking page with that treatment's calendar already open
+const bookLink = (id, text, cls = '') => `<a${cls ? ` class="${cls}"` : ''} href="${url('buchen')}?typ=${id}">${text}</a>`;
 const giftMail = `mailto:${C.email}?subject=${encodeURIComponent('Gutscheinbestellung')}&body=${encodeURIComponent('Hallo Miriam\n\nIch möchte gerne einen Gutschein bestellen:\n\nBehandlung: \nVersion (Post / digital verschicken / selber ausdrucken A6 oder A5): \nName: \nAdresse (bei Postversand): \n\nLiebe Grüsse')}`;
 
 /* =====================================================================
    CONTENT FRAGMENTS
    ===================================================================== */
+// page slugs double as URLs: /angebot/, /polarity/ … ('' = home)
 const NAV = [
   ['angebot', 'Angebot'], ['polarity', 'Polarity'], ['preise', 'Preise'], ['ueber-mich', 'Über mich'],
   ['erfahrungen', 'Erfahrungen'], ['gutschein', 'Gutschein'], ['kontakt', 'Kontakt'],
 ];
-const navList = () => `<ul class="navlist" id="menu">${NAV.map(([id, l]) => `<li><a href="#${id}">${l}</a></li>`).join('')}</ul>`;
-
+const url = slug => P + (slug ? slug + '/' : '') || './';
+const navList = cur => `<ul class="navlist" id="menu">${NAV.map(([slug, l]) => `<li><a href="${url(slug)}"${slug === cur ? ' aria-current="page"' : ''}>${l}</a></li>`).join('')}</ul>`;
+const SERVICE_ART = { klassisch: 'massage', ganzheitlich: 'fuesse', 'polarity-behandlung': 'gespraech', hawaiianisch: 'hawaii' };
 const F = {
   // expandable details for a service: real text, collapsed so phones aren't flooded
   more: (s, summary = 'Mehr erfahren') => `<details class="more"><summary>${summary}</summary>${s.more.map(p => `<p>${p}</p>`).join('')}</details>`,
@@ -283,10 +287,8 @@ const SITE = 'https://www.example.ch/';
 // Preview builds (the default) are hidden from search engines,
 // so the shared GitHub Pages copy never competes with the real site. Launch build: LAUNCH=1 node build.mjs
 const PREVIEW = process.env.LAUNCH !== '1';
-const TITLE = 'Massage & Polarity in Winterthur | Miriam Pimputkar';
 const DESC = 'Klassische Massage (100 CHF), Ganzheitliche Massage, Hawaiianische Ganzkörpermassage und Polarity in Winterthur, Münzgasse 2. Mi & Fr 10–20 Uhr. Erste Massage 80 CHF. Termin online buchen.';
-const jsonLd = [
-  {
+const business = {
     '@context': 'https://schema.org',
     '@type': 'HealthAndBeautyBusiness',
     '@id': `${SITE}#praxis`,
@@ -317,97 +319,113 @@ const jsonLd = [
         ...C.extras.map(e => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: e, description: 'Ergänzende Behandlung' } })),
       ],
     },
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: FAQ.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
-  },
-];
+};
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: FAQ.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+};
 
 const FONTS = 'https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Kalam:wght@300;400;700&family=Patrick+Hand&family=Gaegu:wght@400;700&family=Shadows+Into+Light&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap';
 
-function page(body) {
+function page(pg, body) {
+  const canonical = SITE + (pg.slug ? pg.slug + '/' : '');
+  const ld = [business, ...(pg.faq ? [faqLd] : [])];
   return `<!doctype html>
 <!-- Generated by build.mjs — edit that file, not this one. -->
 <html lang="de-CH">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${TITLE}</title>
-<meta name="description" content="${DESC}">${PREVIEW ? '\n<meta name="robots" content="noindex, nofollow">' : ''}
-<link rel="canonical" href="${SITE}">
+<title>${pg.title}</title>
+<meta name="description" content="${pg.desc}">${PREVIEW ? '\n<meta name="robots" content="noindex, nofollow">' : ''}
+<link rel="canonical" href="${canonical}">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="de_CH">
 <meta property="og:site_name" content="${C.name}">
-<meta property="og:title" content="${TITLE}">
-<meta property="og:description" content="${DESC}">
+<meta property="og:url" content="${canonical}">
+<meta property="og:title" content="${pg.title}">
+<meta property="og:description" content="${pg.desc}">
 <meta property="og:image" content="${SITE}img/og-image.jpg">
 <meta name="geo.region" content="CH-ZH">
 <meta name="geo.placename" content="Winterthur">
-<link rel="icon" href="img/sketches/massage.svg" type="image/svg+xml">
+<link rel="icon" href="${P}img/sketches/massage.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="${FONTS}" rel="stylesheet">
-<link href="styles.css" rel="stylesheet">
-${jsonLd.map(j => `<script type="application/ld+json">${JSON.stringify(j)}</script>`).join('\n')}
+<link href="${P}styles.css" rel="stylesheet">
+${ld.map(j => `<script type="application/ld+json">${JSON.stringify(j)}</script>`).join('\n')}
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt springen</a>
+${header(pg.slug)}
+<main id="inhalt">
 ${body}
+${pg.slug === 'buchen' ? '' : ctaBand()}
+</main>
+${footer()}
 <script>
 // mobile menu toggle
 const header = document.querySelector('.site-header'), toggle = header.querySelector('.menu-toggle');
 toggle.addEventListener('click', () => toggle.setAttribute('aria-expanded', header.classList.toggle('open')));
-header.querySelectorAll('.navlist a').forEach(a => a.addEventListener('click', () => { header.classList.remove('open'); toggle.setAttribute('aria-expanded', false); }));
-// highlight the menu entry of the section in view
-const links = [...header.querySelectorAll('.navlist a[href^="#"]')];
-const io = new IntersectionObserver(es => es.forEach(e => {
-  if (!e.isIntersecting) return;
-  links.forEach(l => l.toggleAttribute('aria-current', l.getAttribute('href') === '#' + e.target.id));
-}), { rootMargin: '-40% 0px -55% 0px' });
-links.forEach(l => { const s = document.querySelector(l.getAttribute('href')); if (s) io.observe(s); });
-// booking: our own treatment picker, then Acuity's calendar for that type (loaded only on demand)
-const pick = document.getElementById('pick'), cal = document.getElementById('cal'), frame = cal.querySelector('.cal-frame');
-let embedJs = false;
-function openType(id, label) {
-  frame.innerHTML = '<iframe src="https://app.acuityscheduling.com/schedule.php?owner=${C.acuityOwner}&appointmentType=' + id + '&ref=embedded_csp" title="Termin vereinbaren: ' + label + '" width="100%" height="800" frameborder="0" allow="payment"></iframe>';
-  if (!embedJs) { const sc = document.createElement('script'); sc.src = 'https://embed.acuityscheduling.com/js/embed.js'; document.body.append(sc); embedJs = true; }
-  cal.querySelector('.chosen').textContent = label;
-  pick.hidden = true; cal.hidden = false;
-}
-document.addEventListener('click', e => {
-  const a = e.target.closest('a[data-type]'); if (!a) return;
-  e.preventDefault(); openType(a.dataset.type, a.dataset.label);
-  history.replaceState(null, '', '#buchen'); document.getElementById('buchen').scrollIntoView({ behavior: 'smooth' });
-});
-cal.querySelector('.back').addEventListener('click', () => { frame.innerHTML = ''; cal.hidden = true; pick.hidden = false; });
+${pg.script || ''}
 </script>
 </body>
 </html>
 `;
 }
 
-/* =====================================================================
-   PAGE — sketches illustrate the sections
-   ===================================================================== */
-function site() {
-  return `
-  <header class="site-header has-toggle"><div class="container">
-    <a class="brand" href="#willkommen">${img('massage', { deco: true, eager: true })}<span>Miriam Pimputkar <small>Massage &amp; Polarity</small></span></a>
+const header = cur => `
+  <header class="site-header"><div class="container">
+    <a class="brand" href="${url('')}">${img('massage', { deco: true, eager: true })}<span>Miriam Pimputkar <small>Massage &amp; Polarity</small></span></a>
     <button class="menu-toggle" aria-expanded="false" aria-controls="menu" aria-label="Menü öffnen"><span></span></button>
-    <nav aria-label="Hauptmenü" style="display:contents">${navList()}</nav>
-    <a class="btn btn-primary" href="#buchen" aria-label="Termin buchen"><span class="long">Termin buchen</span><span class="short" aria-hidden="true">Buchen</span></a>
-  </div></header>
+    <nav aria-label="Hauptmenü" style="display:contents">${navList(cur)}</nav>
+    <a class="btn btn-primary" href="${url('buchen')}" aria-label="Termin buchen"${cur === 'buchen' ? ' aria-current="page"' : ''}><span class="long">Termin buchen</span><span class="short" aria-hidden="true">Buchen</span></a>
+  </div></header>`;
 
-  <main id="inhalt">
-    <section class="hero" id="willkommen"><div class="container">
+const footer = () => `
+  <footer class="site-footer"><div class="container">
+    <div><h3>${C.person}</h3><address style="font-style:normal">Massage &amp; Polarity<br>${C.address.join('<br>')}<br>${F.hours()}<br>${mail}</address></div>
+    <nav aria-label="Fussmenü"><h3>Seiten</h3><ul><li><a href="${url('')}">Start</a></li>${NAV.map(([slug, l]) => `<li><a href="${url(slug)}">${l}</a></li>`).join('')}<li><a href="${url('buchen')}">Termin buchen</a></li><li><a href="${url('buchen')}#fragen">Häufige Fragen</a></li></ul></nav>
+    <div><h3>Angebot</h3><ul>${C.services.map(s => `<li><a href="${url('angebot')}#${s.id}">${s.n}</a></li>`).join('')}</ul></div>
+  </div></footer>`;
+
+const ctaBand = () => `
+    <section class="cta-band"><div class="container center">
+      ${img('jump', { cls: 'sketch', deco: true })}
+      <h2>${C.curious[0]}</h2>
+      <p class="lead">${C.curious[1]} ${C.bye}</p>
+      <a class="btn" href="${url('buchen')}">Termin buchen</a>
+    </div></section>`;
+
+// top of every sub-page: drawing, the page's one <h1>, a lead sentence
+const pageHero = (art, h1, lead = '') => `
+    <section class="page-hero"><div class="container center">
+      ${art ? img(art, { cls: 'sketch' }) : ''}
+      <h1>${h1}</h1>
+      ${lead ? `<p class="lead">${lead}</p>` : ''}
+    </div></section>`;
+
+const serviceCard = s => `<article class="card" id="${s.id}">${img(SERVICE_ART[s.id], { cls: 'card-art' })}<div class="card-top"><span class="dur">${s.t}</span>${s.p ? `<span class="price">${s.p}</span>` : ''}</div><h3>${s.n}</h3>${s.alt ? `<p class="alt">${s.alt}</p>` : ''}<p>${s.d}</p>${F.more(s)}${bookLink(s.book, `${s.n} buchen →`)}</article>`;
+const typeItem = t => `<li>${pickLink(t.id, `${img(t.art, { cls: 'type-art', deco: true })}<span class="tn">${t.n}</span><span class="meta">${t.t} · ${t.p}</span><span class="go">Freie Termine ansehen →</span>`, 'type')}</li>`;
+
+/* =====================================================================
+   PAGES
+   ===================================================================== */
+const PAGES = [
+  {
+    slug: '', title: 'Massage & Polarity in Winterthur | Miriam Pimputkar', desc: DESC,
+    // links into the old one-page site (index.html#preise …) land on the new pages
+    script: `const old = { angebot: 'angebot/', polarity: 'polarity/', preise: 'preise/', buchen: 'buchen/', arbeit: 'ueber-mich/#arbeit', 'ueber-mich': 'ueber-mich/', erfahrungen: 'erfahrungen/', gutschein: 'gutschein/', fragen: 'buchen/#fragen', kontakt: 'kontakt/' }[location.hash.slice(1)];
+if (old) location.replace(old);`,
+    body: () => `
+    <section class="hero"><div class="container">
       <div>
         <h1><small>${C.claim} in Winterthur</small>${C.tagline}</h1>
         <p class="lead">${C.intro}</p>
         <div class="actions">
-          <a class="btn btn-primary" href="#buchen">Termin online buchen</a>
-          <a class="btn btn-ghost" href="#angebot">Angebot entdecken</a>
+          <a class="btn btn-primary" href="${url('buchen')}">Termin online buchen</a>
+          <a class="btn btn-ghost" href="${url('angebot')}">Angebot entdecken</a>
         </div>
         <ul class="facts">
           <li>Erste Massage 80 CHF</li><li>${C.hours.short}, ${C.hours.time}</li><li>Münzgasse 2, Winterthur</li><li>Lift vorhanden</li>
@@ -425,54 +443,94 @@ function site() {
       <div><h2>Der Körper weiss, was der nächste Schritt ist.</h2><p><b>${C.welcome}</b> ${C.hook}</p>${C.why.map(p => `<p>${p}</p>`).join('')}</div>
     </div></section>
 
-    <section id="angebot"><div class="container">
-      <div class="center">
-        <h2>Mein Angebot</h2>
-        <p class="lead">${C.offerIntro}</p>
-      </div>
-      <div class="cards">${C.services.map(s => `<article class="card" id="${s.id}">${img({ klassisch: 'massage', ganzheitlich: 'fuesse', 'polarity-behandlung': 'gespraech', hawaiianisch: 'hawaii' }[s.id], { cls: 'card-art' })}<div class="card-top"><span class="dur">${s.t}</span>${s.p ? `<span class="price">${s.p}</span>` : ''}</div><h3>${s.n}</h3>${s.alt ? `<p class="alt">${s.alt}</p>` : ''}<p>${s.d}</p>${F.more(s)}${bookLink(s.book, `${s.n} buchen →`)}</article>`).join('')}</div>
-      <div class="extras"><h3>Ergänzende Behandlungen</h3><ul>${C.extras.map(e => `<li>${e}</li>`).join('')}</ul></div>
-      <p class="center" style="margin-top:28px;color:var(--muted)">${C.relief}</p>
+    <section><div class="container">
+      <div class="center"><h2>Mein Angebot</h2><p class="lead">${C.offerIntro.split(':')[0]}.</p></div>
+      <div class="cards">${C.services.map(s => `<a class="card card-link" href="${url('angebot')}#${s.id}">${img(SERVICE_ART[s.id], { cls: 'card-art' })}<div class="card-top"><span class="dur">${s.t}</span>${s.p ? `<span class="price">${s.p}</span>` : ''}</div><h3>${s.n}</h3><p>${s.d}</p><span class="more-link">Mehr erfahren →</span></a>`).join('')}</div>
+      <p class="center" style="margin-top:28px"><a class="btn btn-ghost" href="${url('preise')}">Alle Preise</a></p>
     </div></section>
 
-    <section class="alt" id="polarity"><div class="container twocol">
+    <section class="alt"><div class="container">
+      <div class="center"><h2>Das sagen meine Kundinnen und Kunden</h2><p class="lead">${F.rating()}</p></div>
+      <div class="quotes">${C.quotes.slice(0, 3).map(q => `<blockquote><div class="stars" aria-hidden="true">★★★★★</div><p>«${q.short}»</p><footer>${F.who(q)}</footer></blockquote>`).join('')}</div>
+      <p class="center" style="margin-top:28px"><a class="btn btn-ghost" href="${url('erfahrungen')}">Alle Erfahrungsberichte</a></p>
+    </div></section>`,
+  },
+  {
+    slug: 'angebot', title: 'Angebot: Massage & Polarity in Winterthur | Miriam Pimputkar',
+    desc: 'Klassische Massage, Ganzheitliche Massage, Hawaiianische Ganzkörpermassage (Lomi Lomi) und Polarity in Winterthur – mit Dauer, Preisen und Online-Buchung.',
+    body: () => `${pageHero('massage', 'Mein Angebot', C.offerIntro)}
+    <section><div class="container">
+      <div class="cards">${C.services.map(serviceCard).join('')}</div>
+      <div class="extras"><h2 class="h3">Ergänzende Behandlungen</h2><ul>${C.extras.map(e => `<li>${e}</li>`).join('')}</ul></div>
+      <p class="center" style="margin-top:28px;color:var(--muted)">${C.relief}</p>
+      <p class="center"><a class="btn btn-ghost" href="${url('preise')}">Preise & Konditionen</a></p>
+    </div></section>`,
+  },
+  {
+    slug: 'polarity', title: 'Polarity Therapie in Winterthur | Miriam Pimputkar',
+    desc: 'Polarity nach Dr. Randolph Stone: Körperarbeit, begleitendes Gespräch, Yoga und Ernährung. Polaritybehandlung in Winterthur – die erste nach deinem Ermessen.',
+    body: () => `${pageHero('gespraech', 'Polarity', '')}
+    <section><div class="container twocol">
       <div>
-        <h2>Polarity</h2>
         <blockquote class="pull">«${C.polarity.quote}»<footer>${C.polarity.quoteBy}</footer></blockquote>
         ${C.polarity.intro.map(p => `<p>${p}</p>`).join('')}
+        <h2 class="h3">Polarity …</h2>
         ${F.facts()}
       </div>
-      <div>${img('gespraech', { cls: 'scene' })}<div class="accordion">${F.topics()}</div></div>
-    </div></section>
-
-    <section id="preise"><div class="container twocol">
       <div>
-        <h2>Preise</h2>
-        <p class="lead">${C.prices.intro}</p>
+        <div class="accordion">${F.topics()}</div>
+        <p style="margin-top:28px">${bookLink('78873137', 'Erste Polaritybehandlung buchen', 'btn btn-primary')}</p>
+      </div>
+    </div></section>`,
+  },
+  {
+    slug: 'preise', title: 'Preise für Massage & Polarity in Winterthur | Miriam Pimputkar',
+    desc: 'Klassische Massage ab 50 CHF, Ganzheitliche Massage 110 CHF, Hawaiianische Massage 180 CHF, Polarity 88 CHF/Std. Erste Massage 80 CHF. Zahlung mit TWINT, bar oder Karte.',
+    body: () => `${pageHero('', 'Preise', C.prices.intro)}
+    <section><div class="container twocol">
+      <div>
+        <h2 class="h3">Behandlungen</h2>
         ${F.priceRows()}
         ${F.polarityNote()}
       </div>
       <div>
-        <h3>Zahlung und Konditionen</h3>
+        <h2 class="h3">Zahlung und Konditionen</h2>
         ${F.terms()}
         <p>${C.prices.cancel}</p>
         <div class="social-box"><h3>Soziales Entgegenkommen</h3><p>${C.prices.social} ${mail}</p></div>
-        <a class="btn btn-primary" href="#buchen" style="margin-top:20px">Jetzt online buchen</a>
+        <a class="btn btn-primary" href="${url('buchen')}" style="margin-top:20px">Jetzt online buchen</a>
       </div>
-    </div></section>
-
-    <section class="booking" id="buchen"><div class="container">
-      <div class="center">
-        ${img('termin', { cls: 'sketch' })}
-        <h2>Termin online buchen</h2>
-        <p class="lead">Wähle deine Behandlung – danach siehst du alle freien Termine und buchst direkt hier. ${F.hours()}.</p>
-      </div>
+    </div></section>`,
+  },
+  {
+    slug: 'buchen', title: 'Termin online buchen | Miriam Pimputkar, Massage Winterthur', faq: true,
+    desc: 'Wähle deine Behandlung und buche direkt einen freien Termin – Praxistage Mittwoch und Freitag, 10–20 Uhr. Mit Hinweisen und Antworten auf häufige Fragen.',
+    // our own treatment picker, then Acuity's calendar for that type (loaded only on demand);
+    // ?typ=<id> (from the treatment cards on other pages) opens that calendar straight away
+    script: `const pick = document.getElementById('pick'), cal = document.getElementById('cal'), frame = cal.querySelector('.cal-frame');
+let embedJs = false;
+function openType(id, label) {
+  frame.innerHTML = '<iframe src="https://app.acuityscheduling.com/schedule.php?owner=${C.acuityOwner}&appointmentType=' + id + '&ref=embedded_csp" title="Termin vereinbaren: ' + label + '" width="100%" height="800" frameborder="0" allow="payment"></iframe>';
+  if (!embedJs) { const sc = document.createElement('script'); sc.src = 'https://embed.acuityscheduling.com/js/embed.js'; document.body.append(sc); embedJs = true; }
+  cal.querySelector('.chosen').textContent = label;
+  pick.hidden = true; cal.hidden = false;
+}
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[data-type]'); if (!a) return;
+  e.preventDefault(); openType(a.dataset.type, a.dataset.label);
+  history.replaceState(null, '', '?typ=' + a.dataset.type); document.querySelector('.paper').scrollIntoView({ behavior: 'smooth' });
+});
+cal.querySelector('.back').addEventListener('click', () => { frame.innerHTML = ''; cal.hidden = true; pick.hidden = false; history.replaceState(null, '', location.pathname); });
+const pre = document.querySelector('a[data-type="' + new URLSearchParams(location.search).get('typ') + '"]');
+if (pre) openType(pre.dataset.type, pre.dataset.label);`,
+    body: () => `${pageHero('termin', 'Termin online buchen', `Wähle deine Behandlung – danach siehst du alle freien Termine und buchst direkt hier. ${F.hours()}.`)}
+    <section class="booking"><div class="container">
       <div class="paper">
         <div class="pick" id="pick">
-          <h3>Dein erster Besuch</h3>
-          <ul class="types">${C.booking.first.map(t => `<li>${bookLink(t.id, `${img(t.art, { cls: 'type-art', deco: true })}<span class="tn">${t.n}</span><span class="meta">${t.t} · ${t.p}</span><span class="go">Freie Termine ansehen →</span>`, 'type')}</li>`).join('')}</ul>
-          <h3>Weitere Termine</h3>
-          <ul class="types">${C.booking.regular.map(t => `<li>${bookLink(t.id, `${img(t.art, { cls: 'type-art', deco: true })}<span class="tn">${t.n}</span><span class="meta">${t.t} · ${t.p}</span><span class="go">Freie Termine ansehen →</span>`, 'type')}</li>`).join('')}</ul>
+          <h2 class="h3">Dein erster Besuch</h2>
+          <ul class="types">${C.booking.first.map(typeItem).join('')}</ul>
+          <h2 class="h3">Weitere Termine</h2>
+          <ul class="types">${C.booking.regular.map(typeItem).join('')}</ul>
         </div>
         <div class="cal" id="cal" hidden>
           <div class="cal-bar"><button type="button" class="back">← andere Behandlung</button><span class="chosen"></span></div>
@@ -480,39 +538,6 @@ function site() {
         </div>
         <p class="cal-note">Die Terminbuchung läuft über <a href="${acuity()}" rel="noopener">Acuity Scheduling</a>; der Kalender wird erst geladen, wenn du eine Behandlung wählst. Absagen sind bis 24 Stunden vorher kostenfrei.</p>
       </div>
-    </div></section>
-
-    <section class="alt" id="arbeit"><div class="container">
-      <div class="center">${img('run', { cls: 'sketch' })}<h2>Was meine Arbeit ausmacht</h2></div>
-      <div class="values">${C.values.map(v => `<div><h3>${v.k}</h3><p>${v.v}${v.k === 'Sozial' ? ' ' + mail : ''}</p></div>`).join('')}</div>
-    </div></section>
-
-    <section id="ueber-mich"><div class="container twocol">
-      <div>${img('praxis', { cls: 'about-img' })}<div class="accordion" style="margin-top:28px">${F.training()}</div></div>
-      <div>
-        ${img('yoga', { cls: 'sketch' })}
-        <h2>Über mich – Miriam Pimputkar</h2>
-        <p class="lead">${C.aboutLead}</p>
-        ${C.about.map(p => `<p>${p}</p>`).join('')}
-        <p><b>${C.curious[0]}</b> ${C.curious[1]}</p>
-        ${bookLink('39957629', 'Kennenlernmassage buchen', 'btn btn-primary')}
-      </div>
-    </div></section>
-
-    <section class="alt" id="erfahrungen"><div class="container">
-      <div class="center">${img('jump', { cls: 'sketch', deco: true })}<h2>Erfahrungsberichte</h2>
-        <p class="lead">${F.rating()}</p></div>
-      <div class="quotes">${C.quotes.map(q => `<blockquote><div class="stars" aria-hidden="true">★★★★★</div><p>«${q.q}»</p><footer>${F.who(q)}</footer></blockquote>`).join('')}</div>
-    </div></section>
-
-    <section id="gutschein"><div class="container gift">
-      <div>
-        ${img('geschenk', { cls: 'sketch' })}
-        <h2>${C.gift.title}</h2>
-        ${F.gift()}
-        <a class="btn btn-ghost" href="${giftMail}">Gutschein per E-Mail bestellen</a>
-      </div>
-      <div class="gift-imgs">${img('giftFront')}${img('giftBack')}</div>
     </div></section>
 
     <section class="alt" id="fragen"><div class="container twocol">
@@ -523,44 +548,82 @@ function site() {
         ${F.tips()}
       </div>
       <div><h2>Häufige Fragen</h2><div class="accordion">${F.faq()}</div></div>
+    </div></section>`,
+  },
+  {
+    slug: 'ueber-mich', title: 'Über mich – Miriam Pimputkar, Masseurin in Winterthur',
+    desc: 'Dipl. Klassische Masseurin und Polaritytherapeutin in Ausbildung in Winterthur: wie ich arbeite, meine Ausbildungen und was mich bewegt.',
+    body: () => `${pageHero('yoga', 'Über mich – Miriam Pimputkar', C.aboutLead)}
+    <section><div class="container twocol">
+      <div>${img('praxis', { cls: 'about-img' })}<div class="accordion" style="margin-top:28px">${F.training()}</div></div>
+      <div>
+        ${C.about.map(p => `<p>${p}</p>`).join('')}
+        <p><b>${C.curious[0]}</b> ${C.curious[1]}</p>
+        ${bookLink('39957629', 'Kennenlernmassage buchen', 'btn btn-primary')}
+      </div>
     </div></section>
 
-    <section id="kontakt"><div class="container twocol">
+    <section class="alt" id="arbeit"><div class="container">
+      <div class="center">${img('run', { cls: 'sketch' })}<h2>Was meine Arbeit ausmacht</h2></div>
+      <div class="values">${C.values.map(v => `<div><h3>${v.k}</h3><p>${v.v}${v.k === 'Sozial' ? ' ' + mail : ''}</p></div>`).join('')}</div>
+    </div></section>`,
+  },
+  {
+    slug: 'erfahrungen', title: 'Erfahrungsberichte | Miriam Pimputkar, Massage Winterthur',
+    desc: `${C.rating.score} Sterne aus ${C.rating.count} Google-Bewertungen: Erfahrungen mit Massage und Polarity bei Miriam Pimputkar in Winterthur.`,
+    body: () => `${pageHero('jump', 'Erfahrungsberichte', F.rating())}
+    <section><div class="container">
+      <div class="quotes">${C.quotes.map(q => `<blockquote><div class="stars" aria-hidden="true">★★★★★</div><p>«${q.q}»</p><footer>${F.who(q)}</footer></blockquote>`).join('')}</div>
+    </div></section>`,
+  },
+  {
+    slug: 'gutschein', title: 'Massage-Gutschein für Winterthur | Miriam Pimputkar',
+    desc: 'Geschenkgutschein «Zeit für dich» für eine Massage oder Polaritybehandlung in Winterthur – als Karte per Post, digital oder zum selber Ausdrucken.',
+    body: () => `${pageHero('geschenk', C.gift.title, '')}
+    <section><div class="container gift">
       <div>
-        ${img('kontakt', { cls: 'sketch' })}
-        <h2>Kontakt & Anfahrt</h2>
+        ${F.gift()}
+        <a class="btn btn-ghost" href="${giftMail}">Gutschein per E-Mail bestellen</a>
+      </div>
+      <div class="gift-imgs">${img('giftFront')}${img('giftBack')}</div>
+    </div></section>`,
+  },
+  {
+    slug: 'kontakt', title: 'Kontakt & Anfahrt | Miriam Pimputkar, Münzgasse 2 Winterthur',
+    desc: 'Massagepraxis an der Münzgasse 2, 8400 Winterthur (4. Stock, Lift vorhanden). Praxistage Mittwoch und Freitag, 10–20 Uhr. Termine online buchen.',
+    body: () => `${pageHero('kontakt', 'Kontakt & Anfahrt', '')}
+    <section><div class="container twocol">
+      <div>
         <dl class="glance">
           <dt>Praxis</dt><dd>Massage & Polarity, ${C.person}</dd>
           <dt>Adresse</dt><dd>${C.address[0]}, ${C.address[2]}</dd>
           <dt>Zugang</dt><dd>${C.address[1]}</dd>
           <dt>Praxistage</dt><dd>${C.hours.days}, ${C.hours.time}</dd>
-          <dt>Termine</dt><dd><a href="#buchen">online buchen</a></dd>
+          <dt>Termine</dt><dd><a href="${url('buchen')}">online buchen</a></dd>
           <dt>E-Mail</dt><dd>${mail}</dd>
           <dt>Zahlung</dt><dd>${C.pay}</dd>
         </dl>
-        <h3>Meine Empfehlungen in Winterthur</h3>
+        <h2 class="h3">Meine Empfehlungen in Winterthur</h2>
         ${F.recs()}
       </div>
       <a href="${C.maps}">${img('map', { cls: 'map' })}</a>
-    </div></section>
-
-    <section class="cta-band"><div class="container center">
-      ${img('jump', { cls: 'sketch', deco: true })}
-      <h2>${C.curious[0]}</h2>
-      <p class="lead" style="color:#dbe6fb">${C.curious[1]} ${C.bye}</p>
-      <a class="btn" href="#buchen">Termin buchen</a>
-    </div></section>
-  </main>
-
-  <footer class="site-footer"><div class="container">
-    <div><h3>${C.person}</h3><address style="font-style:normal">Massage &amp; Polarity<br>${C.address.join('<br>')}<br>${F.hours()}<br>${mail}</address></div>
-    <nav aria-label="Fussmenü"><h3>Seiten</h3><ul>${NAV.map(([id, l]) => `<li><a href="#${id}">${l}</a></li>`).join('')}<li><a href="#fragen">Häufige Fragen</a></li></ul></nav>
-    <div><h3>Angebot</h3><ul>${C.services.map(s => `<li><a href="#${s.id}">${s.n}</a></li>`).join('')}</ul></div>
-  </div></footer>`;
-}
+    </div></section>`,
+  },
+];
 
 /* =====================================================================
    WRITE
    ===================================================================== */
-writeFileSync(new URL('index.html', import.meta.url), page(site()));
-console.log(`wrote index.html (${PREVIEW ? 'preview, noindex' : 'launch'})`);
+for (const pg of PAGES) {
+  P = pg.slug ? '../' : '';
+  const out = new URL(pg.slug ? `${pg.slug}/index.html` : 'index.html', import.meta.url);
+  mkdirSync(new URL('.', out), { recursive: true });
+  writeFileSync(out, page(pg, pg.body()));
+}
+writeFileSync(new URL('sitemap.xml', import.meta.url), `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${PAGES.map(pg => `  <url><loc>${SITE}${pg.slug ? pg.slug + '/' : ''}</loc></url>`).join('\n')}
+</urlset>
+`);
+writeFileSync(new URL('robots.txt', import.meta.url), `User-agent: *\nAllow: /\nSitemap: ${SITE}sitemap.xml\n`);
+console.log(`wrote ${PAGES.length} pages + sitemap.xml (${PREVIEW ? 'preview, noindex' : 'launch'})`);
