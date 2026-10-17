@@ -116,17 +116,19 @@ function miri(s, o) {
   s.line([shL, lerp(shL, hipL, .5).map((v, i) => v + (i ? 0 : -2)), hipL]);
   s.line([shR, lerp(shR, hipR, .5).map((v, i) => v + (i ? 0 : 2)), hipR]);
   s.line([hipL, hipR], { straight: true });
-  // arms + mitten hands
-  for (const arm of o.arms || []) {
-    s.line(arm);
-    const [a, b] = arm.slice(-2), ang = Math.atan2(b[1] - a[1], b[0] - a[0]);
-    s.ellipse(add(b, [Math.cos(ang) * r * .14, Math.sin(ang) * r * .14]), r * .26, r * .18, { rot: ang, fill: true, w: .6 });
-  }
+  for (const a of o.arms || []) miriArm(s, a, r);
   // wide trousers + feet
   for (const leg of o.legs || []) {
     s.tube(leg.c, leg.w0 ?? r * .36, leg.w1 ?? r * .46);
     if (leg.foot) s.line(leg.foot, { w: 1.5 });
   }
+}
+
+// one of Miri's arms: a single line ending in a filled oval "mitten" hand
+function miriArm(s, arm, r = 30) {
+  s.line(arm);
+  const [a, b] = arm.slice(-2), ang = Math.atan2(b[1] - a[1], b[0] - a[0]);
+  s.ellipse(add(b, [Math.cos(ang) * r * .14, Math.sin(ang) * r * .14]), r * .26, r * .18, { rot: ang, fill: true, w: .6 });
 }
 
 // everyone else: spiky hair, narrow outlined torso, single-line limbs
@@ -186,31 +188,31 @@ function bubble(s, c, rx, ry, tailTo) {
 }
 
 // massage table, long side towards the viewer
-function table(s, x0, x1, top, floorY) {
-  s.line([[x0, top], [x1, top]], { straight: true });
-  s.line([[x0 - 4, top + 14], [x1 + 4, top + 14]], { straight: true });
-  s.line([[x0 - 4, top + 14], [x0, top]]).line([[x1 + 4, top + 14], [x1, top]]);
-  for (const x of [x0 + 26, x1 - 26]) s.line([[x, top + 14], [x + J(2), floorY]], { straight: true });
+function table(s, x0, x1, top, floorY, { drape = 0 } = {}) {
+  const low = top + 14 + drape;
+  for (const x of [x0 + 26, x1 - 26]) s.line([[x, low], [x + J(2), floorY]], { straight: true });
+  if (drape) s.line([[x0 - 4, top + 14], [x1 + 4, top + 14], [x1 + 8, low], [x0 - 8, low], [x0 - 4, top + 14]], { straight: true, fill: '#fff' });
+  s.line([[x0, top], [x1, top], [x1 + 4, top + 14], [x0 - 4, top + 14], [x0, top]], { straight: true, fill: '#fff' });
 }
 function stool(s, x, seatY, floorY) {
   s.line([[x - 28, seatY], [x + 28, seatY]], { straight: true });
   s.line([[x - 20, seatY], [x - 26, floorY]], { straight: true }).line([[x + 20, seatY], [x + 26, floorY]], { straight: true });
   s.line([[x - 22, seatY + 34], [x + 22, seatY + 34]], { straight: true, w: .8 });
 }
-// someone lying on a table, head to the left, face turned to the viewer (like the original massage drawing)
+// client lying face down, head to the left and turned to the viewer: no hair, one closed eye,
+// a sideways smile towards the body — copied from the original massage drawing
 function lying(s, headX, top) {
-  const r = 24, hy = top - r - 4, h = [headX, hy];
-  s.ellipse(h, r, r * 1.03);
-  for (const a of [-2.2, -2.65, -3.05]) s.line([[h[0] + Math.cos(a) * r, h[1] + Math.sin(a) * r], [h[0] + Math.cos(a) * r * 1.42, h[1] + Math.sin(a) * r * 1.42]], { w: .85, wob: .5 });
-  for (const x of [-.32, .3]) s.line([[h[0] + (x - .14) * r, h[1] - r * .1], [h[0] + x * r, h[1] - r * .02], [h[0] + (x + .14) * r, h[1] - r * .1]], { w: .7, wob: .3 });
-  s.line([[h[0] - r * .3, h[1] + r * .3], [h[0], h[1] + r * .52], [h[0] + r * .3, h[1] + r * .3]], { w: .85, wob: .4 });
-  const sx = headX + r + 14, hx = sx + 96, b = top - 3;
-  s.line([[headX + r * .95, hy + 6], [sx, b - 18]]);                                   // neck
-  s.line([[sx, b], [sx - 2, b - 30], [hx, b - 28], [hx + 2, b]]);                      // torso
-  s.line([[sx + 6, b - 18], [sx + 50, b - 15], [sx + 92, b - 14]], { w: .9 });          // arm along the body
-  s.line([[hx, b - 6], [hx + 110, b - 6]], { straight: true });                          // legs
+  const r = 24, hy = top - r * .96 - 3, h = [headX, hy];
+  s.ellipse(h, r * 1.04, r * .96);
+  s.line([[h[0] - r * .52, h[1] - r * .14], [h[0] - r * .36, h[1] + r * .02], [h[0] - r * .16, h[1] - r * .06]], { w: .75, wob: .25 });   // closed eye
+  s.line([[h[0] + r * .16, h[1] + r * .02], [h[0] + r * .34, h[1] + r * .3], [h[0] + r * .16, h[1] + r * .56]], { w: .85, wob: .3 });    // smile
+  const sx = headX + r + 12, hx = sx + 96, b = top - 3;
+  s.line([[headX + r * .9, hy + 8], [sx, b - 16]]);                                                       // neck
+  s.line([[sx, b], [sx - 2, b - 30], [hx, b - 28], [hx + 2, b], [sx, b]], { fill: '#fff' });              // back (opaque)
+  s.line([[sx + 6, b - 16], [sx + 50, b - 13], [sx + 92, b - 12]], { w: .9 });                             // arm along the body
+  s.line([[hx, b - 6], [hx + 110, b - 6]], { straight: true });                                            // legs
   s.line([[hx, b - 20], [hx + 106, b - 18]], { straight: true });
-  s.line([[hx + 110, b - 6], [hx + 116, b - 24]], { w: 1.3 }).line([[hx + 106, b - 18], [hx + 110, b - 34]], { w: 1.3 }); // feet up
+  s.line([[hx + 110, b - 6], [hx + 118, b - 20]], { w: 1.3 }).line([[hx + 106, b - 18], [hx + 113, b - 32]], { w: 1.3 }); // soles up
 }
 // small energy marks: three short arcs fanning out from a point
 function sparkle(s, c, k = 1, a0 = -2.4, a1 = -.7) {
@@ -302,25 +304,28 @@ const scenes = {
     return s.svg('Miri massiert die Füsse einer liegenden Person (Reflexzonen)');
   },
 
-  // Hawaiianische Ganzkörpermassage: long flowing strokes, like ocean waves
+  // Hawaiianische Ganzkörpermassage (Lomi Lomi): Miri leans in from behind the table, elbow on the back
   hawaii() {
     const s = new Sketch(640, 400), F = 378, top = 262;
     floor(s, 30, 610, F);
-    table(s, 60, 380, top, F);
-    lying(s, 92, top);
+    // Miri first — the drape, the table and the client in front of her hide her lower body
     miri(s, {
-      head: [458, 128], face: 'left', neck: [462, 176],
-      sh: [[446, 186], [478, 188]], hip: [[464, 272], [498, 270]],
-      arms: [[[450, 194], [412, 226], [346, 236]], [[470, 196], [430, 242], [300, 240]]],
+      head: [192, 136], face: 'left', neck: [206, 180],
+      sh: [[188, 190], [222, 194]], hip: [[240, 258], [274, 256]],
+      arms: [[[218, 200], [262, 222], [302, 236]]],
       legs: [
-        { c: [[474, 268], [470, 320], [462, 368]], w0: 12, w1: 17, foot: [[458, 377], [436, 377]] },
-        { c: [[492, 266], [502, 320], [512, 368]], w0: 12, w1: 17, foot: [[514, 377], [492, 377]] },
+        { c: [[248, 254], [244, 320], [240, 368]], w0: 12, w1: 16, foot: [[236, 377], [214, 377]] },
+        { c: [[264, 252], [270, 320], [276, 368]], w0: 12, w1: 16, foot: [[278, 377], [256, 377]] },
       ],
     });
-    waves(s, 150, 330, 150, 7, 4);
-    waves(s, 180, 360, 182, 6, 4);
+    table(s, 70, 420, top, F, { drape: 52 });
+    lying(s, 110, top);
+    miriArm(s, [[190, 196], [168, 214], [156, 226], [166, 196], [174, 176]]);   // elbow pressing into the back, forearm up
+    s.line([[140, 222], [134, 214]], { w: .7 }).line([[146, 216], [142, 207]], { w: .7 });       // pressure marks at the elbow
+    waves(s, 300, 420, 168, 6, 3);
+    waves(s, 320, 440, 194, 5, 3);
     plant(s, 590, F - 2, 70);
-    return s.svg('Miri gibt eine hawaiianische Ganzkörpermassage mit langen, fliessenden Streichungen wie Meereswellen');
+    return s.svg('Miri gibt eine hawaiianische Ganzkörpermassage (Lomi Lomi) und massiert mit dem Ellbogen den Rücken');
   },
 
   // Yoga: Miri in the tree pose

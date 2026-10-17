@@ -21,6 +21,18 @@ burnt orange `#c46627`), with darker ambers for text so it stays readable.
   to add a scene, pose the figures in a new function in `scenes`.
 - `img/og-image.jpg` – link-preview image (social networks don't accept SVG there).
 
+## Booking (Acuity)
+
+The `#buchen` section is our own treatment picker (sketch style). Choosing a treatment loads Acuity's calendar
+for that appointment type in an iframe, only then (privacy + speed); without JavaScript every choice is a plain
+link to Acuity. Appointment-type ids, durations and prices live in `C.booking` in `build.mjs` and must match Acuity.
+No Acuity API key is used or needed — never commit one.
+
+Acuity settings to change (Miri's account, not code):
+- **Scheduling page description:** Acuity shows the long business description above every calendar, also embedded.
+  Shorten it to one line — the website now carries that content.
+- **Colours:** set the scheduling page colour to the site amber (`#c57f08`) so the calendar matches.
+
 ## Build
 
 ```sh
@@ -32,5 +44,4 @@ LAUNCH=1 node build.mjs   # launch build: indexable
 
 - Set `SITE` in `build.mjs` to the real domain (canonical URL, og:image, JSON-LD), then build with `LAUNCH=1`.
 - Payment methods differ between sources: Acuity says bar/TWINT/Banküberweisung, Webador says TWINT/bar/Karte. The site uses Webador's.
-- No prices are published for the Hawaiian massage or the 30-min Klassische Massage.
 - The gift-voucher order is a pre-filled e-mail (no form backend).

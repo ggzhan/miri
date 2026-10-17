@@ -244,3 +244,48 @@ details[open] > summary::before { content: "–"; }
 @media (max-width: 860px) {
   .card-art { height: 150px; }
 }
+
+/* =====================================================================
+   BOOKING — our own sketch-style treatment picker; Acuity's calendar
+   appears inside the hand-drawn paper card once a treatment is chosen
+   ===================================================================== */
+.booking { background: var(--soft); }
+.paper {
+  position: relative; max-width: 920px; margin: 36px auto 0; background: var(--surface); padding: 40px 36px 28px;
+  border: 2.5px solid var(--ink); border-radius: 255px 18px 225px 18px / 18px 225px 18px 255px;  /* hand-drawn edge */
+  box-shadow: 6px 8px 0 -2px rgba(13,13,13,.08);
+}
+.paper::before, .paper::after {               /* two strips of tape holding the paper */
+  content: ""; position: absolute; top: -16px; width: 120px; height: 30px; background: rgba(245,158,11,.38);
+  box-shadow: 0 1px 2px rgba(0,0,0,.08);
+}
+.paper::before { left: 12%; transform: rotate(-4deg); }
+.paper::after { right: 12%; transform: rotate(5deg); }
+.pick h3 { font-size: 20px; margin: 0 0 14px; }
+.types { list-style: none; padding: 0; margin: 0 0 30px; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.type {
+  display: grid; grid-template-columns: 70px minmax(0, 1fr); grid-template-rows: auto auto auto; column-gap: 12px; align-items: center;
+  padding: 14px 16px; min-height: 96px; color: var(--ink); text-decoration: none; background: var(--surface);
+  border: 2px solid var(--ink); border-radius: 18px 225px 15px 255px / 255px 15px 225px 18px;
+  transition: background .15s, transform .15s;
+}
+.types li:nth-child(even) .type { border-radius: 225px 15px 255px 18px / 15px 255px 18px 225px; }
+.type:hover, .type:focus-visible { background: var(--soft); transform: rotate(-.6deg) translateY(-2px); outline: none; }
+.type-art { grid-row: 1 / 4; width: 70px; height: 56px; object-fit: contain; }
+.type .tn { font: 600 16px/1.25 "Fraunces"; overflow-wrap: break-word; hyphens: auto; min-width: 0; }
+.type > span { min-width: 0; }
+.type .meta { font-size: 14px; color: var(--muted); }
+.type .go { font-size: 14px; font-weight: 600; color: var(--amber-dark); }
+.cal-bar { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: -6px 0 16px; }
+.back { all: unset; cursor: pointer; font-weight: 600; color: var(--amber-dark); padding: 8px 14px; border: 1.5px solid var(--amber-deep); border-radius: 999px; }
+.back:hover { background: var(--amber-deep); color: #fff; }
+.chosen { font: 600 18px "Fraunces"; }
+.cal-frame iframe { display: block; width: 100%; min-height: 640px; border: 0; }
+.cal-note { margin: 18px 0 0; font-size: 14px; color: var(--muted); text-align: center; }
+.cal-note a { color: var(--amber-dark); }
+@media (max-width: 860px) {
+  .paper { padding: 30px 14px 20px; border-radius: 40px 12px 36px 12px / 12px 36px 12px 40px; }
+  .paper::before, .paper::after { width: 84px; height: 24px; top: -12px; }
+  .types { grid-template-columns: 1fr; }
+  .cal-frame iframe { min-height: 760px; }
+}
