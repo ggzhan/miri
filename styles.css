@@ -16,7 +16,7 @@ html, body { margin: 0; overflow-x: clip; }
 body { background: var(--bg); color: var(--ink); font: 400 17px/1.65 "Inter", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
 img { max-width: 100%; height: auto; display: block; }
 a, button { -webkit-tap-highlight-color: rgba(0,0,0,.08); touch-action: manipulation; }
-[id] { scroll-margin-top: 96px; }
+[id] { scroll-margin-top: 104px; }
 h1, h2, h3 { font-family: "Fraunces", Georgia, serif; font-weight: 600; letter-spacing: -.01em; line-height: 1.15; margin: 0 0 .5em; overflow-wrap: break-word; }
 h2, h3 { hyphens: auto; }
 h1, h2 { color: var(--amber-deep); }
@@ -41,10 +41,11 @@ p { margin: 0 0 1em; }
 
 /* ---------- header + menu ---------- */
 .site-header { position: sticky; top: 0; z-index: 50; background: rgba(249,249,249,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
-.site-header .container { display: flex; align-items: center; gap: 24px; min-height: 72px; }
-.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font: 600 19px "Fraunces"; }
-.brand img { width: 54px; }
-.brand small { font: inherit; }
+.site-header .container { display: flex; align-items: center; gap: 24px; min-height: 84px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); font: 600 19px "Fraunces"; }
+.brand img { height: 64px; width: auto; flex: none; }  /* the drawing is a wide scene: size it by height */
+.brand span { line-height: 1.15; white-space: nowrap; }
+.brand small { display: block; font-size: 14px; color: var(--muted); }
 .navlist { list-style: none; margin: 0 0 0 auto; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 22px; font-weight: 500; font-size: 15px; }
 .navlist a { text-decoration: none; color: var(--muted); padding: 6px 0; border-bottom: 2px solid transparent; }
 .navlist a:hover, .navlist a[aria-current] { color: var(--ink); border-color: var(--amber); }
@@ -177,8 +178,8 @@ details[open] > summary::before { content: "–"; }
 @media (max-width: 1100px) {
   .site-header .container { flex-wrap: wrap; min-height: 60px; padding-top: 8px; padding-bottom: 8px; gap: 8px 10px; }
   .brand { order: 0; flex: 1; min-width: 0; font-size: 16px; }
-  .brand img { width: 36px; }
-  .brand span { font-size: 15px; line-height: 1.2; }
+  .brand img { height: 48px; }
+  .brand span { font-size: 15px; line-height: 1.2; white-space: normal; }
   .brand small { display: block; font-size: 13px; color: var(--muted); }
   .site-header .btn { order: 1; margin-left: auto; padding: 8px 14px; font-size: 14px; min-height: 40px; white-space: nowrap; }
   .menu-toggle { order: 2; display: grid; }
@@ -193,7 +194,7 @@ details[open] > summary::before { content: "–"; }
   .quotes { grid-template-columns: 1fr; }
 }
 @media (max-width: 860px) {
-  [id] { scroll-margin-top: 76px; }
+  [id] { scroll-margin-top: 84px; }
   body { font-size: 17px; }
   .container { padding: 0 18px; }
 
@@ -220,4 +221,19 @@ details[open] > summary::before { content: "–"; }
 }
 @media (max-width: 560px) {
   .cards, .values { grid-template-columns: 1fr; }
+}
+@media (max-width: 380px) {
+  .brand { gap: 8px; }
+  .brand img { height: 42px; }
+}
+@media (max-width: 374px) {
+  .brand img { height: 38px; }
+  .brand span { font-size: 14px; }
+  .brand small { font-size: 12px; white-space: nowrap; }
+  .site-header .btn { padding: 8px 12px; }
+}
+@media (max-width: 340px) {
+  /* tiniest phones: the drawing is the logo; the name stays for screen readers */
+  .brand span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .brand img { height: 46px; }
 }
