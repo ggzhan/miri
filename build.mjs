@@ -631,7 +631,7 @@ const k = new URLSearchParams(location.search).get('variant'); if (k && f[k.toUp
   body { margin: 0; background: #fdfcf7 repeating-linear-gradient(#fdfcf7 0 31px, #d6e2f1 31px 32px); color: #23262e; font: 18px/1.5 "Kalam", cursive; }
   main { max-width: 640px; margin: 0 auto; padding: 40px 18px 60px; }
   h1 { font: 700 44px/1.05 "Caveat"; color: #1f4fd1; margin: 0 0 8px; }
-  img { width: 120px; mix-blend-mode: multiply; }
+  img { width: 120px; height: auto; mix-blend-mode: multiply; }
   ol { list-style: none; padding: 0; margin: 24px 0; display: grid; gap: 12px; }
   a { display: flex; gap: 14px; align-items: center; min-height: 64px; padding: 10px 16px; background: #fff; border: 2.5px solid #23262e;
       border-radius: 14px 6px 12px 5px / 6px 12px 5px 14px; color: inherit; text-decoration: none; box-shadow: 4px 4px 0 #23262e; }
