@@ -81,7 +81,6 @@ section + section { border-top: 1px solid var(--line); }
 
 /* services */
 .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; margin-top: 40px; }
-.cards.compact { grid-template-columns: repeat(4, 1fr); gap: 18px; }
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 26px; display: flex; flex-direction: column; }
 .card-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 14px; }
 .card .dur { display: inline-block; background: var(--soft); color: var(--amber-dark); font: 600 13px "Inter"; padding: 4px 10px; border-radius: 999px; }
@@ -287,9 +286,6 @@ details[open] > summary::before { content: "–"; }
 .h3 { font-size: 22px; }                         /* an h2 that looks like an h3 (keeps the heading order) */
 .page-hero + section { border-top: 0; padding-top: 32px; }
 .navlist a[aria-current="page"] { color: var(--ink); border-color: var(--amber); }
-.card-link { text-decoration: none; color: var(--ink); transition: border-color .15s, transform .15s; }
-.card-link:hover, .card-link:focus-visible { border-color: var(--amber-deep); transform: translateY(-2px); }
-.card-link .more-link { font-weight: 600; color: var(--amber-dark); font-size: 15px; margin-top: auto; }
 @media (max-width: 860px) {
   .page-hero + section { padding-top: 20px; }
 }
@@ -322,12 +318,10 @@ h2.h3 { color: var(--amber-dark); }
 /* home */
 .hero .lead b { color: var(--ink); font-weight: 600; }
 .hero-rating { margin-top: 18px; }
-.card-link .meta { color: var(--muted); font-size: 15px; margin: -4px 0 12px; }
 .more-row { margin-top: 28px; }
 
 /* treatment cards */
 .card-art { height: 160px; }
-.cards.compact .card-art { height: 120px; }
 .card .first { flex: 0; margin: 4px 0 6px; padding: 8px 12px; border-radius: 10px; background: var(--soft); color: var(--amber-dark); font: 600 14px "Inter"; }
 .card > a.go, .card > a.sub-link { font-weight: 600; text-decoration: none; font-size: 15px; display: inline-flex; align-items: center; min-height: 40px; }
 .card > a.sub-link { color: var(--muted); font-weight: 500; }
@@ -374,7 +368,7 @@ h2.h3 { color: var(--amber-dark); }
 /* floating booking button, phones only, once the header button has scrolled away */
 .float-book { display: none; }
 @media (max-width: 860px) {
-  .cards, .cards.compact { grid-template-columns: 1fr; }
+  .cards { grid-template-columns: 1fr; }
   .cal-bar { top: 68px; }
   /* calendar open: the paper gives Acuity the full screen width */
   .paper.is-cal { margin-inline: -18px; padding: 8px 0 18px; border-left: 0; border-right: 0; border-radius: 0; }
@@ -389,7 +383,6 @@ h2.h3 { color: var(--amber-dark); }
   .float-book.show { opacity: 1; transform: none; pointer-events: auto; }
   .site-footer { padding-bottom: 96px; }
 }
-@media (min-width: 861px) and (max-width: 1100px) { .cards.compact { grid-template-columns: repeat(2, 1fr); } }
 .filter-note[hidden] { display: none; }
 .prices dd s { display: block; }
 
@@ -495,3 +488,17 @@ h2.h3 { color: var(--amber-dark); }
   .firstq label { flex: 1 1 100%; }
 }
 @media (max-width: 1100px) { .site-header.open .nav-start { display: block; } }
+
+/* start page: the four treatments as signposts into Angebot & Preise (no prices here) */
+.signposts { list-style: none; padding: 0; margin: 36px 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+.signposts a { display: grid; justify-items: center; gap: 12px; padding: 18px 12px 16px; border-radius: 18px; text-decoration: none; color: var(--ink); font: 600 18px/1.25 "Fraunces"; text-align: center; transition: background .15s, transform .15s; }
+.signposts a:hover { background: var(--surface); transform: translateY(-2px); }
+.signposts img { width: 100%; height: 120px; object-fit: contain; }
+.signposts span { text-decoration: underline; text-decoration-color: var(--amber); text-underline-offset: .25em; text-decoration-thickness: 2px; }
+.first-offer { margin: 22px 0 0; font-size: 17px; color: var(--text); }
+.first-offer b { color: var(--amber-dark); }
+@media (max-width: 860px) {
+  .signposts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .signposts a { font-size: 16px; padding: 12px 6px; }
+  .signposts img { height: 84px; }
+}

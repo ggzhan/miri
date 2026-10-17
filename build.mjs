@@ -464,7 +464,8 @@ if (old) location.replace(old);`,
 
     <section><div class="container">
       <div class="center"><h2>Mein Angebot</h2><p class="lead">${C.offerIntro.split(':')[0]}.</p></div>
-      <div class="cards compact">${C.services.map(s => `<a class="card card-link" href="${url('angebot')}#${s.id}">${img(SERVICE_ART[s.id], { cls: 'card-art' })}<h3>${s.n}</h3><span class="meta">${s.t} · ${s.p}</span><span class="more-link">Details ansehen&nbsp;→</span></a>`).join('')}</div>
+      <ul class="signposts">${C.services.map(s => `<li><a href="${url('angebot')}#${s.id}">${img(SERVICE_ART[s.id], { deco: true })}<span>${s.n}</span></a></li>`).join('')}</ul>
+      <p class="center first-offer">Dein erster Besuch: <b>Kennenlernmassage 80 CHF</b></p>
       <p class="center more-row"><a class="btn btn-ghost" href="${url('angebot')}#preise">Alle Preise ansehen</a></p>
     </div></section>
 
