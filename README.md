@@ -13,6 +13,12 @@ Content comes from the booking page (https://mirismassage.as.me/) and the draft 
 practice days, Polarity, training, reviews). Colours follow the Webador palette (sunflower amber `#f59e0b`,
 burnt orange `#c46627`), with darker ambers for text so it stays readable.
 
+## Prototype: compact one-page version
+
+`kompakt/` is a separate design prototype (https://ggzhan.github.io/miri/kompakt/): everything a customer needs on one
+page – treatments with the right price after «Erstes Mal hier?», the visit as a drawn sequence, location, about, and
+a few fold-outs. Own generator: `node kompakt/build.mjs` (content copied from the root `build.mjs`, keep in sync by hand).
+
 ## Files
 
 - `build.mjs` – all content (top of the file) and one template per page (`PAGES`); generates every `index.html`, `sitemap.xml` and `robots.txt`. Don't edit the generated files by hand.
