@@ -197,6 +197,15 @@ const IMG = {
   stretch: ['sketches/stretch.svg', 'Entspanntes Strichmännchen streckt sich nach der Massage', 1625, 2413],
   jump: ['sketches/jump.svg', 'Fröhliches Strichmännchen springt vor Freude', 1700, 1502],
   run: ['sketches/run.svg', 'Strichmännchen tanzt und bewegt sich frei', 1495, 1721],
+  // drawn with the Miri model in tools/sketches.mjs
+  gespraech: ['sketches/gespraech.svg', 'Miri im begleitenden Gespräch mit einer Klientin, beide sitzen auf Stühlen', 640, 400],
+  polarity: ['sketches/polarity.svg', 'Miri gibt eine Polaritybehandlung und hält sanft den Kopf der liegenden Person', 640, 400],
+  fuesse: ['sketches/fuesse.svg', 'Miri massiert die Füsse einer liegenden Person (Reflexzonen)', 640, 400],
+  hawaii: ['sketches/hawaii.svg', 'Miri gibt eine hawaiianische Ganzkörpermassage mit langen, fliessenden Streichungen', 640, 400],
+  yoga: ['sketches/yoga.svg', 'Miri macht Yoga in der Baumhaltung', 360, 420],
+  geschenk: ['sketches/gutschein.svg', 'Miri hält ein Geschenk – einen Gutschein für eine Massage', 360, 420],
+  termin: ['sketches/termin.svg', 'Miri zeigt auf einen Kalender mit einem eingetragenen Termin', 460, 420],
+  kontakt: ['sketches/kontakt.svg', 'Miri winkt und hält einen Brief in der Hand', 360, 420],
   miriam: ['miriam.png', 'Miriam Pimputkar, dipl. Masseurin und Polaritytherapeutin in Winterthur', 336, 448],
   praxis: ['praxis.jpg', 'Massagepraxis an der Münzgasse 2 in Winterthur mit Massageliege', 320, 242],
   giftFront: ['gutschein-vorne.jpg', 'Geschenkgutschein «Zeit für dich», Vorderseite mit Massage-Zeichnung', 900, 639],
@@ -374,24 +383,22 @@ function site() {
 
     <section id="angebot"><div class="container">
       <div class="center">
-        ${img('massage', { cls: 'sketch' })}
         <h2>Mein Angebot</h2>
         <p class="lead">${C.offerIntro}</p>
       </div>
-      <div class="cards">${C.services.map(s => `<article class="card" id="${s.id}"><div class="card-top"><span class="dur">${s.t}</span>${s.p ? `<span class="price">${s.p}</span>` : ''}</div><h3>${s.n}</h3>${s.alt ? `<p class="alt">${s.alt}</p>` : ''}<p>${s.d}</p>${F.more(s)}<a href="${C.book}">${s.n} buchen →</a></article>`).join('')}</div>
+      <div class="cards">${C.services.map(s => `<article class="card" id="${s.id}">${img({ klassisch: 'massage', ganzheitlich: 'fuesse', 'polarity-behandlung': 'polarity', hawaiianisch: 'hawaii' }[s.id], { cls: 'card-art' })}<div class="card-top"><span class="dur">${s.t}</span>${s.p ? `<span class="price">${s.p}</span>` : ''}</div><h3>${s.n}</h3>${s.alt ? `<p class="alt">${s.alt}</p>` : ''}<p>${s.d}</p>${F.more(s)}<a href="${C.book}">${s.n} buchen →</a></article>`).join('')}</div>
       <div class="extras"><h3>Ergänzende Behandlungen</h3><ul>${C.extras.map(e => `<li>${e}</li>`).join('')}</ul></div>
       <p class="center" style="margin-top:28px;color:var(--muted)">${C.relief}</p>
     </div></section>
 
     <section class="alt" id="polarity"><div class="container twocol">
       <div>
-        ${img('jump', { cls: 'sketch', deco: true })}
         <h2>Polarity</h2>
         <blockquote class="pull">«${C.polarity.quote}»<footer>${C.polarity.quoteBy}</footer></blockquote>
         ${C.polarity.intro.map(p => `<p>${p}</p>`).join('')}
         ${F.facts()}
       </div>
-      <div class="accordion">${F.topics()}</div>
+      <div>${img('gespraech', { cls: 'scene' })}<div class="accordion">${F.topics()}</div></div>
     </div></section>
 
     <section id="preise"><div class="container twocol">
@@ -418,7 +425,7 @@ function site() {
     <section id="ueber-mich"><div class="container twocol">
       <div>${img('praxis', { cls: 'about-img' })}<div class="accordion" style="margin-top:28px">${F.training()}</div></div>
       <div>
-        ${img('stretch', { cls: 'sketch', deco: true })}
+        ${img('yoga', { cls: 'sketch' })}
         <h2>Über mich – Miriam Pimputkar</h2>
         <p class="lead">${C.aboutLead}</p>
         ${C.about.map(p => `<p>${p}</p>`).join('')}
@@ -435,6 +442,7 @@ function site() {
 
     <section id="gutschein"><div class="container gift">
       <div>
+        ${img('geschenk', { cls: 'sketch' })}
         <h2>${C.gift.title}</h2>
         ${F.gift()}
         <a class="btn btn-ghost" href="${giftMail}">Gutschein per E-Mail bestellen</a>
@@ -444,6 +452,7 @@ function site() {
 
     <section class="alt" id="fragen"><div class="container twocol">
       <div>
+        ${img('termin', { cls: 'sketch' })}
         <h2>Hinweise für deinen Termin</h2>
         <p class="lead">${C.visit.room}</p>
         ${F.tips()}
@@ -453,6 +462,7 @@ function site() {
 
     <section id="kontakt"><div class="container twocol">
       <div>
+        ${img('kontakt', { cls: 'sketch' })}
         <h2>Kontakt & Anfahrt</h2>
         <dl class="glance">
           <dt>Praxis</dt><dd>Massage & Polarity, ${C.person}</dd>

@@ -15,6 +15,10 @@ burnt orange `#c46627`), with darker ambers for text so it stays readable.
 - `styles.css` – the whole stylesheet; colour tokens at the top.
 - `img/sketches/*.svg` – the stick-figure drawings as vectors (traced from the original drawings with potrace).
   They scale to any size, have transparent backgrounds and use `fill="currentColor"`, so inlined they take the text colour.
+- `tools/sketches.mjs` – a stick-figure model of Miri (bun, hair strands, happy eyes, wide trousers, mitten hands),
+  other people, props (chair, table, stool, plant) and the scenes drawn with them. `node tools/sketches.mjs`
+  regenerates `gespraech`, `polarity`, `fuesse`, `hawaii`, `yoga`, `gutschein`, `termin` and `kontakt`.svg;
+  to add a scene, pose the figures in a new function in `scenes`.
 - `img/og-image.jpg` – link-preview image (social networks don't accept SVG there).
 
 ## Build
