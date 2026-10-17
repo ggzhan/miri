@@ -687,3 +687,207 @@ h1, h2, h3 { overflow-wrap: break-word; hyphens: auto; }
   .vB .cb-book, .vC .tp-book { font-size: 13px; padding: 4px 8px; }
   .vA .nb-brand { font-size: 19px; } .vA .nb-book { font-size: 17px; padding: 0 8px; } .vA .nb-top { padding-left: 10px; padding-right: 10px; }
 }
+
+/* =====================================================================
+   PALETTE — taken from the Webador draft site (sunflower amber + burnt
+   orange on off-white). Amber is too light for text on white (≈2:1), so
+   text/links use the deeper ambers and amber buttons carry dark text.
+   ===================================================================== */
+:root {
+  --wb-amber: #f59e0b; --wb-amber-hover: #dd8e09; --wb-amber-deep: #c57f08; --wb-amber-dark: #945f06;
+  --wb-rust: #c46627; --wb-ink: #0d0d0d; --wb-text: #424242; --wb-muted: #707070; --wb-bg: #f9f9f9;
+  --wb-tint: #fde1a1; --wb-tint-2: #fef3dc; --wb-peach: #f8cfb0;
+}
+
+/* ---------- shared bits for the new content (each variant restyles) ---------- */
+details > summary { cursor: pointer; list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+details > summary > :is(h3, h4) { display: inline; margin: 0; }
+details > summary::before { content: "+"; display: inline-block; width: 1.1em; font-weight: 700; transition: transform .2s; }
+details[open] > summary::before { content: "–"; }
+.prices { margin: 0 0 14px; }
+.prices > div { display: flex; align-items: baseline; gap: 8px; padding: 4px 0; }
+.prices dt { flex: 1; display: flex; align-items: baseline; min-width: 0; }
+.prices dt::after { content: ""; flex: 1; min-width: 16px; border-bottom: 2px dotted currentColor; opacity: .35; margin: 0 0 .3em 8px; }
+.prices dd { margin: 0; font-weight: 700; white-space: nowrap; }
+.prices.small { font-size: .9em; }
+.note { font-size: .9em; margin-bottom: 4px; }
+.facts-list, .tips { padding-left: 1.2em; }
+.facts-list li, .tips li { margin-bottom: 8px; }
+.kinds { display: flex; flex-wrap: wrap; gap: 6px 10px; list-style: none; padding: 0; }
+.kinds li { border: 1.5px solid currentColor; border-radius: 999px; padding: 2px 12px; font-size: .9em; }
+.recs { padding-left: 1.2em; }
+.rating { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; text-decoration: none; }
+.rating .stars { color: var(--wb-amber); letter-spacing: 1px; }
+.training .group { font-weight: 700; margin: 12px 0 2px; }
+.training ul { margin: 0; padding-left: 1.2em; columns: 2 220px; column-gap: 24px; }
+.more p:first-of-type { margin-top: 8px; }
+
+/* ---------- A: Notizheft ---------- */
+.vA { --pen: var(--wb-amber-dark); --red: var(--wb-rust); --margin: #f2b65a; --rule: #e6dfd2;
+  background: var(--wb-bg) radial-gradient(#e0d9cc 1px, transparent 1px) 0 0/18px 18px; color: var(--wb-ink); }
+.vA .hl { background: linear-gradient(104deg, transparent 2%, var(--wb-tint) 4%, var(--wb-tint) 94%, transparent 98%) 0 60%/100% 60% no-repeat; }
+.vA .sub-h1 { display: block; font: 700 30px/40px "Caveat"; color: var(--red); }
+.vA .claim { display: block; font: 400 22px/32px "Caveat"; color: var(--wb-muted); }
+.vA .motto { font: 400 28px/32px "Caveat"; color: var(--pen); margin: 0 0 32px; padding-left: 20px; border-left: 3px solid var(--margin); }
+.vA .motto cite { font-size: 20px; color: var(--wb-muted); }
+.vA .nb-hint { font-family: "Caveat"; font-size: 26px; }
+.vA .svc-h { display: inline; font: inherit; margin: 0; }
+.vA .pen { font: 700 24px "Caveat"; color: var(--red); }
+.vA .nb-h3 { font: 700 19px/32px "Kalam"; margin: 0; }
+.vA details > summary { font: 700 24px/32px "Caveat"; color: var(--pen); }
+.vA .nb-details details { border-bottom: 1px dashed var(--margin); }
+.vA .nb-details summary > h3 { font: inherit; }
+.vA .more summary { font-size: 22px; }
+.vA .prices dd { font: 700 26px/32px "Caveat"; color: var(--red); }
+.vA .prices > div { padding: 0; }
+.vA .facts-list { list-style: "✓  "; }
+.vA .nb-gift { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 0 0 32px; }
+.vA .nb-gift img { box-shadow: 0 6px 14px -6px rgba(0,0,0,.4); transform: rotate(-1.5deg); }
+.vA .nb-gift img + img { transform: rotate(1.5deg); }
+.vA .rating { font: 700 24px "Caveat"; color: var(--pen); }
+
+/* ---------- B: Comic ---------- */
+.vB { --accent: var(--wb-amber); --blue: var(--wb-rust); --yellow: var(--wb-tint); --ink: var(--wb-ink);
+  background:
+    linear-gradient(#ececec 1px, transparent 1px) 0 0/24px 24px,
+    linear-gradient(90deg, #ececec 1px, transparent 1px) 0 0/24px 24px, var(--wb-bg); }
+.vB .burst, .vB .cb-book { color: var(--wb-ink); }
+.vB .price-badge { display: inline-block; background: var(--wb-amber); color: var(--wb-ink); font: 700 16px "Gaegu"; padding: 2px 10px; border: 2px solid var(--ink); border-radius: 4px; transform: rotate(-2deg); }
+.vB .alt { margin: -6px 0 8px; color: var(--wb-muted); font-size: 16px; }
+.vB .more summary { font: 700 18px "Gaegu"; margin-top: 12px; color: var(--blue); }
+.vB .cb-motto { margin-top: 30px; padding-top: 40px; font: 700 24px/1.3 "Gaegu"; text-align: center; }
+.vB .cb-motto p { margin: 0; }
+.vB .cb-polarity, .vB .cb-prices { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; }
+.vB .cb-polarity .panel, .vB .cb-prices .panel { padding-top: 30px; }
+.vB .small-print { text-align: center; color: var(--wb-muted); font-size: 15px; margin: 0 0 10px; }
+.vB .cb-details { display: grid; gap: 12px; margin-top: 22px; }
+.vB .cb-details details { background: #fff; border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); padding: 10px 16px; }
+.vB .cb-details details[open] { background: #fffaf0; }
+.vB .cb-details summary > :is(h3, h4) { font: 700 22px "Gaegu"; }
+.vB .cb-details summary { min-height: 32px; }
+.vB .prices dd { font: 700 20px "Gaegu"; color: var(--blue); }
+.vB .rating { font: 700 20px "Gaegu"; }
+
+/* ---------- C: Pinnwand ---------- */
+.vC .book, .vC .tp-book { background: var(--wb-rust); box-shadow: 0 6px 0 #8a4519; }
+.vC .book:hover { box-shadow: 0 4px 0 #8a4519; }
+.vC .pin::before { background: radial-gradient(circle at 35% 35%, #f7b267, var(--wb-rust) 60%, #6e3511); }
+.vC .sticky { background: var(--wb-tint); }
+.vC .sticky.pink { background: var(--wb-peach); }
+.vC .sticky.green { background: #f4ead6; }
+.vC .card .time { color: var(--wb-rust); }
+.vC .label { background: var(--wb-text); }
+.vC .tp-top .navlist a[aria-current] { background: var(--wb-amber); }
+.vC .next { color: var(--wb-rust); }
+.vC .card { position: relative; }
+.vC .tag {
+  position: absolute; top: 14px; right: 12px; background: var(--wb-amber); color: var(--wb-ink); font: 700 20px "Caveat";
+  padding: 2px 12px 2px 18px; transform: rotate(4deg); box-shadow: 0 3px 6px rgba(0,0,0,.25);
+  clip-path: polygon(12px 0, 100% 0, 100% 100%, 12px 100%, 0 50%);
+}
+.vC .why { display: grid; grid-template-columns: 1fr 150px; gap: 16px; align-items: center; }
+.vC .more summary, .vC .training summary { font: 700 22px "Caveat"; color: var(--wb-rust); margin-top: 6px; }
+.vC .training summary > h3 { font: inherit; }
+.vC .c-topics { display: grid; gap: 18px; align-content: start; }
+.vC .c-topics .topic summary > h3 { font: 700 26px "Caveat"; }
+.vC .c-topics .topic p { font-size: 17px; }
+.vC .receipt {
+  background: #fff; font-family: "Patrick Hand"; padding: 26px 22px 34px;
+  clip-path: polygon(0 0, 100% 0, 100% 97%, 95% 100%, 90% 97%, 85% 100%, 80% 97%, 75% 100%, 70% 97%, 65% 100%, 60% 97%, 55% 100%, 50% 97%, 45% 100%, 40% 97%, 35% 100%, 30% 97%, 25% 100%, 20% 97%, 15% 100%, 10% 97%, 5% 100%, 0 97%);
+}
+.vC .receipt h2 { text-align: center; letter-spacing: 2px; }
+.vC .receipt .cut { text-align: center; color: var(--wb-muted); margin: 6px 0; overflow: hidden; white-space: nowrap; }
+.vC .values-c { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
+.vC .c-gift { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.vC #fragen summary > h4 { font: 700 18px "Patrick Hand"; }
+.vC #fragen details { border-bottom: 1px solid #dde3ea; padding: 6px 0; }
+.vC .rating { font: 700 22px "Caveat"; color: #3d2f1d; background: #fffef8; padding: 2px 12px; transform: rotate(-1deg); }
+
+/* ---------- D: Skizzenbuch ---------- */
+.vD { --accent: var(--wb-rust); background: var(--wb-text); }
+.vD .booktop .bt-book { border-color: var(--wb-amber); }
+.vD .tab-book { --c: var(--wb-amber) !important; color: var(--wb-ink) !important; }
+.vD .tabs a { font-size: 16px; padding: 10px 6px 10px 8px; }
+.vD .d-details details { border-bottom: 1.5px solid #e2dccf; padding: 6px 0; }
+.vD .d-details summary > :is(h3, h4) { font: 700 24px "Caveat"; }
+.vD .more summary { font: 400 18px "Caveat"; color: var(--accent); }
+.vD .pencil-list li > span:first-child { flex: 1; }
+.vD .pencil-list li > span:last-child { text-align: right; }
+.vD .prices dd { font: 700 24px "Caveat"; color: var(--accent); }
+.vD .d-gift { display: grid; gap: 12px; }
+.vD .d-gift img { box-shadow: 0 6px 14px -6px rgba(0,0,0,.4); }
+.vD .rating { color: var(--accent); }
+
+/* ---------- E: Standard ---------- */
+.vE { --bg: var(--wb-bg); --ink: var(--wb-ink); --muted: var(--wb-muted); --line: #e6e2da;
+  --accent: var(--wb-amber); --accent-ink: var(--wb-ink); --accent-text: var(--wb-amber-dark); --soft: var(--wb-tint-2); --warm: #f6efe3; }
+.vE h1, .vE h2 { color: var(--wb-amber-deep); }
+.vE h1 small, .vE .values h3, .vE .card a, .vE .card .dur, .vE .glance a, .vE a.rating { color: var(--accent-text); }
+.vE .btn-primary:hover { background: var(--wb-amber-hover); }
+.vE .btn-ghost { border-color: var(--wb-amber-deep); color: var(--wb-amber-dark); }
+.vE .btn-ghost:hover { background: var(--wb-amber-deep); color: #fff; }
+.vE .site-header .navlist a:hover, .vE .site-header .navlist a[aria-current] { border-color: var(--wb-amber); }
+.vE .facts li::before { color: var(--accent-text); }
+.vE .card-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 14px; }
+.vE .card-top .dur { margin: 0; }
+.vE .price { font: 600 16px "Inter"; color: var(--ink); }
+.vE .card .alt { margin: -6px 0 8px; font-size: 14px; flex: 0; }
+.vE .more { margin-bottom: 12px; font-size: 15px; color: var(--muted); }
+.vE .more summary { color: var(--accent-text); font-weight: 600; }
+.vE .accordion details { border-bottom: 1px solid var(--line); padding: 14px 0; }
+.vE .accordion summary { display: flex; align-items: center; gap: 6px; min-height: 28px; }
+.vE .accordion summary::before { color: var(--accent-text); }
+.vE .accordion summary > :is(h3, h4) { font: 600 18px "Fraunces"; color: var(--ink); }
+.vE .accordion details p, .vE .accordion details li { color: var(--muted); font-size: 16px; }
+.vE .pull { margin: 0 0 20px; font: italic 500 24px/1.35 "Fraunces"; color: var(--wb-rust); padding: 0; border: 0; background: none; }
+.vE .pull footer { font: 500 14px "Inter"; color: var(--muted); margin-top: 6px; }
+.vE .facts-list li::marker { color: var(--accent-text); }
+.vE .prices { font-size: 17px; }
+.vE .prices > div { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.vE .prices dt::after { display: none; }
+.vE .terms dd { font-weight: 500; color: var(--muted); }
+.vE .social-box { background: var(--warm); border-radius: 18px; padding: 20px 22px; margin-top: 20px; }
+.vE .social-box p { margin: 0; color: var(--muted); }
+.vE .gift-imgs { display: grid; gap: 14px; }
+.vE .gift-imgs img { border-radius: 14px; box-shadow: 0 20px 40px -20px rgba(0,0,0,.35); }
+.vE .kinds { color: var(--wb-amber-dark); }
+.vE .tips li::marker { color: var(--accent-text); }
+.vE .rating .stars { font-size: 18px; }
+.vE .stars { color: var(--wb-amber); }
+.vE .cta-band { background: var(--wb-amber); color: var(--wb-ink); }
+.vE .cta-band h2 { color: var(--wb-ink); }
+.vE .cta-band .lead { color: #3a2a06 !important; }
+.vE .cta-band .sketch { filter: none; mix-blend-mode: multiply; }
+.vE .cta-band .btn { background: var(--wb-ink); color: #fff; }
+.vE .site-footer { background: var(--wb-text); color: #e8e8e8; }
+.vE .site-footer a { color: #f6d79a; }
+.vE .card { flex-direction: column; }
+
+@media (max-width: 860px) {
+  .vA .nb-gift, .vB .cb-polarity, .vB .cb-prices, .vC .values-c { grid-template-columns: 1fr; }
+  .vC .why { display: block; }
+  .vC .why img { width: 140px; margin: 10px auto 0; }
+  .vC .c-gift { grid-template-columns: 1fr 1fr; }
+  .vC .tag { font-size: 18px; }
+  .vA .sub-h1 { font-size: 26px; line-height: 32px; }
+  .vA .motto { font-size: 24px; }
+  .vB .cb-motto { font-size: 20px; }
+  .vE .pull { font-size: 21px; }
+  details > summary { min-height: 44px; display: flex; align-items: center; }
+  .training ul { columns: 1; }
+}
+@media (max-width: 860px) {
+  .vA .cta { white-space: normal; text-align: center; line-height: 40px; padding: 8px 22px; }
+  .vB .cb-polarity, .vB .cb-prices, .vB .grid, .vB .about, .vB .quotes, .vB .finale { grid-template-columns: minmax(0, 1fr) !important; }
+  .vE .brand small { font-size: 13px; }
+}
+/* price/condition rows: let the value drop to its own line instead of overlapping a long label */
+.prices > div { flex-wrap: wrap; }
+.prices dt { flex: 1 1 6em; min-width: min-content; }
+.prices dd { margin-left: auto; text-align: right; white-space: normal; }
+.terms dt::after { display: none; }
+/* D: chapters differ a lot in length now; start every page at the top instead of centring */
+.vD .pg { justify-content: flex-start; }
+.vD .spread:first-of-type .pg, .vD #warum .pg { justify-content: center; }
+h1 { hyphens: manual; }

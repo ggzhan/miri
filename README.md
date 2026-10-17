@@ -1,7 +1,9 @@
 # Miri's Massage & Polarity – website prototypes
 
 Throwaway design prototypes for a new website for Miri's Massage & Polarity (Winterthur).
-Text and drawings are taken from the current booking page (https://mirismassage.as.me/).
+Text and drawings are taken from the current booking page (https://mirismassage.as.me/) and the draft
+Webador site (prices, practice days, Polarity, training, reviews). Colours follow the Webador palette
+(sunflower amber `#f59e0b`, burnt orange `#c46627`), with darker ambers for text so it stays readable.
 
 **Preview:** https://ggzhan.github.io/miri/ (best viewed on a phone)
 
@@ -28,5 +30,6 @@ Content lives at the top of `build.mjs`; styles in `styles.css`. Don't edit the 
 ## Before launch
 
 - Set `SITE` in `build.mjs` to the real domain (canonical URL, og:image, JSON-LD).
-- The short one-line descriptions of the four main treatments are drafts – the original page only listed durations.
-- Variant E shows ★★★★★ on testimonials; the original reviews carry no star rating.
+- Payment methods differ between sources: Acuity says bar/TWINT/Banküberweisung, Webador says TWINT/bar/Karte. The site uses Webador's.
+- No prices are published for the Hawaiian massage or the 30-min Klassische Massage.
+- The gift-voucher order is a pre-filled e-mail (no form backend).
