@@ -1,35 +1,32 @@
-# Miri's Massage & Polarity – website prototypes
+# Miri's Massage & Polarity – website
 
-Throwaway design prototypes for a new website for Miri's Massage & Polarity (Winterthur).
-Text and drawings are taken from the current booking page (https://mirismassage.as.me/) and the draft
-Webador site (prices, practice days, Polarity, training, reviews). Colours follow the Webador palette
-(sunflower amber `#f59e0b`, burnt orange `#c46627`), with darker ambers for text so it stays readable.
+One-page website for Miri's Massage & Polarity (Winterthur). Mobile-first, static HTML (every word is in
+the page source for Google and AI search), schema.org `HealthAndBeautyBusiness` + `FAQPage` data.
 
-**Preview:** https://ggzhan.github.io/miri/ (best viewed on a phone)
+**Preview:** https://ggzhan.github.io/miri/
 
-| | Variant | Idea |
-|---|---|---|
-| A | Notizheft | Ruled school notebook, doodles in the margin |
-| B | Comic-Strip | The story told as comic panels on graph paper |
-| C | Pinnwand | Paper scraps, polaroids and tape on a kraft board |
-| D | Skizzenbuch | Spiral sketchbook, flip through chapters with tabs |
-| E | Standard + Skizzen | Conventional practice website, drawings as section illustrations |
+Content comes from the booking page (https://mirismassage.as.me/) and the draft Webador site (prices,
+practice days, Polarity, training, reviews). Colours follow the Webador palette (sunflower amber `#f59e0b`,
+burnt orange `#c46627`), with darker ambers for text so it stays readable.
 
-All variants are generated as static HTML (every word is in the page source, for Google and AI search),
-with schema.org `HealthAndBeautyBusiness` data, one shared menu, and a mobile-first layout.
+## Files
+
+- `build.mjs` – all content (top of the file) and the page template; generates `index.html`. Don't edit `index.html` by hand.
+- `styles.css` – the whole stylesheet; colour tokens at the top.
+- `img/sketches/*.svg` – the stick-figure drawings as vectors (traced from the original drawings with potrace).
+  They scale to any size, have transparent backgrounds and use `fill="currentColor"`, so inlined they take the text colour.
+- `img/og-image.jpg` – link-preview image (social networks don't accept SVG there).
 
 ## Build
 
 ```sh
-node build.mjs            # preview build: noindex + variant switcher (what GitHub Pages serves)
-LAUNCH=1 node build.mjs   # launch build: indexable, no switcher
+node build.mjs            # preview build: noindex (what GitHub Pages serves)
+LAUNCH=1 node build.mjs   # launch build: indexable
 ```
-
-Content lives at the top of `build.mjs`; styles in `styles.css`. Don't edit the generated `variant-*.html` by hand.
 
 ## Before launch
 
-- Set `SITE` in `build.mjs` to the real domain (canonical URL, og:image, JSON-LD).
+- Set `SITE` in `build.mjs` to the real domain (canonical URL, og:image, JSON-LD), then build with `LAUNCH=1`.
 - Payment methods differ between sources: Acuity says bar/TWINT/Banküberweisung, Webador says TWINT/bar/Karte. The site uses Webador's.
 - No prices are published for the Hawaiian massage or the 30-min Klassische Massage.
 - The gift-voucher order is a pre-filled e-mail (no form backend).
