@@ -254,10 +254,9 @@ const giftMail = `mailto:${C.email}?subject=${encodeURIComponent('Gutscheinbeste
    ===================================================================== */
 // page slugs double as URLs: /angebot/, /polarity/ … ('' = home)
 const NAV = [
-  ['angebot', 'Angebot'], ['polarity', 'Polarity'], ['preise', 'Preise'], ['ueber-mich', 'Über mich'],
-  ['erfahrungen', 'Erfahrungen'], ['gutschein', 'Gutschein'], ['kontakt', 'Kontakt'],
+  ['angebot', 'Angebot & Preise'], ['polarity', 'Polarity'], ['ueber-mich', 'Über mich'], ['#kontakt', 'Kontakt'],
 ];
-const url = slug => P + (slug ? slug + '/' : '') || './';
+const url = slug => slug.startsWith('#') ? (P || './') + slug : P + (slug ? slug + '/' : '') || './';
 const navList = cur => `<ul class="navlist" id="menu"><li class="nav-start"><a href="${url('')}"${cur === '' ? ' aria-current="page"' : ''}>Start</a></li>${NAV.map(([slug, l]) => `<li><a href="${url(slug)}"${slug === cur ? ' aria-current="page"' : ''}>${l}</a></li>`).join('')}</ul>`;
 const SERVICE_ART = { klassisch: 'massage', ganzheitlich: 'fuesse', 'polarity-behandlung': 'gespraech', hawaiianisch: 'hawaii' };
 const F = {
@@ -266,7 +265,7 @@ const F = {
   // one price list, built from the same booking types as the picker; every row links to its calendar
   priceGroup: list => `<dl class="prices">${list.map(t => `<div><dt><a href="${url('buchen')}?typ=${t.id}">${t.n}</a> <span class="t">${t.t}</span></dt><dd>${t.p}${t.was ? ` <span class="was">statt <s>${t.was}</s></span>` : ''}<span class="go" aria-hidden="true">buchen →</span></dd></div>`).join('')}</dl>`,
   polarityNote: () => `<p class="note">${C.prices.polarityNote}</p>`,
-  terms: () => `<dl class="prices terms">${C.prices.terms.map(([k, v]) => `<div><dt>${k}</dt><dd>${v === 'GUTSCHEIN_LINK' ? `<a href="${url('gutschein')}">Gutschein bestellen</a>` : v}</dd></div>`).join('')}</dl>`,
+  terms: () => `<dl class="prices terms">${C.prices.terms.map(([k, v]) => `<div><dt>${k}</dt><dd>${v === 'GUTSCHEIN_LINK' ? `<a href="${url('angebot')}#gutschein">Gutschein bestellen</a>` : v}</dd></div>`).join('')}</dl>`,
   // five drawn stars (an authored icon instead of a ★ glyph)
   stars: () => `<span class="stars" aria-hidden="true">${'<svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.3 5.8.7-4.3 4 1.1 5.7L10 14.7l-5.1 2.8 1.1-5.7-4.3-4 5.8-.7z"/></svg>'.repeat(5)}</span>`,
   facts: () => `<ul class="facts-list">${C.polarity.facts.map(f => `<li>${f}</li>`).join('')}</ul>`,
@@ -436,7 +435,7 @@ const PAGES = [
     slug: '', title: 'Massage & Polarity in Winterthur | Miriam Pimputkar', desc: DESC,
     band: { art: 'kontakt', h: C.curious[0], p: `${C.curious[1]} ${C.bye}`, cta: 'Kennenlernmassage buchen', href: '' },
     // links into the old one-page site (index.html#preise …) land on the new pages
-    script: `const old = { angebot: 'angebot/', polarity: 'polarity/', preise: 'preise/', buchen: 'buchen/', arbeit: 'ueber-mich/#arbeit', 'ueber-mich': 'ueber-mich/', erfahrungen: 'erfahrungen/', gutschein: 'gutschein/', fragen: 'buchen/#fragen', kontakt: 'kontakt/' }[location.hash.slice(1)];
+    script: `const old = { angebot: 'angebot/', polarity: 'polarity/', preise: 'angebot/#preise', buchen: 'buchen/', arbeit: 'ueber-mich/#arbeit', 'ueber-mich': 'ueber-mich/', erfahrungen: 'ueber-mich/#erfahrungen', gutschein: 'angebot/#gutschein', fragen: 'buchen/#fragen' }[location.hash.slice(1)];
 if (old) location.replace(old);`,
     body: () => `
     <section class="hero"><div class="container">
@@ -466,27 +465,75 @@ if (old) location.replace(old);`,
     <section><div class="container">
       <div class="center"><h2>Mein Angebot</h2><p class="lead">${C.offerIntro.split(':')[0]}.</p></div>
       <div class="cards compact">${C.services.map(s => `<a class="card card-link" href="${url('angebot')}#${s.id}">${img(SERVICE_ART[s.id], { cls: 'card-art' })}<h3>${s.n}</h3><span class="meta">${s.t} · ${s.p}</span><span class="more-link">Details ansehen&nbsp;→</span></a>`).join('')}</div>
-      <p class="center more-row"><a class="btn btn-ghost" href="${url('preise')}">Alle Preise ansehen</a></p>
+      <p class="center more-row"><a class="btn btn-ghost" href="${url('angebot')}#preise">Alle Preise ansehen</a></p>
     </div></section>
 
     <section class="alt"><div class="container">
       <div class="center"><h2>Das sagen meine Kundinnen und Kunden</h2><p class="lead">${F.rating()}</p></div>
       <div class="quotes">${C.quotes.slice(0, 3).map(q => F.quote(q, q.short)).join('')}</div>
-      <p class="center more-row"><a class="btn btn-ghost" href="${url('erfahrungen')}">Alle Erfahrungsberichte ansehen</a></p>
+      <p class="center more-row"><a class="btn btn-ghost" href="${url('ueber-mich')}#erfahrungen">Alle Erfahrungsberichte ansehen</a></p>
+    </div></section>
+
+    <section id="kontakt"><div class="container twocol">
+      <div>
+        <h2>Kontakt &amp; Anfahrt</h2>
+        <dl class="glance">
+          <dt>Praxis</dt><dd>Massage & Polarity, ${C.person}</dd>
+          <dt>Adresse</dt><dd>${C.address[0]}, ${C.address[2]}</dd>
+          <dt>Zugang</dt><dd>${C.address[1]}</dd>
+          <dt>Praxistage</dt><dd>${C.hours.days}, ${C.hours.time}</dd>
+          <dt>Termine</dt><dd><a href="${url('buchen')}">online buchen</a></dd>
+          <dt>E-Mail</dt><dd>${mail}</dd>
+          <dt>Zahlung</dt><dd>${C.pay}</dd>
+          <dt>Fragen</dt><dd><a href="${url('buchen')}#fragen">Häufige Fragen</a></dd>
+        </dl>
+        <h2 class="h3">Meine Empfehlungen in Winterthur</h2>
+        ${F.recs()}
+      </div>
+      <a href="${C.maps}" class="map-link">${img('map', { cls: 'map' })}<span>In Google Maps öffnen&nbsp;→</span></a>
     </div></section>`,
   },
   {
-    slug: 'angebot', title: 'Angebot: Massage & Polarity in Winterthur | Miriam Pimputkar',
-    desc: 'Klassische Massage, Ganzheitliche Massage, Hawaiianische Ganzkörpermassage (Lomi Lomi) und Polarity in Winterthur – mit Dauer, Preisen und Online-Buchung.',
+    slug: 'angebot', title: 'Angebot & Preise: Massage & Polarity in Winterthur | Miriam Pimputkar',
+    desc: 'Klassische Massage ab 50 CHF, Ganzheitliche Massage 110 CHF, Hawaiianische Ganzkörpermassage 180 CHF und Polarity in Winterthur. Kennenlernmassage 80 CHF, Geschenkgutscheine, Online-Buchung.',
     band: { art: 'jump', h: 'Welche Behandlung passt zu dir?', p: 'Bei deinem ersten Besuch kostet die Kennenlernmassage 80 CHF – klassisch oder ganzheitlich.', cta: 'Kennenlernmassage buchen', href: '' },
-    body: () => `${pageHero('stretch', 'Mein Angebot', C.offerIntro)}
+    body: () => `${pageHero('stretch', 'Angebot &amp; Preise', C.offerIntro)}
     <section><div class="container">
       <h2 class="sr">Behandlungen</h2>
       <p class="difference sheet">${C.difference}</p>
       <div class="cards">${C.services.map(serviceCard).join('')}</div>
       <div class="extras"><h2 class="h3">Ergänzende Behandlungen</h2><ul>${C.extras.map(e => `<li>${e}</li>`).join('')}</ul></div>
       <p class="center relief">${C.relief}</p>
-      <p class="center"><a class="btn btn-ghost" href="${url('preise')}">Preise & Konditionen ansehen</a></p>
+    </div></section>
+
+    <section class="alt" id="preise"><div class="container">
+      <div class="center"><h2>Preise</h2><p class="lead">${C.prices.intro}</p></div>
+      <div class="twocol">
+      <div class="menu-card sheet">
+        <h2 class="h3">Dein erster Besuch</h2>
+        ${F.priceGroup(C.booking.first)}
+        <h2 class="h3">Weitere Termine</h2>
+        ${F.priceGroup(C.booking.regular)}
+        ${F.polarityNote()}
+      </div>
+      <div>
+        <h2 class="h3">Zahlung und Konditionen</h2>
+        ${F.terms()}
+        <p>${C.prices.cancel}</p>
+        <div class="social-box"><h3>Soziales Entgegenkommen</h3><p>${C.prices.social} ${mail}</p></div>
+      </div>
+    </div>
+    </div></section>
+
+    <section id="gutschein"><div class="container gift">
+      <div>
+        ${img('geschenk', { cls: 'sketch', deco: true })}
+        <h2>${C.gift.title}</h2>
+        ${F.gift()}
+        <p>Die Preise der Behandlungen findest du <a href="#preise">weiter oben</a>.</p>
+        <a class="btn btn-primary" href="${giftMail}">Gutschein per E-Mail bestellen</a>
+      </div>
+      <div class="gift-imgs">${img('giftFront')}${img('giftBack')}</div>
     </div></section>`,
   },
   {
@@ -510,27 +557,6 @@ if (old) location.replace(old);`,
         ${F.facts()}
       </div>
       <div><h2 class="h3">Mehr zu den einzelnen Teilen</h2><div class="accordion">${F.topics()}</div></div>
-    </div></section>`,
-  },
-  {
-    slug: 'preise', title: 'Preise für Massage & Polarity in Winterthur | Miriam Pimputkar',
-    desc: 'Klassische Massage ab 50 CHF, Ganzheitliche Massage 110 CHF, Hawaiianische Massage 180 CHF, Polarity 88 CHF/Std. Kennenlernmassage 80 CHF. Zahlung mit TWINT, bar oder Karte.',
-    band: { art: 'stretch', h: 'Deine erste Massage: 80 CHF', p: 'Klassisch oder ganzheitlich, 60 Minuten – zum Kennenlernen.', cta: 'Kennenlernmassage buchen', href: '' },
-    body: () => `${pageHero('run', 'Preise', C.prices.intro)}
-    <section><div class="container twocol">
-      <div class="menu-card sheet">
-        <h2 class="h3">Dein erster Besuch</h2>
-        ${F.priceGroup(C.booking.first)}
-        <h2 class="h3">Weitere Termine</h2>
-        ${F.priceGroup(C.booking.regular)}
-        ${F.polarityNote()}
-      </div>
-      <div>
-        <h2 class="h3">Zahlung und Konditionen</h2>
-        ${F.terms()}
-        <p>${C.prices.cancel}</p>
-        <div class="social-box"><h3>Soziales Entgegenkommen</h3><p>${C.prices.social} ${mail}</p></div>
-      </div>
     </div></section>`,
   },
   {
@@ -619,7 +645,7 @@ if (pre) { history.replaceState({ typ: pre.dataset.type }, '', location.search);
   },
   {
     slug: 'ueber-mich', title: 'Über mich – Miriam Pimputkar, Masseurin in Winterthur',
-    desc: 'Dipl. Klassische Masseurin und Polaritytherapeutin in Ausbildung in Winterthur: wie ich arbeite, meine Ausbildungen und was mich bewegt.',
+    desc: 'Dipl. Klassische Masseurin und Polaritytherapeutin in Ausbildung in Winterthur: wie ich arbeite, meine Ausbildungen – und was meine Kundinnen und Kunden sagen (5,0 aus 22 Google-Bewertungen).',
     band: { art: 'massage', h: C.curious[0], p: C.curious[1], cta: 'Kennenlernmassage buchen', href: '' },
     body: () => `${pageHero('yoga', 'Über mich', C.aboutLead)}
     <section><div class="container twocol">
@@ -637,52 +663,11 @@ if (pre) { history.replaceState({ typ: pre.dataset.type }, '', location.search);
     <section class="alt" id="arbeit"><div class="container">
       <div class="center">${img('run', { cls: 'sketch' })}<h2>Was meine Arbeit ausmacht</h2></div>
       <div class="values">${C.values.map(v => `<div><h3>${v.k}</h3><p>${v.v}${v.k === 'Sozial' ? ' ' + mail : ''}</p></div>`).join('')}</div>
-    </div></section>`,
-  },
-  {
-    slug: 'erfahrungen', title: 'Erfahrungsberichte | Miriam Pimputkar, Massage Winterthur',
-    desc: `${C.rating.score} Sterne aus ${C.rating.count} Google-Bewertungen: Erfahrungen mit Massage und Polarity bei Miriam Pimputkar in Winterthur.`,
-    band: { art: 'run', h: 'Selbst erleben', p: 'Deine erste Massage kostet 80 CHF statt 100 oder 110 CHF.', cta: 'Kennenlernmassage buchen', href: '' },
-    body: () => `${pageHero('jump', 'Erfahrungsberichte', F.rating())}
-    <section><div class="container">
+    </div></section>
+
+    <section id="erfahrungen"><div class="container">
+      <div class="center"><h2>Erfahrungsberichte</h2><p class="lead">${F.rating()}</p></div>
       <div class="quotes">${C.quotes.map(q => F.quote(q)).join('')}<a class="quote-more" href="${C.maps}" rel="noopener">${F.stars()}<span>Alle ${C.rating.count} Bewertungen auf Google lesen&nbsp;→</span></a></div>
-    </div></section>`,
-  },
-  {
-    slug: 'gutschein', title: 'Massage-Gutschein für Winterthur | Miriam Pimputkar',
-    desc: 'Geschenkgutschein «Zeit für dich» für eine Massage oder Polaritybehandlung in Winterthur – als Karte per Post, digital oder zum selber Ausdrucken.',
-    band: { art: 'hawaii', h: 'Zeit für dich – zum Verschenken', p: 'Schreib mir, für wen und für welche Behandlung – ich schicke dir den Gutschein so, wie du ihn möchtest.', cta: 'Gutschein bestellen', href: 'GIFT' },
-    body: () => `${pageHero('geschenk', C.gift.title, '')}
-    <section><div class="container gift">
-      <div>
-        ${F.gift()}
-        <p>Die Preise der Behandlungen findest du unter <a href="${url('preise')}">Preise</a>.</p>
-        <a class="btn btn-primary" href="${giftMail}">Gutschein per E-Mail bestellen</a>
-      </div>
-      <div class="gift-imgs">${img('giftFront')}${img('giftBack')}</div>
-    </div></section>`,
-  },
-  {
-    slug: 'kontakt', title: 'Kontakt & Anfahrt | Miriam Pimputkar, Münzgasse 2 Winterthur',
-    desc: 'Massagepraxis an der Münzgasse 2, 8400 Winterthur (4. Stock, Lift vorhanden). Praxistage Mittwoch und Freitag, 10–20 Uhr. Termine online buchen.',
-    band: { art: 'yoga', h: 'Bis bald an der Münzgasse 2!', p: 'Freie Termine siehst du direkt online.', cta: 'Termin buchen', href: '' },
-    body: () => `${pageHero('kontakt', 'Kontakt & Anfahrt', '')}
-    <section><div class="container twocol">
-      <div>
-        <dl class="glance">
-          <dt>Praxis</dt><dd>Massage & Polarity, ${C.person}</dd>
-          <dt>Adresse</dt><dd>${C.address[0]}, ${C.address[2]}</dd>
-          <dt>Zugang</dt><dd>${C.address[1]}</dd>
-          <dt>Praxistage</dt><dd>${C.hours.days}, ${C.hours.time}</dd>
-          <dt>Termine</dt><dd><a href="${url('buchen')}">online buchen</a></dd>
-          <dt>E-Mail</dt><dd>${mail}</dd>
-          <dt>Zahlung</dt><dd>${C.pay}</dd>
-          <dt>Fragen</dt><dd><a href="${url('buchen')}#fragen">Häufige Fragen</a></dd>
-        </dl>
-        <h2 class="h3">Meine Empfehlungen in Winterthur</h2>
-        ${F.recs()}
-      </div>
-      <a href="${C.maps}" class="map-link">${img('map', { cls: 'map' })}<span>In Google Maps öffnen&nbsp;→</span></a>
     </div></section>`,
   },
 ];
@@ -696,6 +681,12 @@ for (const pg of PAGES) {
   const out = new URL(pg.slug ? `${pg.slug}/index.html` : 'index.html', import.meta.url);
   mkdirSync(new URL('.', out), { recursive: true });
   writeFileSync(out, page(pg, pg.body()));
+}
+// merged pages: /preise/ → /angebot/#preise etc.; a crawler gets the canonical, a visitor is sent on
+for (const [from, to] of [['preise', 'angebot/#preise'], ['gutschein', 'angebot/#gutschein'], ['erfahrungen', 'ueber-mich/#erfahrungen'], ['kontakt', '#kontakt']]) {
+  const out = new URL(`${from}/index.html`, import.meta.url);
+  mkdirSync(new URL('.', out), { recursive: true });
+  writeFileSync(out, `<!doctype html>\n<!-- Generated by build.mjs: /${from}/ moved to /${to} -->\n<html lang="de-CH"><head><meta charset="utf-8"><meta name="robots" content="noindex">\n<link rel="canonical" href="${SITE}${to.split('#')[0]}"><meta http-equiv="refresh" content="0; url=../${to}">\n<title>Weitergeleitet – ${C.name}</title></head>\n<body><p>Diese Seite ist umgezogen: <a href="../${to}">weiter</a>.</p><script>location.replace('../${to}')</script></body></html>\n`);
 }
 writeFileSync(new URL('sitemap.xml', import.meta.url), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

@@ -4,8 +4,9 @@ Website for Miriam Pimputkar – Massage & Polarity (Winterthur). Mobile-first, 
 the page source for Google and AI search), schema.org `HealthAndBeautyBusiness` + `FAQPage` data.
 
 Pages (each its own title, description and canonical URL; listed in `sitemap.xml`):
-`/` Start · `/angebot/` · `/polarity/` · `/preise/` · `/buchen/` (booking + FAQ) · `/ueber-mich/` ·
-`/erfahrungen/` · `/gutschein/` · `/kontakt/`
+`/` Start (incl. Kontakt & Anfahrt) · `/angebot/` Angebot & Preise (incl. Gutschein) · `/polarity/` ·
+`/ueber-mich/` (incl. Erfahrungsberichte) · `/buchen/` booking + FAQ (the header button, not a menu item).
+The former pages `/preise/`, `/gutschein/`, `/erfahrungen/`, `/kontakt/` are redirect stubs to their new sections.
 
 **Preview:** https://ggzhan.github.io/miri/
 
