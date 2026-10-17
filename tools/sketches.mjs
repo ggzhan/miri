@@ -358,6 +358,47 @@ const scenes = {
     return s.svg('Miri zeigt auf einen Kalender mit einem eingetragenen Termin');
   },
 
+  // Feeling great: the same spiky-haired figure as stressed.svg, after the massage — arms flung up, eyes closed, big smile
+  feelgood() {
+    const s = new Sketch(360, 460), cx = 182, F = 446;
+    const h = [cx, 108], r = 36;
+    s.ellipse(h, r, r * 1.03);
+    for (const t of [-.46, -.14, .18, .5]) {
+      const a = -Math.PI / 2 + t * 1.3, p0 = [h[0] + Math.cos(a) * r, h[1] + Math.sin(a) * r];
+      s.line([p0, [h[0] + Math.cos(a) * r * 1.45, h[1] + Math.sin(a) * r * 1.45]], { w: .95, wob: .5 });
+    }
+    // closed, smiling eyes (upward arcs) and a big open smile
+    for (const x of [-.36, .34]) s.line([[h[0] + (x - .15) * r, h[1] - r * .02], [h[0] + x * r, h[1] - r * .2], [h[0] + (x + .15) * r, h[1] - r * .02]], { w: .75, wob: .25 });
+    s.line([[h[0] - r * .42, h[1] + r * .24], [h[0] - r * .2, h[1] + r * .62], [h[0] + r * .2, h[1] + r * .62], [h[0] + r * .42, h[1] + r * .24], [h[0] - r * .42, h[1] + r * .24]], { w: .85, wob: .3 });
+    // neck, narrow outlined torso
+    const ny = h[1] + r * 1.02, sh = [[cx - 20, ny + 18], [cx + 20, ny + 18]], hip = [[cx - 17, ny + 132], [cx + 19, ny + 132]];
+    s.line([[cx, ny], [cx, ny + 16]]);
+    s.line([sh[0], [cx, ny + 14], sh[1]]);
+    s.line([sh[0], [cx - 22, ny + 76], hip[0]]).line([sh[1], [cx + 23, ny + 76], hip[1]]).line([hip[0], hip[1]], { straight: true });
+    // arms flung up in a wide V, slightly bent at the elbow, open hands
+    s.line([sh[0], [cx - 70, ny - 8], [cx - 118, ny - 70], [cx - 140, ny - 112]]);
+    s.line([sh[1], [cx + 72, ny - 12], [cx + 120, ny - 74], [cx + 144, ny - 114]]);
+    for (const [x, y, d] of [[cx - 140, ny - 112, -1], [cx + 144, ny - 114, 1]]) {
+      s.line([[x, y], [x + d * 4, y - 16]], { w: .8 }).line([[x, y], [x + d * 14, y - 10]], { w: .8 }).line([[x, y], [x - d * 8, y - 13]], { w: .8 });
+    }
+    // legs outlined like in stressed.svg, standing wide and a little bouncy; feet
+    s.tube([hip[0], [cx - 30, ny + 200], [cx - 44, F - 8]], 6, 6, { hem: false });
+    s.tube([hip[1], [cx + 30, ny + 200], [cx + 46, F - 8]], 6, 6, { hem: false });
+    s.line([[cx - 50, F - 2], [cx - 74, F]], { w: 1.4 }).line([[cx + 52, F - 2], [cx + 76, F]], { w: 1.4 });
+    // joy marks
+    sparkle(s, [cx, h[1] - r - 22], 1.2, -2.5, -.65);
+    return s.svg('Strichmännchen fühlt sich grossartig: Arme in die Höhe, Augen geschlossen, breites Lächeln');
+  },
+
+  // Miri waves goodbye ("Bis bald!"), the other hand on her heart
+  winken() {
+    const s = new Sketch(320, 420), F = 400, cx = 150;
+    miriStanding(s, cx, F, sh => [[sh[0], [cx - 66, 152], [cx - 74, 96]], [sh[1], [cx + 34, 214], [cx + 8, 196]]]);
+    for (const [a, b] of [[[cx - 104, 100], [cx - 118, 94]], [[cx - 102, 76], [cx - 116, 64]], [[cx - 86, 56], [cx - 90, 40]]]) s.line([a, b], { w: .8 });
+    heart(s, [cx + 64, 150], .9);
+    return s.svg('Miri winkt zum Abschied, eine Hand auf dem Herzen');
+  },
+
   // Kontakt: Miri waves, a letter in the other hand
   kontakt() {
     const s = new Sketch(360, 420), F = 400, cx = 170;

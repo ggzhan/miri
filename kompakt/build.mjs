@@ -105,6 +105,8 @@ const IMG = {
   stressed: ['../img/sketches/stressed.svg', 'Strichmännchen mit Verspannungen und Kopfschmerzen hält sich den Kopf', 1148, 2183],
   stretch: ['../img/sketches/stretch.svg', 'Entspanntes Strichmännchen streckt sich', 1625, 2413],
   jump: ['../img/sketches/jump.svg', 'Fröhliches Strichmännchen springt vor Freude', 1700, 1502],
+  feelgood: ['img/feelgood.svg', 'Strichmännchen fühlt sich grossartig: Arme in die Höhe, breites Lächeln', 360, 460],
+  winken: ['img/winken.svg', 'Miri winkt zum Abschied, eine Hand auf dem Herzen', 320, 420],
   run: ['../img/sketches/run.svg', 'Strichmännchen tanzt und bewegt sich frei', 1495, 1721],
   // stroke drawings: copied into kompakt/img with a heavier pen so they match the traced ones
   gespraech: ['img/gespraech.svg', 'Miri im begleitenden Gespräch mit einer Klientin, beide sitzen auf Stühlen', 640, 400],
@@ -122,7 +124,7 @@ const IMG = {
 
 // heavier pen for the generated stroke drawings (5 → 9 units in a 360–640 wide viewBox)
 mkdirSync(here('img/'), { recursive: true });
-for (const k of ['gespraech', 'fuesse', 'hawaii', 'yoga', 'gutschein', 'termin', 'kontakt']) {
+for (const k of ['gespraech', 'fuesse', 'hawaii', 'yoga', 'gutschein', 'termin', 'kontakt', 'feelgood', 'winken']) {
   const svg = readFileSync(here(`../img/sketches/${k}.svg`), 'utf8').replace(/stroke-width="5"/g, 'stroke-width="8.5"');
   writeFileSync(here(`img/${k}.svg`), svg);
 }
@@ -233,7 +235,7 @@ const body = () => `
       <figure class="hero-art" aria-label="Zeichnung: vom verspannten zum fröhlich springenden Strichmännchen">
         ${img('stressed', { deco: true, eager: true, cls: 'a1' })}
         ${arrow('arrow a2')}
-        ${img('jump', { deco: true, eager: true, cls: 'a3' })}
+        ${img('feelgood', { deco: true, eager: true, cls: 'a3' })}
         <figcaption class="hand">${C.motto}</figcaption>
       </figure>
     </div>
@@ -363,7 +365,7 @@ const body = () => `
 
 <footer class="end">
   <div class="wrap end-grid">
-    ${img('run', { deco: true, cls: 'end-art' })}
+    ${img('winken', { deco: true, cls: 'end-art' })}
     <div>
       <p class="bye">Ich freue mich auf dich! Bis bald!</p>
       <p><a class="btn" href="#karte">Termin buchen</a></p>
@@ -583,8 +585,8 @@ a.photo{transition:transform .3s var(--ease)}
 
 /* end */
 .end{padding:3rem 0 2.5rem;border-top:1px solid var(--line)}
-.end-grid{display:grid;grid-template-columns:96px 1fr;gap:1.2rem;align-items:start}
-.end-art{width:96px}
+.end-grid{display:grid;grid-template-columns:120px 1fr;gap:1.2rem;align-items:center}
+.end-art{width:120px}
 .bye{font:600 2rem/1.1 var(--hand);margin-bottom:.8rem}
 address{font-style:normal;overflow-wrap:anywhere;margin-top:1.2rem;color:var(--ink-2)}
 .proto{margin-top:1.4rem;font-size:1rem;color:var(--ink-2)}
@@ -617,7 +619,7 @@ address{font-style:normal;overflow-wrap:anywhere;margin-top:1.2rem;color:var(--i
   .photo.room{margin-top:-3.5rem;justify-self:start;width:56%}
   .portrait{width:36%;margin-left:2.5rem}
   .gift{grid-template-columns:120px 1fr}.gift-art{width:120px}
-  .end-grid{grid-template-columns:150px 1fr}.end-art{width:150px}
+  .end-grid{grid-template-columns:210px 1fr}.end-art{width:210px}
 }
 @media (min-width:1000px){
   .hero{padding-block:3.5rem 2rem}
