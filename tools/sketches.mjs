@@ -212,9 +212,10 @@ function lying(s, headX, top) {
   s.line([[headX + r * .9, hy + 8], [sx, b - 16]]);                                                       // neck
   s.line([[sx, b], [sx - 2, b - 30], [hx, b - 28], [hx + 2, b], [sx, b]], { fill: '#fff' });              // back (opaque)
   s.line([[sx + 6, b - 16], [sx + 50, b - 13], [sx + 92, b - 12]], { w: .9 });                             // arm along the body
-  s.line([[hx, b - 6], [hx + 110, b - 6]], { straight: true });                                            // legs
-  s.line([[hx, b - 20], [hx + 106, b - 18]], { straight: true });
-  s.line([[hx + 110, b - 6], [hx + 118, b - 20]], { w: 1.3 }).line([[hx + 106, b - 18], [hx + 113, b - 32]], { w: 1.3 }); // soles up
+  s.line([[hx, b - 10], [hx + 108, b - 10]], { straight: true });                                           // legs
+  s.line([[hx, b - 22], [hx + 104, b - 21]], { straight: true });
+  // face down: the ankles stretch, so the feet point down to the table (toes on the table, soles to the back)
+  s.line([[hx + 108, b - 10], [hx + 121, b + 1]], { w: 1.3 }).line([[hx + 104, b - 21], [hx + 118, b - 10]], { w: 1.3 });
 }
 // small energy marks: three short arcs fanning out from a point
 function sparkle(s, c, k = 1, a0 = -2.4, a1 = -.7) {
