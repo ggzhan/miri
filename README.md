@@ -1,6 +1,6 @@
-# Miri's Massage & Polarity – website
+# Miriam Pimputkar – Massage & Polarity – website
 
-One-page website for Miri's Massage & Polarity (Winterthur). Mobile-first, static HTML (every word is in
+One-page website for Miriam Pimputkar – Massage & Polarity (Winterthur). Mobile-first, static HTML (every word is in
 the page source for Google and AI search), schema.org `HealthAndBeautyBusiness` + `FAQPage` data.
 
 **Preview:** https://ggzhan.github.io/miri/

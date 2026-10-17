@@ -1,4 +1,4 @@
-// Renders the Miri's Massage & Polarity one-page site to static HTML (index.html),
+// Renders the Miriam Pimputkar – Massage & Polarity one-page site to static HTML (index.html),
 // so every word is in the HTML source for Google and AI crawlers.
 // Run: node build.mjs            preview build (noindex) — what GitHub Pages serves
 //      LAUNCH=1 node build.mjs   launch build (indexable)
@@ -11,7 +11,8 @@ import { writeFileSync } from 'node:fs';
    from "Sie" to "du" to match the rest, and obvious typos are fixed.
    ===================================================================== */
 const C = {
-  name: "Miri's Massage & Polarity",
+  name: 'Miriam Pimputkar – Massage & Polarity',
+  formerNames: ["Miri's Massage & Polarity", "Miri's Klassische Massage"],   // older names (booking page, Google Maps) stay findable
   person: 'Miriam Pimputkar',
   book: 'https://mirismassage.as.me/',
   email: 'mirismassage@gmail.com',
@@ -197,7 +198,7 @@ const C = {
 
 // Questions people (and AI search) actually ask — every answer is a fact from the sources above.
 const FAQ = [
-  ['Was kostet eine Massage in Winterthur bei Miri’s Massage?', `Eine Klassische Massage kostet 50 CHF (30 min) oder 100 CHF (60 min), eine Ganzheitliche Massage 110 CHF, eine Hawaiianische Ganzkörpermassage 180 CHF (90 min) und eine Polaritybehandlung 88 CHF pro Stunde. Deine erste Massage bekommst du als Kennenlern-Angebot für 80 CHF, die erste Hawaiianische Massage für 140 CHF; bei der ersten Polaritybehandlung entscheidest du selbst, wie viel sie dir wert ist.`],
+  ['Was kostet eine Massage in Winterthur bei Miriam Pimputkar?', `Eine Klassische Massage kostet 50 CHF (30 min) oder 100 CHF (60 min), eine Ganzheitliche Massage 110 CHF, eine Hawaiianische Ganzkörpermassage 180 CHF (90 min) und eine Polaritybehandlung 88 CHF pro Stunde. Deine erste Massage bekommst du als Kennenlern-Angebot für 80 CHF, die erste Hawaiianische Massage für 140 CHF; bei der ersten Polaritybehandlung entscheidest du selbst, wie viel sie dir wert ist.`],
   ['Wann ist die Praxis geöffnet?', `Praxistage sind ${C.hours.days}, jeweils ${C.hours.time}. Termine buchst du bequem online.`],
   ['Wo befindet sich die Praxis?', `An der Münzgasse 2 in 8400 Winterthur, im 4. Stock. Ein Lift ist vorhanden.`],
   ['Wie kann ich bezahlen?', `Vor Ort mit ${C.pay}.`],
@@ -282,7 +283,7 @@ const SITE = 'https://www.example.ch/';
 // Preview builds (the default) are hidden from search engines,
 // so the shared GitHub Pages copy never competes with the real site. Launch build: LAUNCH=1 node build.mjs
 const PREVIEW = process.env.LAUNCH !== '1';
-const TITLE = "Massage & Polarity in Winterthur – Klassische, Ganzheitliche & Hawaiianische Massage | Miri's Massage";
+const TITLE = 'Massage & Polarity in Winterthur | Miriam Pimputkar';
 const DESC = 'Klassische Massage (100 CHF), Ganzheitliche Massage, Hawaiianische Ganzkörpermassage und Polarity in Winterthur, Münzgasse 2. Mi & Fr 10–20 Uhr. Erste Massage 80 CHF. Termin online buchen.';
 const jsonLd = [
   {
@@ -290,6 +291,7 @@ const jsonLd = [
     '@type': 'HealthAndBeautyBusiness',
     '@id': `${SITE}#praxis`,
     name: C.name,
+    alternateName: C.formerNames,
     description: `${C.tagline}. ${C.claim}. ${C.intro}`,
     slogan: C.claim,
     url: SITE,
@@ -551,7 +553,7 @@ function site() {
   </main>
 
   <footer class="site-footer"><div class="container">
-    <div><h3>${C.name}</h3><address style="font-style:normal">${C.person}<br>${C.address.join('<br>')}<br>${F.hours()}<br>${mail}</address></div>
+    <div><h3>${C.person}</h3><address style="font-style:normal">Massage &amp; Polarity<br>${C.address.join('<br>')}<br>${F.hours()}<br>${mail}</address></div>
     <nav aria-label="Fussmenü"><h3>Seiten</h3><ul>${NAV.map(([id, l]) => `<li><a href="#${id}">${l}</a></li>`).join('')}<li><a href="#fragen">Häufige Fragen</a></li></ul></nav>
     <div><h3>Angebot</h3><ul>${C.services.map(s => `<li><a href="#${s.id}">${s.n}</a></li>`).join('')}</ul></div>
   </div></footer>`;
