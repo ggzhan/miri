@@ -1,0 +1,33 @@
+<!doctype html>
+<!-- PROTOTYPE — throwaway overview of the design variants. ?variant=A…E jumps straight to one. -->
+<html lang="de-CH"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Miri's Massage – Designvorschläge</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Kalam:wght@300;400;700&family=Patrick+Hand&family=Gaegu:wght@400;700&family=Shadows+Into+Light&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+const f = {"A":"variant-a.html","B":"variant-b.html","C":"variant-c.html","D":"variant-d.html","E":"variant-e.html"};
+const k = new URLSearchParams(location.search).get('variant'); if (k && f[k.toUpperCase()]) location.replace(f[k.toUpperCase()]);
+</script>
+<style>
+  body { margin: 0; background: #fdfcf7 repeating-linear-gradient(#fdfcf7 0 31px, #d6e2f1 31px 32px); color: #23262e; font: 18px/1.5 "Kalam", cursive; }
+  main { max-width: 640px; margin: 0 auto; padding: 40px 18px 60px; }
+  h1 { font: 700 44px/1.05 "Caveat"; color: #1f4fd1; margin: 0 0 8px; }
+  img { width: 120px; mix-blend-mode: multiply; }
+  ol { list-style: none; padding: 0; margin: 24px 0; display: grid; gap: 12px; }
+  a { display: flex; gap: 14px; align-items: center; min-height: 64px; padding: 10px 16px; background: #fff; border: 2.5px solid #23262e;
+      border-radius: 14px 6px 12px 5px / 6px 12px 5px 14px; color: inherit; text-decoration: none; box-shadow: 4px 4px 0 #23262e; }
+  a:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #23262e; }
+  b { font: 700 30px "Caveat"; min-width: 28px; color: #d23a2a; }
+  span { display: block; font-size: 15px; color: #5b6170; }
+</style></head><body><main>
+<img src="img/jump.jpg" alt="" width="378" height="336">
+<h1>Miri's Massage &amp; Polarity – Designvorschläge</h1>
+<p>Fünf Entwürfe mit denselben Texten und Zeichnungen. Am besten auf dem Handy anschauen; mit der Leiste unten wechselst du zwischen den Varianten.</p>
+<ol>
+<li><a href="variant-a.html"><b>A</b><div>Notizheft<span>Liniertes Schulheft mit Randnotizen</span></div></a></li>
+<li><a href="variant-b.html"><b>B</b><div>Comic-Strip<span>Die Geschichte als Comic auf Karopapier</span></div></a></li>
+<li><a href="variant-c.html"><b>C</b><div>Pinnwand<span>Papierschnipsel, Polaroids und Klebeband</span></div></a></li>
+<li><a href="variant-d.html"><b>D</b><div>Skizzenbuch<span>Skizzenbuch mit Registerreitern zum Blättern</span></div></a></li>
+<li><a href="variant-e.html"><b>E</b><div>Standard + Skizzen<span>Klassische Praxis-Website, Zeichnungen als Illustration</span></div></a></li>
+</ol>
+</main></body></html>
