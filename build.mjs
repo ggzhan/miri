@@ -392,10 +392,10 @@ cal.querySelector('.back').addEventListener('click', () => { frame.innerHTML = '
 function site() {
   return `
   <header class="site-header has-toggle"><div class="container">
-    <a class="brand" href="#willkommen">${img('massage', { deco: true, eager: true })}<span>Miri's Massage <small>& Polarity</small></span></a>
+    <a class="brand" href="#willkommen">${img('massage', { deco: true, eager: true })}<span>Miriam Pimputkar <small>Massage &amp; Polarity</small></span></a>
     <button class="menu-toggle" aria-expanded="false" aria-controls="menu" aria-label="Menü öffnen"><span></span></button>
     <nav aria-label="Hauptmenü" style="display:contents">${navList()}</nav>
-    <a class="btn btn-primary" href="#buchen">Termin buchen</a>
+    <a class="btn btn-primary" href="#buchen" aria-label="Termin buchen"><span class="long">Termin buchen</span><span class="short" aria-hidden="true">Buchen</span></a>
   </div></header>
 
   <main id="inhalt">

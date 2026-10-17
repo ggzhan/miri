@@ -45,7 +45,8 @@ p { margin: 0 0 1em; }
 .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); font: 600 19px "Fraunces"; }
 .brand img { height: 64px; width: auto; flex: none; }  /* the drawing is a wide scene: size it by height */
 .brand span { line-height: 1.15; white-space: nowrap; }
-.brand small { display: block; font-size: 14px; color: var(--muted); }
+.brand small { display: block; font-size: 14px; color: var(--muted); white-space: nowrap; }
+.site-header .btn .short { display: none; }
 .navlist { list-style: none; margin: 0 0 0 auto; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 22px; font-weight: 500; font-size: 15px; }
 .navlist a { text-decoration: none; color: var(--muted); padding: 6px 0; border-bottom: 2px solid transparent; }
 .navlist a:hover, .navlist a[aria-current] { color: var(--ink); border-color: var(--amber); }
@@ -289,4 +290,10 @@ details[open] > summary::before { content: "–"; }
   .paper::before, .paper::after { width: 84px; height: 24px; top: -12px; }
   .types { grid-template-columns: 1fr; }
   .cal-frame iframe { min-height: 760px; }
+}
+@media (max-width: 430px) {
+  /* phones: shorter header button so the name and subtitle fit next to it */
+  .site-header .btn .long { display: none; }
+  .site-header .btn .short { display: inline; }
+  .brand small { font-size: 12.5px; }
 }
