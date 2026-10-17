@@ -32,7 +32,7 @@ const C = {
       { id: '39957683', n: 'Klassische Massage', t: '60 min', p: '100 CHF', art: 'massage' },
       { id: '79868943', n: 'Ganzheitliche Massage', t: '60 min', p: '110 CHF', art: 'fuesse' },
       { id: '92469297', n: 'Hawaiianische Ganzkörpermassage', t: '90 min', p: '180 CHF', art: 'hawaii' },
-      { id: '86048501', n: 'Polaritybehandlung', t: '60 min', p: '88 CHF', art: 'polarity' },
+      { id: '86048501', n: 'Polaritybehandlung', t: '60 min', p: '88 CHF', art: 'gespraech' },
     ],
   },
 
@@ -220,7 +220,6 @@ const IMG = {
   run: ['sketches/run.svg', 'Strichmännchen tanzt und bewegt sich frei', 1495, 1721],
   // drawn with the Miri model in tools/sketches.mjs
   gespraech: ['sketches/gespraech.svg', 'Miri im begleitenden Gespräch mit einer Klientin, beide sitzen auf Stühlen', 640, 400],
-  polarity: ['sketches/polarity.svg', 'Miri gibt eine Polaritybehandlung und hält sanft den Kopf der liegenden Person', 640, 400],
   fuesse: ['sketches/fuesse.svg', 'Miri massiert die Füsse einer liegenden Person (Reflexzonen)', 640, 400],
   hawaii: ['sketches/hawaii.svg', 'Miri gibt eine hawaiianische Ganzkörpermassage mit langen, fliessenden Streichungen', 640, 400],
   yoga: ['sketches/yoga.svg', 'Miri macht Yoga in der Baumhaltung', 360, 420],
@@ -429,7 +428,7 @@ function site() {
         <h2>Mein Angebot</h2>
         <p class="lead">${C.offerIntro}</p>
       </div>
-      <div class="cards">${C.services.map(s => `<article class="card" id="${s.id}">${img({ klassisch: 'massage', ganzheitlich: 'fuesse', 'polarity-behandlung': 'polarity', hawaiianisch: 'hawaii' }[s.id], { cls: 'card-art' })}<div class="card-top"><span class="dur">${s.t}</span>${s.p ? `<span class="price">${s.p}</span>` : ''}</div><h3>${s.n}</h3>${s.alt ? `<p class="alt">${s.alt}</p>` : ''}<p>${s.d}</p>${F.more(s)}${bookLink(s.book, `${s.n} buchen →`)}</article>`).join('')}</div>
+      <div class="cards">${C.services.map(s => `<article class="card" id="${s.id}">${img({ klassisch: 'massage', ganzheitlich: 'fuesse', 'polarity-behandlung': 'gespraech', hawaiianisch: 'hawaii' }[s.id], { cls: 'card-art' })}<div class="card-top"><span class="dur">${s.t}</span>${s.p ? `<span class="price">${s.p}</span>` : ''}</div><h3>${s.n}</h3>${s.alt ? `<p class="alt">${s.alt}</p>` : ''}<p>${s.d}</p>${F.more(s)}${bookLink(s.book, `${s.n} buchen →`)}</article>`).join('')}</div>
       <div class="extras"><h3>Ergänzende Behandlungen</h3><ul>${C.extras.map(e => `<li>${e}</li>`).join('')}</ul></div>
       <p class="center" style="margin-top:28px;color:var(--muted)">${C.relief}</p>
     </div></section>

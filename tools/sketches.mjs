@@ -204,8 +204,10 @@ function stool(s, x, seatY, floorY) {
 function lying(s, headX, top) {
   const r = 24, hy = top - r * .96 - 3, h = [headX, hy];
   s.ellipse(h, r * 1.04, r * .96);
-  s.line([[h[0] - r * .52, h[1] - r * .14], [h[0] - r * .36, h[1] + r * .02], [h[0] - r * .16, h[1] - r * .06]], { w: .75, wob: .25 });   // closed eye
-  s.line([[h[0] + r * .16, h[1] + r * .02], [h[0] + r * .34, h[1] + r * .3], [h[0] + r * .16, h[1] + r * .56]], { w: .85, wob: .3 });    // smile
+  // features copied from the original (mirrored, since the head is on the left): the eye is a short
+  // stroke that hooks down at its end, the mouth a tall arc in the lower face on the body side
+  s.line([[h[0] - r * .14, h[1] + r * .06], [h[0] - r * .34, h[1] + r * .02], [h[0] - r * .5, h[1] + r * .12], [h[0] - r * .56, h[1] + r * .26]], { w: .85, wob: .2 });
+  s.line([[h[0] + r * .3, h[1] - r * .04], [h[0] + r * .43, h[1] + r * .34], [h[0] + r * .32, h[1] + r * .64], [h[0] + r * .1, h[1] + r * .76]], { w: 1, wob: .2 });
   const sx = headX + r + 12, hx = sx + 96, b = top - 3;
   s.line([[headX + r * .9, hy + 8], [sx, b - 16]]);                                                       // neck
   s.line([[sx, b], [sx - 2, b - 30], [hx, b - 28], [hx + 2, b], [sx, b]], { fill: '#fff' });              // back (opaque)
@@ -266,24 +268,6 @@ const scenes = {
     bubble(s, [322, 92], 34, 26, [410, 132]);
     heart(s, [322, 94], 1.1);
     return s.svg('Miri im begleitenden Gespräch mit einer Klientin, beide sitzen auf Stühlen');
-  },
-
-  // Polarity: Miri sits at the head end, hands gently cradling the head
-  polarity() {
-    const s = new Sketch(640, 400), F = 378, top = 262;
-    floor(s, 30, 610, F);
-    table(s, 236, 556, top, F);
-    lying(s, 268, top);
-    stool(s, 150, 300, F);
-    miri(s, {
-      head: [154, 150], face: 'right', neck: [156, 198],
-      sh: [[140, 206], [172, 206]], hip: [[136, 292], [170, 292]],
-      arms: [[[168, 214], [196, 246], [228, 236]], [[146, 214], [176, 254], [230, 254]]],
-      legs: [{ c: [[150, 284], [212, 288], [216, 368]], w0: 12, w1: 15, foot: [[218, 377], [240, 377]] }],
-    });
-    sparkle(s, [262, 206], 1.1, -2.7, -1.1);
-    plant(s, 596, F - 2, 66);
-    return s.svg('Miri gibt eine Polaritybehandlung: sie sitzt am Kopfende und hält sanft den Kopf der liegenden Person');
   },
 
   // Ganzheitliche Massage / Reflexzonen: Miri sits at the foot end and holds the feet
