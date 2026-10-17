@@ -105,7 +105,6 @@ const IMG = {
   stressed: ['../img/sketches/stressed.svg', 'Strichmännchen mit Verspannungen und Kopfschmerzen hält sich den Kopf', 1148, 2183],
   stretch: ['../img/sketches/stretch.svg', 'Entspanntes Strichmännchen streckt sich', 1625, 2413],
   jump: ['../img/sketches/jump.svg', 'Fröhliches Strichmännchen springt vor Freude', 1700, 1502],
-  feelgood: ['img/feelgood.svg', 'Strichmännchen fühlt sich grossartig: Arme in die Höhe, breites Lächeln', 360, 460],
   winken: ['img/winken.svg', 'Miri winkt zum Abschied, eine Hand auf dem Herzen', 320, 420],
   run: ['../img/sketches/run.svg', 'Strichmännchen tanzt und bewegt sich frei', 1495, 1721],
   // stroke drawings: copied into kompakt/img with a heavier pen so they match the traced ones
@@ -124,7 +123,7 @@ const IMG = {
 
 // heavier pen for the generated stroke drawings (5 → 9 units in a 360–640 wide viewBox)
 mkdirSync(here('img/'), { recursive: true });
-for (const k of ['gespraech', 'fuesse', 'hawaii', 'yoga', 'gutschein', 'termin', 'kontakt', 'feelgood', 'winken']) {
+for (const k of ['gespraech', 'fuesse', 'hawaii', 'yoga', 'gutschein', 'termin', 'kontakt', 'winken']) {
   const svg = readFileSync(here(`../img/sketches/${k}.svg`), 'utf8').replace(/stroke-width="5"/g, 'stroke-width="8.5"');
   writeFileSync(here(`img/${k}.svg`), svg);
 }
@@ -235,7 +234,7 @@ const body = () => `
       <figure class="hero-art" aria-label="Zeichnung: vom verspannten zum fröhlich springenden Strichmännchen">
         ${img('stressed', { deco: true, eager: true, cls: 'a1' })}
         ${arrow('arrow a2')}
-        ${img('feelgood', { deco: true, eager: true, cls: 'a3' })}
+        ${img('stretch', { deco: true, eager: true, cls: 'a3' })}
         <figcaption class="hand">${C.motto}</figcaption>
       </figure>
     </div>
