@@ -415,7 +415,7 @@ function site() {
       </div>
       <div class="hero-media">
         ${img('miriam', { cls: 'photo', eager: true })}
-        ${img('jump', { cls: 'doodle', deco: true, eager: true })}
+        <span class="doodle">${img('jump', { deco: true, eager: true })}</span>
       </div>
     </div></section>
 
