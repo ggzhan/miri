@@ -367,6 +367,91 @@ const scenes = {
     return s.svg('Miri winkt zum Abschied, eine Hand auf dem Herzen');
   },
 
+  // Start page: your first visit — a client comes through the door, Miri welcomes them, the table waits
+  besuch() {
+    const s = new Sketch(640, 400), F = 378;
+    floor(s, 20, 620, F);
+    // open door on the left: frame, the leaf swung towards us, a handle
+    s.line([[40, F], [40, 96], [138, 96], [138, F]], { straight: true });
+    s.line([[40, 96], [14, 78], [14, F + 10], [40, F]], { straight: true, fill: '#fff' });
+    s.ellipse([22, 240], 3.5, 4.5, { fill: true, w: .6 });
+    table(s, 486, 610, 262, F);
+    // client stepping in, waving
+    person(s, {
+      head: [196, 152], face: 'right', mouth: 'smile', neck: [194, 198],
+      sh: [[180, 206], [210, 206]], hip: [[182, 290], [210, 290]],
+      arms: [[[208, 212], [232, 182], [240, 146]], [[184, 214], [176, 254], [184, 288]]],
+      legs: [[[188, 290], [174, 334], [164, 374], [184, 376]], [[202, 290], [220, 332], [232, 372], [252, 376]]],
+    });
+    for (const [a, b] of [[[250, 150], [262, 144]], [[248, 128], [258, 116]]]) s.line([a, b], { w: .8 });
+    // Miri, open arms
+    const cx = 392;
+    miriStanding(s, cx, F, sh => [[sh[0], [cx - 58, 196], [cx - 92, 176]], [sh[1], [cx + 58, 196], [cx + 92, 176]]]);
+    bubble(s, [304, 70], 34, 26, [366, 104]);
+    heart(s, [304, 72], 1.1);
+    plant(s, 466, F - 2, 64);
+    return s.svg('Dein erster Besuch: Miri begrüsst eine Klientin an der Tür ihrer Praxis, die Massageliege steht bereit');
+  },
+
+  // Angebot: Miri next to the table, oil bottle in one hand, the other inviting you onto the table
+  angebot() {
+    const s = new Sketch(640, 400), F = 378;
+    floor(s, 30, 610, F);
+    table(s, 250, 560, 262, F);
+    // folded towels and a small bowl on the table
+    s.line([[452, 262], [452, 240], [538, 240], [538, 262]], { straight: true, fill: '#fff' });
+    s.line([[458, 240], [458, 222], [532, 222], [532, 240]], { straight: true, fill: '#fff' });
+    s.line([[300, 262], [304, 248], [340, 248], [344, 262]], { w: .9 });
+    const cx = 160;
+    miriStanding(s, cx, F, sh => [[sh[0], [cx - 46, 220], [cx - 52, 182]], [sh[1], [cx + 58, 214], [cx + 108, 222]]]);
+    // oil bottle in the raised left hand
+    s.line([[cx - 66, 176], [cx - 66, 128], [cx - 38, 128], [cx - 38, 176], [cx - 66, 176]], { straight: true, fill: '#fff' });
+    s.line([[cx - 58, 128], [cx - 58, 112], [cx - 46, 112], [cx - 46, 128]], { w: .9 });
+    s.ellipse([cx - 52, 174], 9, 6, { fill: true, w: .6 });
+    for (const [x, y] of [[cx - 52, 96], [cx - 40, 88]]) s.ellipse([x, y], 3.5, 4.5, { w: .7 });
+    sparkle(s, [262, 236], .8, -2.6, -1.2);
+    plant(s, 596, F - 2, 64);
+    return s.svg('Miri steht neben der Massageliege, hält eine Flasche Massageöl und lädt dich ein, dich hinzulegen');
+  },
+
+  // Polarity: the client sits on a stool, Miri stands behind and rests her hands on the head
+  polarity() {
+    const s = new Sketch(480, 420), F = 400;
+    floor(s, 40, 440, F);
+    stool(s, 200, 300, F);
+    person(s, {
+      head: [200, 172], face: 'front', mouth: 'smile', eyes: 'closed', neck: [200, 218],
+      sh: [[180, 226], [220, 226]], hip: [[184, 296], [216, 296]],
+      arms: [[[182, 234], [176, 270], [190, 294]], [[218, 234], [224, 270], [210, 294]]],
+      legs: [[[190, 300], [176, 350], [174, 396], [158, 398]], [[210, 300], [224, 350], [226, 396], [242, 398]]],
+    });
+    // Miri behind, a little to the right, both mitten hands on the client's head
+    miri(s, {
+      head: [286, 100], face: 'left', mouth: 'smile', neck: [288, 146],
+      sh: [[270, 154], [304, 154]], hip: [[272, 246], [306, 246]],
+      arms: [[[274, 162], [246, 150], [212, 136]], [[300, 164], [262, 188], [230, 164]]],
+      legs: [
+        { c: [[280, 244], [276, 320], [272, 388]], w0: 12, w1: 16, foot: [[268, 397], [246, 397]] },
+        { c: [[298, 244], [304, 320], [308, 388]], w0: 12, w1: 16, foot: [[306, 397], [284, 397]] },
+      ],
+    });
+    sparkle(s, [200, 116], 1.1, -2.7, -.45);
+    waves(s, 330, 420, 240, 6, 3);
+    waves(s, 340, 430, 268, 5, 3);
+    plant(s, 418, F - 2, 66);
+    return s.svg('Polarity: eine Klientin sitzt entspannt auf einem Hocker, Miri steht hinter ihr und legt ihr die Hände auf den Kopf');
+  },
+
+  // Häufige Fragen: Miri thinking, scratching her head, question marks around her
+  fragen() {
+    const s = new Sketch(360, 420), F = 400, cx = 170;
+    miriStanding(s, cx, F, sh => [[sh[0], [cx - 46, 230], [cx - 60, 270]], [sh[1], [cx + 74, 168], [cx + 40, 112]]]);
+    // question marks: a hook and a dot
+    const q = (x, y, k) => { s.line([[x - 12 * k, y - 10 * k], [x - 8 * k, y - 22 * k], [x + 4 * k, y - 26 * k], [x + 14 * k, y - 18 * k], [x + 12 * k, y - 6 * k], [x, y + 2 * k], [x, y + 12 * k]], { w: .9, wob: .3 }); s.ellipse([x, y + 24 * k], 3.2 * k, 3.2 * k, { fill: true, w: .5 }); };
+    q(262, 96, 1.4); q(298, 160, 1); q(78, 108, 1.05);
+    return s.svg('Miri überlegt und kratzt sich am Kopf, umgeben von Fragezeichen');
+  },
+
   // Kontakt: Miri waves, a letter in the other hand
   kontakt() {
     const s = new Sketch(360, 420), F = 400, cx = 170;

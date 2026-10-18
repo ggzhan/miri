@@ -39,7 +39,7 @@
 
     <section class="page-hero has-art"><div class="container">
       <div class="ph-text"><h1>Polarity</h1><p class="lead">Die erste Polaritybehandlung beinhaltet ein ausführliches Vorgespräch, bei Bedarf eine Haltungsanalyse sowie eine manuelle Behandlung auf der Liege. <b>60 Minuten, 88 CHF / Std. (Ausbildungstarif). Die erste Behandlung dauert 90 Minuten – den Preis bestimmst du selbst.</b></p></div>
-      <div class="ph-art"><img src="../img/sketches/stretch.svg" alt="" width="1625" height="2413" loading="lazy"></div>
+      <div class="ph-art"><img src="../img/sketches/polarity.svg" alt="" width="480" height="420" loading="lazy"></div>
     </div></section>
     <section class="session"><div class="container">
       <h2>So läuft eine Polaritybehandlung ab</h2>
@@ -76,13 +76,23 @@
 <script>
 // mobile menu: the icon turns into a cross, the label says what the button does
 const header = document.querySelector('.site-header'), toggle = header.querySelector('.menu-toggle');
-toggle.addEventListener('click', () => {
-  const open = header.classList.toggle('open');
+const setMenu = open => {
+  header.classList.toggle('open', open);
   toggle.setAttribute('aria-expanded', open); toggle.setAttribute('aria-label', open ? 'Menü schliessen' : 'Menü öffnen');
-});
-// on phones a booking button sits in thumb reach once the header one has scrolled away
+};
+toggle.addEventListener('click', () => setMenu(!header.classList.contains('open')));
+// it closes again with Escape, a tap outside the header, or a link (Kontakt only scrolls this page)
+addEventListener('keydown', e => { if (e.key === 'Escape' && header.classList.contains('open')) { setMenu(false); toggle.focus(); } });
+addEventListener('click', e => { if (header.classList.contains('open') && (!header.contains(e.target) || e.target.closest('#menu a'))) setMenu(false); });
+// on phones a booking button sits in thumb reach once the header one has scrolled away,
+// and steps aside while another booking button (or the footer) is on screen
 const fb = document.querySelector('.float-book');
-if (fb) addEventListener('scroll', () => fb.classList.toggle('show', scrollY > 480), { passive: true });
+if (fb) {
+  const inView = new Set(), update = () => fb.classList.toggle('show', scrollY > 480 && !inView.size);
+  const io = new IntersectionObserver(es => { for (const e of es) e.isIntersecting ? inView.add(e.target) : inView.delete(e.target); update(); });
+  document.querySelectorAll('main .btn-primary, .cta-band .btn, .site-footer').forEach(el => io.observe(el));
+  addEventListener('scroll', update, { passive: true });
+}
 
 </script>
 </body>

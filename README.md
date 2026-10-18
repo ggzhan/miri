@@ -28,7 +28,8 @@ a few fold-outs. Own generator: `node kompakt/build.mjs` (content copied from th
   They scale to any size, have transparent backgrounds and use `fill="currentColor"`, so inlined they take the text colour.
 - `tools/sketches.mjs` – a stick-figure model of Miri (bun, hair strands, happy eyes, wide trousers, mitten hands),
   other people, props (chair, table, stool, plant) and the scenes drawn with them. `node tools/sketches.mjs`
-  regenerates `gespraech`, `polarity`, `fuesse`, `hawaii`, `yoga`, `gutschein`, `termin` and `kontakt`.svg;
+  regenerates `gespraech`, `fuesse`, `hawaii`, `yoga`, `gutschein`, `termin`, `winken`, `kontakt` and the page-header scenes
+  `besuch` (start page: your first visit), `angebot`, `polarity` and `fragen` (FAQ);
   to add a scene, pose the figures in a new function in `scenes`.
 - `img/og-image.jpg` – link-preview image (social networks don't accept SVG there).
 
@@ -41,7 +42,8 @@ No Acuity API key is used or needed — never commit one.
 
 Acuity settings to change (Miri's account, not code):
 - **Scheduling page description:** Acuity shows the long business description above every calendar, also embedded.
-  Shorten it to one line — the website now carries that content.
+  Shorten it to one line — the website now carries that content. Then delete `calHint` in `build.mjs` (the line above the calendar that
+  says the free times follow below the welcome text).
 - **Colours:** set the scheduling page colour to the site amber (`#c57f08`) so the calendar matches.
 
 ## Build
