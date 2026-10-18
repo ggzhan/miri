@@ -263,7 +263,6 @@ const F = {
   // expandable details for a service: real text, collapsed so phones aren't flooded
   more: (s, summary = 'Details') => `<details class="more"><summary>${summary}</summary>${s.more.map(p => `<p>${p}</p>`).join('')}</details>`,
   // one price list, built from the same booking types as the picker; every row links to its calendar
-  priceGroup: list => `<dl class="prices">${list.map(t => `<div><dt><a href="${url('buchen')}?typ=${t.id}">${t.n}</a> <span class="t">${t.t}</span></dt><dd>${t.p}${t.was ? ` <span class="was">statt <s>${t.was}</s></span>` : ''}<span class="go" aria-hidden="true">buchen →</span></dd></div>`).join('')}</dl>`,
   polarityNote: () => `<p class="note">${C.prices.polarityNote}</p>`,
   terms: () => `<dl class="prices terms">${C.prices.terms.map(([k, v]) => `<div><dt>${k}</dt><dd>${v === 'GUTSCHEIN_LINK' ? `<a href="${url('angebot')}#gutschein">Gutschein bestellen</a>` : v}</dd></div>`).join('')}</dl>`,
   // five drawn stars (an authored icon instead of a ★ glyph)
@@ -502,28 +501,19 @@ if (old) location.replace(old);`,
     <section><div class="container">
       <h2 class="sr">Behandlungen</h2>
       <p class="difference sheet">${C.difference}</p>
-      <div class="cards">${C.services.map(serviceCard).join('')}</div>
+      <div class="cards" id="preise">${C.services.map(serviceCard).join('')}</div>
       <div class="extras"><h2 class="h3">Ergänzende Behandlungen</h2><ul>${C.extras.map(e => `<li>${e}</li>`).join('')}</ul></div>
       <p class="center relief">${C.relief}</p>
     </div></section>
 
-    <section class="alt" id="preise"><div class="container">
-      <div class="center"><h2>Preise</h2><p class="lead">${C.prices.intro}</p></div>
-      <div class="twocol">
-      <div class="menu-card sheet">
-        <h2 class="h3">Dein erster Besuch</h2>
-        ${F.priceGroup(C.booking.first)}
-        <h2 class="h3">Weitere Termine</h2>
-        ${F.priceGroup(C.booking.regular)}
-        ${F.polarityNote()}
-      </div>
+    <section class="alt" id="konditionen"><div class="container twocol">
       <div>
-        <h2 class="h3">Zahlung und Konditionen</h2>
+        <h2>Gut zu wissen</h2>
         ${F.terms()}
         <p>${C.prices.cancel}</p>
-        <div class="social-box"><h3>Soziales Entgegenkommen</h3><p>${C.prices.social} ${mail}</p></div>
+        ${F.polarityNote()}
       </div>
-    </div>
+      <div class="social-box"><h3>Soziales Entgegenkommen</h3><p>${C.prices.social} ${mail}</p></div>
     </div></section>
 
     <section id="gutschein"><div class="container gift">
@@ -531,7 +521,7 @@ if (old) location.replace(old);`,
         ${img('geschenk', { cls: 'sketch', deco: true })}
         <h2>${C.gift.title}</h2>
         ${F.gift()}
-        <p>Die Preise der Behandlungen findest du <a href="#preise">weiter oben</a>.</p>
+        <p>Die Preise der Behandlungen findest du <a href="#preise">bei den Behandlungen</a>.</p>
         <a class="btn btn-primary" href="${giftMail}">Gutschein per E-Mail bestellen</a>
       </div>
       <div class="gift-imgs">${img('giftFront')}${img('giftBack')}</div>

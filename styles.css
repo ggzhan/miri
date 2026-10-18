@@ -329,12 +329,8 @@ h2.h3 { color: var(--amber-dark); }
 .relief { margin-top: 28px; color: var(--muted); max-width: 760px; margin-inline: auto; }
 
 /* prices: same two groups as the picker, every row links to its calendar */
-.prices dt a { color: var(--ink); text-decoration: none; font-weight: 500; }
-.prices dt a:hover { color: var(--amber-dark); text-decoration: underline; }
 .prices .t { color: var(--muted); font-size: 14px; white-space: nowrap; }
 .prices s, .slot s { color: var(--muted); font-weight: 400; font-size: .85em; text-decoration-color: var(--rust); }
-.twocol > div > h2.h3 + .prices { margin-top: 0; }
-.twocol > div > .prices + h2.h3 { margin-top: 28px; }
 
 /* booking page */
 .assure { list-style: none; padding: 0; margin: 0 auto 6px; max-width: 920px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 26px; color: var(--text); font-size: 15px; }
@@ -425,13 +421,7 @@ h2.h3 { color: var(--amber-dark); }
 .steps h3 { font-size: 20px; }
 .steps p { color: var(--text); font-size: 16px; margin: 0; }
 
-/* Preise: a drawn menu card */
-.menu-card { padding: 30px 30px 22px; }
-.menu-card .prices > div { border-bottom: 1.5px dashed #d9cfbf; min-height: 44px; }
-.prices dd .go { display: block; font-size: 13px; font-weight: 600; color: var(--amber-dark); }
-.prices dt a::after { content: ""; position: absolute; inset: 0; }   /* the whole row is the tap target */
-.prices > div { position: relative; }
-.prices > div:hover { background: var(--soft); }
+/* Preise: a drawn menu card */   /* the whole row is the tap target */
 .was { display: block; font-weight: 400; font-size: 13px; color: var(--muted); }
 .was s { text-decoration-color: var(--rust); }
 
@@ -479,7 +469,6 @@ h2.h3 { color: var(--amber-dark); }
   .pick-cards { grid-template-columns: minmax(0, 1fr); }
   .pc { grid-template-columns: 84px minmax(0, 1fr); padding: 16px; }
   .pc-art { width: 84px; height: 64px; }
-  .menu-card { padding: 22px 18px 14px; }
   .card.sheet { padding: 22px; }
 
   /* the floating button replaces the header button while it is visible, and never covers text */
@@ -502,3 +491,6 @@ h2.h3 { color: var(--amber-dark); }
   .signposts a { font-size: 16px; padding: 12px 6px; }
   .signposts img { height: 84px; }
 }
+
+#konditionen .social-box { margin-top: 0; align-self: start; }
+#konditionen .note { color: var(--muted); }
