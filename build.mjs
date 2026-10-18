@@ -127,7 +127,6 @@ const C = {
     polarityNote: 'Polarity: 88 CHF / Std. ist mein Tarif im letzten Ausbildungsjahr. Er wird an meinen Ausbildungsstand angepasst: mit Diplom 110 CHF / Std., mit Krankenkassenanerkennung 132 CHF / Std.',
     terms: [
       ['Zahlungsarten vor Ort', 'TWINT, bar oder Karte'],
-      ['Geschenkgutscheine', 'GUTSCHEIN_LINK'],
       ['Krankenkasse', 'Derzeit noch Selbstzahler (ich bin noch in Ausbildung)'],
       ['Terminabsage (mind. 24 h vorher)', 'Kostenfrei'],
     ],
@@ -283,7 +282,7 @@ const F = {
   more: (s, summary = 'Details') => `<details class="more"><summary>${summary}</summary>${s.more.map(p => `<p>${p}</p>`).join('')}</details>`,
   // one price list, built from the same booking types as the picker; every row links to its calendar
   polarityNote: () => `<p class="note">${C.prices.polarityNote}</p>`,
-  terms: () => `<dl class="prices terms">${C.prices.terms.map(([k, v]) => `<div><dt>${k}</dt><dd>${v === 'GUTSCHEIN_LINK' ? `<a href="${url('angebot')}#gutschein">Gutschein bestellen</a>` : v}</dd></div>`).join('')}</dl>`,
+  terms: () => `<dl class="prices terms">${C.prices.terms.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>`,
   // five drawn stars (an authored icon instead of a ★ glyph)
   stars: () => `<span class="stars" aria-hidden="true">${'<svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.3 5.8.7-4.3 4 1.1 5.7L10 14.7l-5.1 2.8 1.1-5.7-4.3-4 5.8-.7z"/></svg>'.repeat(5)}</span>`,
   facts: () => `<ul class="facts-list">${C.polarity.facts.map(f => `<li>${f}</li>`).join('')}</ul>`,
