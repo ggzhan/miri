@@ -17,7 +17,9 @@ const C = {
   book: 'https://mirismassage.as.me/',
   email: 'mirismassage@gmail.com',
   address: ['Münzgasse 2', '4. Stock, Lift vorhanden', '8400 Winterthur'],
-  maps: 'https://www.google.com/maps/search/?api=1&query=Miri%27s+Klassische+Massage+M%C3%BCnzgasse+2+8400+Winterthur',
+  // the practice's Google Maps listing (reviews, route) and its embedded map
+  maps: 'https://maps.app.goo.gl/GMyJFSeTsDPQqhrE9',
+  mapEmbed: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1350!2d8.7251487!3d47.499501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x257dda437a3e16bf%3A0x50963fd42781a491!2sMiriam%20Pimputkar%3B%20Ganzheitliche%20Massage%20%26%20Polarity!5e0!3m2!1sde!2sch!4v1760745600000!5m2!1sde!2sch',
   directions: 'Wenige Gehminuten vom Hauptbahnhof Winterthur',
   hours: { days: 'Mittwoch und Freitag', short: 'Mi & Fr', time: '10–20 Uhr' },
   rating: { score: '5,0', count: 22 },
@@ -513,7 +515,10 @@ if (old) location.replace(old);`,
         <h2 class="h3">Meine Empfehlungen in Winterthur</h2>
         ${F.recs()}
       </div>
-      <a href="${C.maps}" class="map-link">${img('anfahrt', { cls: 'map' })}<span>Route in Google Maps öffnen&nbsp;→</span></a>
+      <div class="map-box">
+        <iframe class="map" src="${C.mapEmbed}" title="Karte: ${C.person}, Münzgasse 2, Winterthur" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        <a href="${C.maps}" class="map-link" rel="noopener">Route in Google Maps öffnen&nbsp;→</a>
+      </div>
     </div></section>`,
   },
   {

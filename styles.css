@@ -362,7 +362,8 @@ h2.h3 { color: var(--amber-dark); }
 
 /* contact */
 .map-link { display: block; text-decoration: none; font-weight: 600; }
-.map-link span { display: inline-block; margin-top: 10px; }
+.map-box .map { display: block; width: 100%; aspect-ratio: 4 / 3; height: auto; background: var(--warm); }
+.map-box .map-link { margin-top: 10px; }
 
 /* floating booking button, phones only, once the header button has scrolled away */
 .float-book { display: none; }
@@ -520,6 +521,5 @@ h2.h3 { color: var(--amber-dark); }
 .ph-price { display: grid; gap: 2px; margin: 14px 0 0; font-size: 17px; color: var(--text); }
 .ph-price b { color: var(--amber-dark); }
 .mail-alt { margin: 12px 0 0; font-size: 15px; color: var(--muted); }
-.map { background: var(--surface); padding: 18px 20px 8px; }
 @media (max-width: 430px) { .rating .stars svg { width: 15px; height: 15px; } .rating { gap: 4px; } }
 @media (max-width: 560px) { .terms > div { grid-template-columns: minmax(0, 1fr); gap: 0; } .terms dd { text-align: left; } }
