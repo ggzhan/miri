@@ -486,6 +486,23 @@ const scenes = {
     return s.svg('Skizze der Anfahrt: vom Hauptbahnhof Winterthur sind es wenige Gehminuten bis zur Münzgasse 2, Miri winkt aus dem Fenster im 4. Stock');
   },
 
+  // Über mich: Miri dancing (5Rhythmen), one arm up, one leg kicked out
+  tanzen() {
+    const s = new Sketch(380, 420), F = 400, cx = 186;
+    const ny = F - 262 + 30 + 16;
+    miriStanding(s, cx, F, sh => [[sh[0], [cx - 66, ny - 14], [cx - 84, ny - 72]], [sh[1], [cx + 64, ny + 34], [cx + 112, ny + 18]]], {
+      legs: [
+        { c: [[cx - 12, ny + 92], [cx - 18, ny + 150], [cx - 16, F - 8]], w0: 13, w1: 18, foot: [[cx - 22, F - 2], [cx - 44, F]] },
+        { c: [[cx + 14, ny + 92], [cx + 62, ny + 136], [cx + 112, ny + 168]], w0: 13, w1: 17, foot: [[cx + 120, ny + 180], [cx + 132, ny + 196]] },
+      ],
+    });
+    // motion marks and a few music notes
+    for (const [a, b] of [[[cx - 106, ny - 70], [cx - 120, ny - 78]], [[cx - 104, ny - 48], [cx - 120, ny - 48]], [[cx + 132, ny + 4], [cx + 146, ny - 4]]]) s.line([a, b], { w: .8 });
+    const note = (x, y) => { s.ellipse([x, y], 7, 5, { rot: -.4, fill: true, w: .6 }); s.line([[x + 6, y - 2], [x + 7, y - 34], [x + 18, y - 26]], { w: .8 }); };
+    note(300, 104); note(62, 214); note(348, 190);
+    return s.svg('Miri tanzt fröhlich, ein Arm in der Luft, ein Bein ausgestreckt');
+  },
+
   // Kontakt: Miri waves, a letter in the other hand
   kontakt() {
     const s = new Sketch(360, 420), F = 400, cx = 170;

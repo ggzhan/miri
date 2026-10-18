@@ -21,6 +21,9 @@ const C = {
   maps: 'https://maps.app.goo.gl/GMyJFSeTsDPQqhrE9',
   mapEmbed: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1350!2d8.7251487!3d47.499501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x257dda437a3e16bf%3A0x50963fd42781a491!2sMiriam%20Pimputkar%3B%20Ganzheitliche%20Massage%20%26%20Polarity!5e0!3m2!1sde!2sch!4v1760745600000!5m2!1sde!2sch',
   directions: 'Wenige Gehminuten vom Hauptbahnhof Winterthur',
+  // privacy page: where the site is hosted — TODO before launch: update if the real domain is hosted elsewhere
+  legalDate: 'Oktober 2026',
+  hosting: 'GitHub Pages (GitHub, Inc., San Francisco, USA)',
   hours: { days: 'Mittwoch und Freitag', short: 'Mi & Fr', time: '10–20 Uhr' },
   rating: { score: '5,0', count: 22 },
   // Acuity appointment types (owner 28010488) — ids, durations and prices as configured in Acuity
@@ -229,6 +232,7 @@ const IMG = {
   stretch: ['sketches/stretch.svg', 'Entspanntes Strichmännchen streckt sich nach der Massage', 1625, 2413],
   jump: ['sketches/jump.svg', 'Fröhliches Strichmännchen springt vor Freude', 1700, 1502],
   run: ['sketches/run.svg', 'Strichmännchen tanzt und bewegt sich frei', 1495, 1721],
+  tanzen: ['sketches/tanzen.svg', 'Miri tanzt fröhlich, ein Arm in der Luft, ein Bein ausgestreckt', 380, 420],
   // drawn with the Miri model in tools/sketches.mjs
   gespraech: ['sketches/gespraech.svg', 'Miri im begleitenden Gespräch mit einer Klientin, beide sitzen auf Stühlen', 640, 400],
   fuesse: ['sketches/fuesse.svg', 'Miri massiert die Füsse einer liegenden Person (Reflexzonen)', 640, 400],
@@ -342,7 +346,8 @@ const faqLd = {
   mainEntity: FAQ.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
 };
 
-const FONTS = 'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap';
+// fonts are self-hosted (fonts/, @font-face at the top of styles.css): no request to Google
+const FONTS = ['fraunces-latin', 'inter-latin'];
 
 function page(pg, body) {
   const canonical = SITE + (pg.slug ? pg.slug + '/' : '');
@@ -367,9 +372,7 @@ function page(pg, body) {
 <meta name="geo.placename" content="Winterthur">
 <meta name="theme-color" content="#f9f9f9">
 <link rel="icon" href="${P}img/sketches/massage.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="${FONTS}" rel="stylesheet">
+${FONTS.map(f => `<link rel="preload" href="${P}fonts/${f}.woff2" as="font" type="font/woff2" crossorigin>`).join('\n')}
 <link href="${P}styles.css" rel="stylesheet">
 ${ld.map(j => `<script type="application/ld+json">${JSON.stringify(j)}</script>`).join('\n')}
 </head>
@@ -423,7 +426,7 @@ const header = cur => `
 const footer = () => `
   <footer class="site-footer"><div class="container">
     <div><h2 class="h3">${C.person}</h2><address style="font-style:normal">Massage &amp; Polarity<br>${C.address.join('<br>')}<br>${F.hours()}<br>${mail}</address></div>
-    <nav aria-label="Fussmenü"><h2 class="h3">Seiten</h2><ul><li><a href="${url('')}">Start</a></li>${NAV.map(([slug, l]) => `<li><a href="${url(slug)}">${l}</a></li>`).join('')}<li><a href="${url('buchen')}">Termin buchen</a></li><li><a href="${url('buchen')}#fragen">Häufige Fragen</a></li></ul></nav>
+    <nav aria-label="Fussmenü"><h2 class="h3">Seiten</h2><ul><li><a href="${url('')}">Start</a></li>${NAV.map(([slug, l]) => `<li><a href="${url(slug)}">${l}</a></li>`).join('')}<li><a href="${url('buchen')}">Termin buchen</a></li><li><a href="${url('buchen')}#fragen">Häufige Fragen</a></li><li><a href="${url('datenschutz')}">Datenschutz &amp; Impressum</a></li></ul></nav>
     <div><h2 class="h3">Angebot</h2><ul>${C.services.map(s => `<li><a href="${url('angebot')}#${s.id}">${s.n}</a></li>`).join('')}</ul></div>
   </div></footer>`;
 
@@ -518,6 +521,7 @@ if (old) location.replace(old);`,
       <div class="map-box">
         <iframe class="map" src="${C.mapEmbed}" title="Karte: ${C.person}, Münzgasse 2, Winterthur" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
         <a href="${C.maps}" class="map-link" rel="noopener">Route in Google Maps öffnen&nbsp;→</a>
+        <p class="map-note">Die Karte kommt von Google; beim Anzeigen werden Daten an Google übertragen. <a href="${url('datenschutz')}#karte">Mehr dazu</a></p>
       </div>
     </div></section>`,
   },
@@ -684,13 +688,58 @@ if (pre) { history.replaceState({ typ: pre.dataset.type }, '', location.search);
     </div></section>
 
     <section class="alt" id="arbeit"><div class="container">
-      <div class="center">${img('run', { cls: 'sketch' })}<h2>Was meine Arbeit ausmacht</h2></div>
+      <div class="center">${img('tanzen', { cls: 'sketch', deco: true })}<h2>Was meine Arbeit ausmacht</h2></div>
       <div class="values">${C.values.map(v => `<div><h3>${v.k}</h3><p>${v.v}${v.k === 'Sozial' ? ' ' + mail : ''}</p></div>`).join('')}</div>
     </div></section>
 
     <section id="erfahrungen"><div class="container">
       <div class="center"><h2>Erfahrungsberichte</h2><p class="lead">${F.rating()}</p></div>
       <div class="quotes">${C.quotes.map(q => F.quote(q)).join('')}<a class="quote-more" href="${C.maps}" rel="noopener">${F.stars()}<span>Alle ${C.rating.count} Bewertungen auf Google lesen&nbsp;→</span></a></div>
+    </div></section>`,
+  },
+  {
+    slug: 'datenschutz', title: 'Datenschutz & Impressum | Miriam Pimputkar – Massage & Polarity',
+    desc: 'Impressum und Datenschutzerklärung der Massagepraxis Miriam Pimputkar, Münzgasse 2, Winterthur.',
+    // Draft by the site's author, not legal advice — Miri to review before launch (README, «Before launch»).
+    body: () => `${pageHero('', 'Datenschutz &amp; Impressum', 'Wer hinter dieser Website steht und was mit deinen Daten geschieht.')}
+    <section><div class="container legal">
+      <h2 id="impressum">Impressum</h2>
+      <p>${C.person}<br>Massage &amp; Polarity<br>${C.address[0]}<br>${C.address[2]}<br>Schweiz<br>E-Mail: ${mail}</p>
+
+      <h2>Datenschutzerklärung</h2>
+      <p>Hier erfährst du, welche Personendaten ich im Zusammenhang mit dieser Website bearbeite, wozu, und welche Rechte du hast. Massgebend ist das Schweizer Datenschutzgesetz (DSG).</p>
+
+      <h3>Verantwortlich</h3>
+      <p>${C.person}, ${C.address[0]}, ${C.address[2]}, ${mail}</p>
+
+      <h3>Keine Cookies, keine Analyse</h3>
+      <p>Diese Website setzt selbst keine Cookies und verwendet keine Analyse-, Tracking- oder Werbedienste. Die Schriften liegen auf diesem Server; dafür wird keine Verbindung zu Dritten aufgebaut.</p>
+
+      <h3>Hosting</h3>
+      <p>Die Website liegt bei ${C.hosting}. Beim Aufruf einer Seite bearbeitet der Anbieter technisch notwendige Daten wie deine IP-Adresse, Datum und Uhrzeit sowie die aufgerufene Seite, um die Website auszuliefern und vor Missbrauch zu schützen.</p>
+
+      <h3>Kontakt per E-Mail und Gutscheinbestellung</h3>
+      <p>Wenn du mir eine E-Mail schreibst oder einen Gutschein bestellst, verwende ich deine Angaben (zum Beispiel Name, E-Mail- und Postadresse), um deine Anfrage zu beantworten und die Bestellung abzuwickeln. Mein E-Mail-Postfach wird von Google (Gmail) betrieben.</p>
+
+      <h3>Online-Terminbuchung</h3>
+      <p>Für die Terminbuchung nutze ich Acuity Scheduling von Squarespace, Inc. (New York, USA). Der Buchungskalender wird erst geladen, wenn du auf der Seite «Termin buchen» eine Behandlung wählst. Die Angaben, die du bei der Buchung machst (zum Beispiel Name, E-Mail-Adresse, Telefonnummer, gewählter Termin), werden von Acuity in meinem Auftrag gespeichert, damit ich deinen Termin verwalten und dich bei Bedarf kontaktieren kann. Acuity kann dafür Cookies setzen. Mehr dazu: <a href="https://www.squarespace.com/privacy" rel="noopener">Datenschutzerklärung von Squarespace</a>.</p>
+
+      <h3>Angaben zu deiner Gesundheit</h3>
+      <p>Was du mir im Vorgespräch oder bei der Buchung über deine Gesundheit erzählst, behandle ich vertraulich und nutze es nur für deine Behandlung. Ich gebe es nicht weiter.</p>
+
+      <h3 id="karte">Karte von Google Maps</h3>
+      <p>Auf der Startseite ist unter «Kontakt &amp; Anfahrt» eine Karte von Google Maps eingebunden (Google Ireland Ltd., Dublin, und Google LLC, USA). Sobald die Karte angezeigt wird, verbindet sich dein Browser mit Google; dabei werden unter anderem deine IP-Adresse übertragen und gegebenenfalls Cookies gesetzt. Links zu Google Maps (Route, Bewertungen) öffnen die Website von Google. Mehr dazu: <a href="https://policies.google.com/privacy" rel="noopener">Datenschutzerklärung von Google</a>.</p>
+
+      <h3>Bekanntgabe ins Ausland</h3>
+      <p>Die genannten Anbieter bearbeiten Daten auch in den USA. Sie stützen sich nach eigenen Angaben auf das Swiss-US Data Privacy Framework oder auf Standardvertragsklauseln, um einen angemessenen Schutz sicherzustellen.</p>
+
+      <h3>Aufbewahrung</h3>
+      <p>Ich bewahre Personendaten nur so lange auf, wie es für den jeweiligen Zweck nötig ist oder das Gesetz es verlangt (zum Beispiel Buchhaltungsunterlagen während zehn Jahren).</p>
+
+      <h3>Deine Rechte</h3>
+      <p>Du kannst jederzeit Auskunft über deine bei mir gespeicherten Daten verlangen und sie berichtigen oder löschen lassen, soweit keine gesetzliche Pflicht zur Aufbewahrung besteht. Schreib mir dafür an ${mail}. Du hast zudem das Recht, dich beim Eidgenössischen Datenschutz- und Öffentlichkeitsbeauftragten (EDÖB) zu beschweren.</p>
+
+      <p class="legal-date">Stand: ${C.legalDate}</p>
     </div></section>`,
   },
 ];

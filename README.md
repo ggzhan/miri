@@ -5,7 +5,7 @@ the page source for Google and AI search), schema.org `HealthAndBeautyBusiness` 
 
 Pages (each its own title, description and canonical URL; listed in `sitemap.xml`):
 `/` Start (incl. Kontakt & Anfahrt) · `/angebot/` Angebot & Preise (incl. Gutschein) · `/polarity/` ·
-`/ueber-mich/` (incl. Erfahrungsberichte) · `/buchen/` booking + FAQ (the header button, not a menu item).
+`/ueber-mich/` (incl. Erfahrungsberichte) · `/buchen/` booking + FAQ (the header button, not a menu item) · `/datenschutz/` Datenschutz & Impressum (footer).
 The former pages `/preise/`, `/gutschein/`, `/erfahrungen/`, `/kontakt/` are redirect stubs to their new sections.
 
 **Preview:** https://ggzhan.github.io/miri/
@@ -61,3 +61,6 @@ LAUNCH=1 node build.mjs   # launch build: indexable
 - Miri to confirm: the FAQ answer «Was ziehe ich für die Massage aus?» (drafted, marked TODO in `build.mjs`) and the
   softened health wording (massage and stress, Polarity Selbstheilung, Ernährung, Reinigung) – the originals promised
   medical effects. No phone number is published; Kontakt says «per E-Mail». Parking info is still missing.
+- `/datenschutz/` (Datenschutz & Impressum) is a draft, not legal advice: Miri to review it, especially the health-data
+  paragraph, and update `C.hosting` if the real domain is not served by GitHub Pages. Fonts are self-hosted in `fonts/`
+  (OFL), so the only third parties are Acuity (after a click) and the Google Maps embed on the start page.
