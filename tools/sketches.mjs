@@ -452,6 +452,40 @@ const scenes = {
     return s.svg('Miri überlegt und kratzt sich am Kopf, umgeben von Fragezeichen');
   },
 
+  // Anfahrt (schematic, not a map): train at the station, a short walk, Miri waving from the 4th floor
+  anfahrt() {
+    const s = new Sketch(640, 400), F = 372;
+    // rails, train with a pantograph and the overhead wire
+    s.line([[20, F], [250, F]], { straight: true }).line([[20, F + 10], [250, F + 10]], { straight: true, w: .6 });
+    s.line([[20, 214], [260, 214]], { straight: true, w: .6 });
+    s.line([[34, 352], [34, 262], [196, 262], [226, 290], [228, 352], [34, 352]], { straight: true });
+    s.line([[112, 262], [128, 238], [108, 216]], { w: .8 }).line([[96, 216], [124, 216]], { w: .8 });
+    for (const x of [48, 92, 136]) s.line([[x, 278], [x + 32, 278], [x + 32, 306], [x, 306], [x, 278]], { straight: true, w: .8 });
+    s.line([[184, 280], [208, 280], [218, 300], [184, 300], [184, 280]], { straight: true, w: .8 });
+    for (const x of [70, 190]) s.ellipse([x, 360], 11, 11);
+    // footsteps to the door
+    for (let i = 0; i < 9; i++) { const x = 262 + i * 18, y = F - 6 + (i % 2 ? -5 : 3); s.ellipse([x, y], 3.5, 2.2, { fill: true, w: .5 }); }
+    // house: ground floor + 4 floors; Miri leans out of the open window on the 4th floor
+    const x0 = 432, x1 = 604, lv = 58, top = F - 5 * lv - 8;
+    s.line([[x0, F], [x0, top], [x1, top], [x1, F]], { straight: true });
+    s.line([[x0 - 10, top + 2], [(x0 + x1) / 2, top - 38], [x1 + 10, top + 2]], { straight: true });
+    s.line([[500, F], [500, F - 44], [536, F - 44], [536, F]], { straight: true });
+    for (let k = 1; k <= 3; k++) for (const wx of [452, 540]) {
+      const wy = F - (k + 1) * lv + 12;
+      s.line([[wx, wy], [wx + 44, wy], [wx + 44, wy + 34], [wx, wy + 34], [wx, wy]], { straight: true, w: .7 });
+    }
+    const wy = F - 5 * lv + 6;
+    s.line([[452, wy + 6], [496, wy + 6], [496, wy + 40], [452, wy + 40], [452, wy + 6]], { straight: true, w: .7 });
+    s.line([[530, wy + 50], [530, wy], [590, wy], [590, wy + 50]], { straight: true, w: .8 });
+    miri(s, {
+      head: [558, wy + 22], r: 13, face: 'front', neck: [558, wy + 38], sh: [[546, wy + 42], [570, wy + 42]], hip: [[547, wy + 50], [569, wy + 50]],
+      arms: [[[570, wy + 44], [600, wy + 30], [614, wy + 8]]],
+    });
+    s.line([[524, wy + 50], [596, wy + 50]], { straight: true });
+    for (const [a, b] of [[[624, wy + 10], [632, wy + 4]], [[620, wy - 6], [626, wy - 14]]]) s.line([a, b], { w: .7 });
+    return s.svg('Skizze der Anfahrt: vom Hauptbahnhof Winterthur sind es wenige Gehminuten bis zur Münzgasse 2, Miri winkt aus dem Fenster im 4. Stock');
+  },
+
   // Kontakt: Miri waves, a letter in the other hand
   kontakt() {
     const s = new Sketch(360, 420), F = 400, cx = 170;

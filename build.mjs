@@ -18,6 +18,7 @@ const C = {
   email: 'mirismassage@gmail.com',
   address: ['Münzgasse 2', '4. Stock, Lift vorhanden', '8400 Winterthur'],
   maps: 'https://www.google.com/maps/search/?api=1&query=Miri%27s+Klassische+Massage+M%C3%BCnzgasse+2+8400+Winterthur',
+  directions: 'Wenige Gehminuten vom Hauptbahnhof Winterthur',
   hours: { days: 'Mittwoch und Freitag', short: 'Mi & Fr', time: '10–20 Uhr' },
   rating: { score: '5,0', count: 22 },
   // Acuity appointment types (owner 28010488) — ids, durations and prices as configured in Acuity
@@ -34,7 +35,7 @@ const C = {
       { id: '39957683', n: 'Klassische Massage', t: '60 min', p: '100 CHF', svc: ['klassisch'], art: 'massage' },
       { id: '79868943', n: 'Ganzheitliche Massage', t: '60 min', p: '110 CHF', svc: ['ganzheitlich'], art: 'fuesse' },
       { id: '92469297', n: 'Hawaiianische Ganzkörpermassage', t: '90 min', p: '180 CHF', svc: ['hawaiianisch'], art: 'hawaii' },
-      { id: '86048501', n: 'Polaritybehandlung', t: '60 min', p: '88 CHF / Std. (Ausbildungstarif)', svc: ['polarity-behandlung'], art: 'gespraech' },
+      { id: '86048501', n: 'Polaritybehandlung', t: '60 min', p: '88 CHF (Ausbildungstarif)', svc: ['polarity-behandlung'], art: 'gespraech' },
     ],
   },
 
@@ -55,10 +56,11 @@ const C = {
   hook: 'Bist du körperlich angespannt? Schränkt dich dein Körper im Alltag ein? Hast du Muskelschmerzen? Oder möchtest du dich einfach mal genüsslich entspannen und dir so etwas Gutes tun? Dann bist du bei mir genau richtig.',
   why: [
     'Mit der Massage wird durch manuellen Druck und Zug auf deine Muskeln die Durchblutung gefördert. Dein Stoffwechsel wird angeregt. Deine Muskeln entspannen sich und schmerzhafte Verhärtungen lösen sich auf.',
-    'Die Massage reduziert Stress im gesamten Organismus. So können nicht nur körperliche Beschwerden wie z.B. Kopfschmerzen, sondern auch psychische Leiden wie Depressionen und Angstzustände gelindert werden. Ein ganzheitliches Wohlbefinden entsteht.',
+    'Die Massage hilft dir, Stress abzubauen. Oft lassen dabei nicht nur körperliche Beschwerden wie Verspannungskopfschmerzen nach, auch innerlich wirst du ruhiger. Ein ganzheitliches Wohlbefinden entsteht.',
   ],
   relief: 'Sitzende Tätigkeiten, Stress und einseitige Belastungen hinterlassen Spuren in der Muskulatur. In meiner Praxis in Winterthur verbinde ich anatomisches Feingefühl mit hochwertigen Ölen, um Verhärtungen sanft zu lösen und dein Wohlbefinden wiederherzustellen.',
 
+  offerLead: 'Als Dipl. Klassische Masseurin und Polaritytherapeutin in Ausbildung biete ich dir vier Behandlungen an – beim ersten Besuch zum Kennenlernpreis.',
   offerIntro: 'Ob gezielte Linderung körperlicher Verspannungen oder energetische Harmonisierung: Ich begleite dich mit fundierter Erfahrung und achtsamen Behandlungsmethoden. Als Dipl. Klassische Masseurin und Polaritytherapeutin in Ausbildung biete ich dir folgendes an:',
   services: [
     { id: 'klassisch', n: 'Klassische Massage', alt: 'Klassische Ölmassage', t: '30 / 60 min', p: '50 / 100 CHF', first: 'Erstes Mal? Kennenlernmassage 80 statt 100 CHF',
@@ -71,7 +73,7 @@ const C = {
       d: 'Verbindet wirkungsvolle manuelle Techniken mit feinfühliger Körperwahrnehmung. Eine tiefgreifende Auszeit, die das gesamte Nervensystem beruhigt und neue Kraft schenkt.',
       more: ['Die Klassische Massage wird individuell ergänzt mit der Polaritymethode. Dies beinhaltet sanfte, craniosacrale Berührungen, sanfte Schaukelbewegungen, welche das Gewebe lockern, bis tiefere, kräftigere Drucktechniken, osteopathische Griffe, Dehnungen, Mobilisierung der Gelenke und Arbeit mit Reflexzonen, um Blockaden im Körper zu lösen und so die Gesundheit zu unterstützen.'] },
     { id: 'polarity-behandlung', n: 'Polarity&shy;behandlung', t: '60 min · erste 90 min', p: '88 CHF / Std.', first: 'Erstes Mal? Du bestimmst den Preis selbst',
-      d: 'Unterstützt den freien Fluss der Lebensenergie durch sanfte Berührungen, Energiearbeit und gezielte Impulse. Hilft bei innerer Unruhe und aktiviert deine natürlichen Selbstheilungskräfte.',
+      d: 'Unterstützt den freien Fluss der Lebensenergie durch sanfte Berührungen, Energiearbeit und gezielte Impulse. Kann bei innerer Unruhe helfen und möchte deine natürlichen Selbstheilungskräfte anregen.',
       more: ['Die erste Polaritybehandlung beinhaltet ein ausführliches Vorgespräch, bei Bedarf eine Haltungsanalyse sowie eine manuelle Behandlung auf der Liege.'] },
     { id: 'hawaiianisch', n: 'Hawaiianische Ganzkörper&shy;massage', alt: 'Lomi Lomi', t: '90 min', p: '180 CHF', first: 'Erstes Mal? 140 statt 180 CHF',
       d: 'Ganzheitliches Wellness-Erlebnis mit fliessenden Unterarmstrichen und viel warmem Öl. Bringt Körper, Geist und Nervensystem in tiefe Harmonie.',
@@ -94,7 +96,7 @@ const C = {
       'Ist eine Synthese von östlicher und westlicher Medizin, wobei die Ganzheit von Körper, Geist und Seele im Vordergrund steht.',
       'Wurde vom Naturheilarzt, Osteopathen und Chiropraktiker Dr. Randolph Stone (1890–1981) gegründet.',
       'Geht der Frage nach, was hinter den Erscheinungen (Symptomen) steckt: Wo liegen die tieferen Ursachen und Hintergründe von Gesundheit und Krankheit? Um was geht es wirklich?',
-      'Aktiviert die Selbstheilungskräfte und stärkt die körpereigene Abwehr.',
+      'Möchte die Selbstheilungskräfte anregen und die körpereigene Abwehr stärken.',
       'Beinhaltet Körperarbeit, Körperübungen, Ernährung sowie die Auseinandersetzung mit Lebensstil, Denk- und Verhaltensmustern im begleitenden Gespräch.',
       'Wird von den meisten Krankenkassen als Komplementärtherapie anerkannt.',
     ],
@@ -105,10 +107,10 @@ const C = {
         'Durch sprachliche Reflexion lernen wir uns besser kennen, spüren unsere Bedürfnisse klarer und finden Worte für innere Zustände und Empfindungen. Dadurch übernehmen wir stetig mehr Eigenverantwortung. Dies führt zu Selbstvertrauen und Akzeptanz unserer eigenen Individualität. Mit der Sprache begleiten wir, und Worte führen zu mehr Bewusstsein.'] },
       { h: 'Yoga', p: ['Eine individuelle und gezielte Auswahl an Yogaübungen vertieft die Wirkung der Behandlung und hat den Vorteil, dass sie als Selbsthilfe angewendet werden kann.'] },
       { h: 'Ernährung', p: [
-        'Falsche Ess- und Lebensgewohnheiten führen zu Einlagerungen von Schlacken in Gefässen, Geweben und Gelenken. Dies führt zu Übersäuerung und schafft den Nährboden für Beschwerden und Krankheiten.',
+        'In der Polarity-Lehre gelten ungünstige Ess- und Lebensgewohnheiten als Nährboden für Beschwerden und Krankheiten.',
         'Mit der Ernährung beeinflussen wir in direkter Weise unser Befinden. Die Polarity-Ernährung hat zum Ziel, das Ernährungsbewusstsein zu fördern, indem Zusammenhänge zwischen Verhalten, Befinden und Essgewohnheiten ergründet werden. Das Ziel ist somit eine Ernährungsweise zu finden, die den Gesundheitsprozess unterstützt.'] },
       { h: 'Polarity Reinigung', p: [
-        'Die Polarity Reinigung entschlackt, entsäuert, schafft Giftstoffe aus dem Körper und entlastet Leber, Nieren, die Verdauungsorgane, die Haut und das Bindegewebe. Müdigkeit, Antriebsmangel oder Allergien – die Warnzeichen für Beschwerden oder Krankheiten – können verschwinden. Ganzheitliches Wohlbefinden und eine innere Ruhe stellen sich ein.',
+        'Die Polarity Reinigung ist eine Ernährungskur, die Leber, Nieren, die Verdauungsorgane, die Haut und das Bindegewebe entlasten soll. Ihr Ziel sind ganzheitliches Wohlbefinden und innere Ruhe.',
         'Die Reinigung im Rahmen einer Ernährungsdiät kann als Kur fern vom Alltag oder auch zuhause durchgeführt werden.'] },
       { h: 'Haltung der Therapeutin', p: ['Achtsamkeit, Empathie und Respekt sind die Basis, um eine wohlwollende und sichere Umgebung im Therapieraum zu schaffen.'] },
     ],
@@ -203,12 +205,14 @@ const C = {
 const FAQ = [
   ['Was kostet eine Massage in Winterthur bei Miriam Pimputkar?', `Eine Klassische Massage kostet 50 CHF (30 min) oder 100 CHF (60 min), eine Ganzheitliche Massage 110 CHF, eine Hawaiianische Ganzkörpermassage 180 CHF (90 min) und eine Polaritybehandlung 88 CHF pro Stunde. Deine erste Massage bekommst du als Kennenlernmassage für 80 CHF, die erste Hawaiianische Ganzkörpermassage für 140 CHF; bei der ersten Polaritybehandlung entscheidest du selbst, wie viel sie dir wert ist.`],
   ['Wann ist die Praxis geöffnet?', `Praxistage sind ${C.hours.days}, jeweils ${C.hours.time}. Termine buchst du bequem online.`],
-  ['Wo befindet sich die Praxis?', `An der Münzgasse 2 in 8400 Winterthur, im 4. Stock. Ein Lift ist vorhanden.`],
+  ['Wo befindet sich die Praxis?', `An der Münzgasse 2 in 8400 Winterthur, wenige Gehminuten vom Hauptbahnhof. Die Praxis ist im 4. Stock, ein Lift ist vorhanden.`],
   ['Wie kann ich bezahlen?', `Vor Ort mit ${C.pay}.`],
   ['Übernimmt die Krankenkasse die Kosten?', `Polarity wird von den meisten Krankenkassen als Komplementärtherapie anerkannt. Da ich mich noch in Ausbildung befinde, sind meine Behandlungen derzeit noch selbst zu bezahlen.`],
   ['Wie buche ich einen Termin?', `Direkt hier auf der Seite unter «Termin online buchen»: Behandlung wählen, freien Termin aussuchen, fertig. Du siehst alle freien Termine in Echtzeit.`],
   ['Wann wähle ich bei der Kennenlernmassage klassisch oder ganzheitlich?', `Ganz einfach beim Termin: Im Vorgespräch schauen wir zusammen, was dir gerade guttut, und entscheiden dann gemeinsam.`],
   ['Kann ich einen Termin absagen?', `Ja. Eine Absage mindestens 24 Stunden vorher ist kostenfrei. Bitte melde dich schriftlich ab, sonst wird der Termin verrechnet.`],
+  // TODO Miri: confirm this answer (drafted from the Vorgespräch and Polarity texts)
+  ['Was ziehe ich für die Massage aus?', `Das besprechen wir vor der Behandlung, und du entscheidest selbst, was für dich stimmt. Im Vorgespräch klären wir auch, wo du berührt werden möchtest und wo nicht. Polarity findet am bekleideten Körper statt.`],
   ['Was muss ich zum ersten Termin mitbringen?', `Nur etwas Zeit und bequeme Kleidung. Beim Ersttermin beginnen wir mit einem kurzen Vorgespräch. Polarity findet am bekleideten Körper statt.`],
   ['Gibt es Geschenkgutscheine?', `Ja – für eine bestimmte Behandlung oder nach Wahl, als Faltkarte per Post, digital zum Verschicken oder zum selber Ausdrucken. Bestellung per E-Mail.`],
   ['Gibt es vergünstigte Behandlungen?', `Ja. Falls du nicht- oder wenigverdienend bist, komme ich dir gerne finanziell entgegen. Melde dich vorab per E-Mail.`],
@@ -239,7 +243,7 @@ const IMG = {
   praxis: ['praxis.jpg', 'Massagepraxis an der Münzgasse 2 in Winterthur mit Massageliege', 320, 242],
   giftFront: ['gutschein-vorne.jpg', 'Geschenkgutschein «Zeit für dich», Vorderseite mit Massage-Zeichnung', 900, 639],
   giftBack: ['gutschein-hinten.jpg', 'Geschenkgutschein, Rückseite mit Platz für Namen und Wert', 900, 639],
-  map: ['map.jpg', 'Karte: Massagepraxis an der Münzgasse 2, Winterthur Altstadt', 871, 592],
+  anfahrt: ['sketches/anfahrt.svg', 'Skizze der Anfahrt: vom Hauptbahnhof Winterthur sind es wenige Gehminuten bis zur Münzgasse 2, Miri winkt aus dem Fenster im 4. Stock', 640, 400],
 };
 // path prefix of the page being rendered ('' for the home page, '../' for /angebot/ etc.)
 let P = '';
@@ -432,9 +436,9 @@ const ctaBand = ({ art, h, p, cta, href }) => `
 const KENNENLERN = () => `${url('buchen')}?typ=39957629`;
 
 // top of every sub-page: drawing, the page's one <h1>, a lead sentence
-const pageHero = (art, h1, lead = '') => `
+const pageHero = (art, h1, lead = '', extra = '') => `
     <section class="page-hero${art ? ' has-art' : ''}"><div class="container">
-      <div class="ph-text"><h1>${h1}</h1>${lead ? `<p class="lead">${lead}</p>` : ''}</div>
+      <div class="ph-text"><h1>${h1}</h1>${lead ? `<p class="lead">${lead}</p>` : ''}${extra}</div>
       ${art ? `<div class="ph-art">${img(art, { deco: true })}</div>` : ''}
     </div></section>`;
 
@@ -498,29 +502,29 @@ if (old) location.replace(old);`,
         <dl class="glance">
           <dt>Praxis</dt><dd>Massage & Polarity, ${C.person}</dd>
           <dt>Adresse</dt><dd>${C.address[0]}, ${C.address[2]}</dd>
+          <dt>Anfahrt</dt><dd>${C.directions}</dd>
           <dt>Zugang</dt><dd>${C.address[1]}</dd>
           <dt>Praxistage</dt><dd>${C.hours.days}, ${C.hours.time}</dd>
           <dt>Termine</dt><dd><a href="${url('buchen')}">online buchen</a></dd>
-          <dt>E-Mail</dt><dd>${mail}</dd>
+          <dt>Kontakt</dt><dd>per E-Mail: ${mail}</dd>
           <dt>Zahlung</dt><dd>${C.pay}</dd>
           <dt>Fragen</dt><dd><a href="${url('buchen')}#fragen">Häufige Fragen</a></dd>
         </dl>
         <h2 class="h3">Meine Empfehlungen in Winterthur</h2>
         ${F.recs()}
       </div>
-      <a href="${C.maps}" class="map-link">${img('map', { cls: 'map' })}<span>In Google Maps öffnen&nbsp;→</span></a>
+      <a href="${C.maps}" class="map-link">${img('anfahrt', { cls: 'map' })}<span>Route in Google Maps öffnen&nbsp;→</span></a>
     </div></section>`,
   },
   {
     slug: 'angebot', title: 'Angebot & Preise: Massage & Polarity in Winterthur | Miriam Pimputkar',
     desc: 'Klassische Massage ab 50 CHF, Ganzheitliche Massage 110 CHF, Hawaiianische Ganzkörpermassage 180 CHF und Polarity in Winterthur. Kennenlernmassage 80 CHF, Geschenkgutscheine, Online-Buchung.',
     band: { art: 'jump', h: 'Welche Behandlung passt zu dir?', p: 'Bei deinem ersten Besuch kostet die Kennenlernmassage 80 CHF – klassisch oder ganzheitlich.', cta: 'Kennenlernmassage buchen', href: '' },
-    body: () => `${pageHero('angebot', 'Angebot &amp; Preise', C.offerIntro)}
+    body: () => `${pageHero('angebot', 'Angebot &amp; Preise', C.offerLead)}
     <section><div class="container">
       <h2 class="sr">Behandlungen</h2>
-      <p class="difference sheet">${C.difference}</p>
-      <div class="cards" id="preise">${C.services.map(serviceCard).join('')}</div>
-      <div class="extras"><h2 class="h3">Ergänzende Behandlungen</h2><ul>${C.extras.map(e => `<li>${e}</li>`).join('')}</ul></div>
+      <div class="cards" id="preise">${C.services.slice(0, 2).map(serviceCard).join('')}<p class="difference sheet">${C.difference}</p>${C.services.slice(2).map(serviceCard).join('')}</div>
+      <div class="extras"><h2 class="h3">Ergänzende Behandlungen</h2><ul>${C.extras.map(e => `<li>${e}</li>`).join('')}</ul><p>Fragen dazu? Schreib mir: ${mail}</p></div>
       <p class="center relief">${C.relief}</p>
     </div></section>
 
@@ -541,6 +545,7 @@ if (old) location.replace(old);`,
         ${F.gift()}
         <p>Die Preise der Behandlungen findest du <a href="#preise">bei den Behandlungen</a>.</p>
         <a class="btn btn-primary" href="${giftMail}">Gutschein per E-Mail bestellen</a>
+        <p class="mail-alt">Öffnet sich kein E-Mail-Programm? Schreib direkt an ${mail}.</p>
       </div>
       <div class="gift-imgs">${img('giftFront')}${img('giftBack')}</div>
     </div></section>`,
@@ -549,7 +554,7 @@ if (old) location.replace(old);`,
     slug: 'polarity', title: 'Polarity Therapie in Winterthur | Miriam Pimputkar',
     desc: 'Polarity nach Dr. Randolph Stone: Körperarbeit, begleitendes Gespräch, Yoga und Ernährung. Polaritybehandlung in Winterthur – die erste nach deinem Ermessen.',
     band: { art: 'termin', h: 'Polarity kennenlernen', p: 'Bei der ersten Polaritybehandlung entscheidest du am Ende selbst, wie viel sie dir wert ist.', cta: 'Erste Polaritybehandlung buchen', href: 'POL' },
-    body: () => `${pageHero('polarity', 'Polarity', `${C.polarity.intro[0]} <b>60 Minuten, 88 CHF / Std. (Ausbildungstarif). Die erste Behandlung dauert 90 Minuten – den Preis bestimmst du selbst.</b>`)}
+    body: () => `${pageHero('polarity', 'Polarity', C.polarity.intro[0], `<p class="ph-price"><span><b>Erste Behandlung:</b> 90 Minuten, den Preis bestimmst du selbst.</span><span>Danach 60 Minuten für 88 CHF (Ausbildungstarif).</span></p>`)}
     <section class="session"><div class="container">
       <h2>So läuft eine Polaritybehandlung ab</h2>
       <ol class="steps">
