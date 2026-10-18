@@ -2,7 +2,8 @@
 // so every word is in the HTML source for Google and AI crawlers.
 // Run: node build.mjs            preview build (noindex) — what GitHub Pages serves
 //      LAUNCH=1 node build.mjs   launch build (indexable)
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 
 /* =====================================================================
    CONTENT
@@ -346,6 +347,8 @@ const faqLd = {
   mainEntity: FAQ.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
 };
 
+// the stylesheet URL changes with its content, so browsers never pair new HTML with a cached old styles.css
+const CSS_VERSION = createHash('sha1').update(readFileSync(new URL('styles.css', import.meta.url))).digest('hex').slice(0, 8);
 // fonts are self-hosted (fonts/, @font-face at the top of styles.css): no request to Google
 const FONTS = ['fraunces-latin', 'inter-latin'];
 
@@ -373,7 +376,7 @@ function page(pg, body) {
 <meta name="theme-color" content="#f9f9f9">
 <link rel="icon" href="${P}img/sketches/massage.svg" type="image/svg+xml">
 ${FONTS.map(f => `<link rel="preload" href="${P}fonts/${f}.woff2" as="font" type="font/woff2" crossorigin>`).join('\n')}
-<link href="${P}styles.css" rel="stylesheet">
+<link href="${P}styles.css?v=${CSS_VERSION}" rel="stylesheet">
 ${ld.map(j => `<script type="application/ld+json">${JSON.stringify(j)}</script>`).join('\n')}
 </head>
 <body>
