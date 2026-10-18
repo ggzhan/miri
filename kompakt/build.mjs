@@ -1,13 +1,13 @@
-// PROTOTYPE — compact alternative to the 9-page site
+// PROTOTYPE — compact alternative to the multi-page site
 //
-// One page instead of nine: what Miri offers, how it feels, what it costs, when and where,
+// One page instead of five: what Miri offers, how it feels, what it costs, when and where,
 // and booking — in one or two thumb-scrolls. Everything else sits behind <details>.
 // Run from the project root:  node kompakt/build.mjs   → writes kompakt/index.html + kompakt/img/*.svg
 //
 // Content is copied from the root build.mjs (objects C, FAQ, IMG) — that file writes the main
 // site when imported, so it is not imported here. Keep the two in sync by hand while this is a prototype.
-// Left out on purpose: the Polarity health claims (Schlacken, Allergien, Depressionen) are under
-// review with the owner, the long "why massage" text, the recommendations list.
+// Left out on purpose: the longer Polarity texts (Ernährung, Reinigung, Selbstheilung — softened on the
+// main site, still for Miri to confirm), the long "why massage" text, the recommendations list.
 import { writeFileSync, readFileSync, mkdirSync } from 'node:fs';
 
 const here = p => new URL(p, import.meta.url);
@@ -21,7 +21,11 @@ const C = {
   person: 'Miriam Pimputkar',
   book: 'https://mirismassage.as.me/',
   email: 'mirismassage@gmail.com',
-  maps: 'https://www.google.com/maps/search/?api=1&query=Miri%27s+Klassische+Massage+M%C3%BCnzgasse+2+8400+Winterthur',
+  maps: 'https://maps.app.goo.gl/GMyJFSeTsDPQqhrE9',
+  mapEmbed: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1350!2d8.7251487!3d47.499501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x257dda437a3e16bf%3A0x50963fd42781a491!2sMiriam%20Pimputkar%3B%20Ganzheitliche%20Massage%20%26%20Polarity!5e0!3m2!1sde!2sch!4v1760745600000!5m2!1sde!2sch',
+  claim: 'Traumasensible Körpertherapie und Prozessbegleitung',   // TODO Miri: confirm (as on the main site)
+  directions: 'Wenige Gehminuten vom Hauptbahnhof Winterthur',
+  calHint: 'Im Kalender steht zuerst ein Begrüssungstext – die freien Termine folgen gleich darunter.',
   acuityOwner: '28010488',
   rating: { score: '5,0', count: 22 },
   intro: 'Finde zurück in dein natürliches Gleichgewicht. In meiner Praxis in Winterthur begleite ich dich mit achtsamer Berührung, gezielten Massagen und stärkender Energiearbeit zu mehr Entspannung und Vitalität.',
@@ -66,6 +70,9 @@ const C = {
       ['Haltung der Therapeutin', 'Achtsamkeit, Empathie und Respekt sind die Basis, um eine wohlwollende und sichere Umgebung im Therapieraum zu schaffen.'],
     ],
   },
+  // FAQ answers copied from the main site (TODO Miri: confirm both)
+  faqUndress: 'Das besprechen wir vor der Behandlung, und du entscheidest selbst, was für dich stimmt. Im Vorgespräch klären wir auch, wo du berührt werden möchtest und wo nicht. Polarity findet am bekleideten Körper statt.',
+  faqTrauma: 'Ja. Ich arbeite traumasensibel: achtsam, in deinem Tempo und mit klaren Absprachen, welche Berührung für dich stimmt. Nach körperlichen Traumata wie Unfällen, Stürzen oder Operationen können die Ganzheitliche Massage und Polarity helfen, Spannungen zu lösen, die danach im Körper zurückbleiben, und wieder Vertrauen in deinen Körper zu finden. Sie ergänzen die ärztliche oder physiotherapeutische Behandlung, ersetzen sie aber nicht. Bei frischen Verletzungen klärst du bitte zuerst mit deiner Ärztin oder deinem Arzt ab, ob eine Behandlung jetzt passt.',
   gift: {
     kinds: ['Ganzheitliche Massage', 'Klassische Massage', 'Hawaiianische Ganzkörpermassage', 'Polaritybehandlung', 'Massage nach Wahl', 'Behandlung nach Wahl'],
     versions: ['als Faltkarte per Post (A6)', 'digital zum Verschicken', 'digital zum selber Ausdrucken (A6 oder A5)'],
@@ -87,17 +94,17 @@ const MENU = [
     more: ['Die Klassische Massage wird individuell ergänzt mit der Polaritymethode: sanfte, craniosacrale Berührungen, Schaukelbewegungen, welche das Gewebe lockern, bis tiefere, kräftigere Drucktechniken, osteopathische Griffe, Dehnungen, Mobilisierung der Gelenke und Arbeit mit Reflexzonen.'],
     first: { id: '39957629', n: 'Kennenlernmassage – klassisch oder ganzheitlich', t: '60 min', p: '80 CHF', was: '110 CHF' },
     regular: [{ id: '79868943', t: '60 min', p: '110 CHF' }] },
+  { id: 'polarity', n: 'Polaritybehandlung', art: 'gespraech',
+    d: 'Unterstützt den freien Fluss der Lebensenergie durch sanfte Berührungen, Energiearbeit und gezielte Impulse – am bekleideten Körper.',
+    more: [C.polarity.intro, '<a href="#polarity">Was ist Polarity?</a>'],
+    first: { id: '78873137', n: 'Kennenlernen: Polaritybehandlung', t: '90 min', p: 'nach deinem Ermessen', pShort: 'Du bestimmst den Preis' },
+    regular: [{ id: '86048501', t: '60 min', p: '88 CHF*' }] },
   { id: 'hawaiianisch', n: 'Hawaiianische Ganzkörpermassage', alt: 'Lomi Lomi', art: 'hawaii',
     d: 'Ganzheitliches Wellness-Erlebnis mit fliessenden Unterarmstrichen und viel warmem Öl. Bringt Körper, Geist und Nervensystem in tiefe Harmonie.',
     more: ['Tauche ein in eine tief entspannende Körperreise, bei welcher du von Kopf bis Fuss, vorne und hinten massiert wirst. Die fliessenden, langen Streichungen nebst sanften Dehnungen und Lockerung von Gelenken erinnern an die Wellen des Ozeans.',
       'In einem kurzen Vorgespräch kläre ich mit dir ab, was bei deinem Körper zu beachten ist und ob Berührung/Massage im Gesicht und/oder Bauch erwünscht ist. Am Schluss gebe ich dir 2–3 Minuten Zeit, um die Massage nachwirken zu lassen.'],
     first: { id: '92472809', n: 'Kennenlernen: Hawaiianische Ganzkörpermassage', t: '90 min', p: '140 CHF', was: '180 CHF' },
     regular: [{ id: '92469297', t: '90 min', p: '180 CHF' }] },
-  { id: 'polarity', n: 'Polaritybehandlung', art: 'gespraech',
-    d: 'Unterstützt den freien Fluss der Lebensenergie durch sanfte Berührungen, Energiearbeit und gezielte Impulse – am bekleideten Körper.',
-    more: [C.polarity.intro, '<a href="#polarity">Was ist Polarity?</a>'],
-    first: { id: '78873137', n: 'Kennenlernen: Polaritybehandlung', t: '90 min', p: 'nach deinem Ermessen', pShort: 'Du bestimmst den Preis' },
-    regular: [{ id: '86048501', t: '60 min', p: '88 CHF / Std.*' }] },
 ];
 
 const IMG = {
@@ -118,7 +125,6 @@ const IMG = {
   miriam: ['../img/miriam.jpg', 'Miriam Pimputkar, dipl. Masseurin und Polaritytherapeutin in Winterthur', 336, 448],
   praxis: ['../img/praxis.jpg', 'Massagepraxis an der Münzgasse 2 in Winterthur mit Massageliege', 320, 242],
   giftFront: ['../img/gutschein-vorne.jpg', 'Geschenkgutschein «Zeit für dich», Vorderseite mit Massage-Zeichnung', 900, 639],
-  map: ['../img/map.jpg', 'Karte: Massagepraxis an der Münzgasse 2, Winterthur Altstadt', 871, 592],
 };
 
 // heavier pen for the generated stroke drawings (5 → 9 units in a 360–640 wide viewBox)
@@ -223,7 +229,7 @@ const body = () => `
     <div class="wrap hero-grid">
       <div class="hero-text">
         <h1>Massage &amp; Polarity <span class="hl">in Winterthur</span></h1>
-        <p class="lead">${C.intro}</p>
+        <p class="lead"><b>${C.claim}.</b> ${C.intro}</p>
         <ul class="notes">
           <li>${check}<span><b>Mi &amp; Fr</b>, 10–20 Uhr</span></li>
           <li>${check}<span><b>Münzgasse 2</b>, 4. Stock, Lift</span></li>
@@ -263,6 +269,7 @@ const body = () => `
             <button type="button" class="back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5L8 12l7 7"/></svg>andere Behandlung</button>
             <p class="chosen" tabindex="-1"></p>
           </div>
+          <p class="cal-hint">${C.calHint}</p>
           <div class="cal-frame"></div>
           <p class="cal-help">Kalender klemmt? <a class="cal-direct" href="${acuity()}" rel="noopener">Im neuen Fenster öffnen</a> oder schreib mir: ${mail}</p>
         </div>
@@ -300,14 +307,16 @@ const body = () => `
         <h2 id="ort-h">Münzgasse 2, Winterthur</h2>
         <dl class="facts">
           <div><dt>Adresse</dt><dd>Münzgasse 2, 8400 Winterthur</dd></div>
+          <div><dt>Anfahrt</dt><dd>${C.directions}</dd></div>
           <div><dt>Zugang</dt><dd>4. Stock, Lift vorhanden</dd></div>
           <div><dt>Praxistage</dt><dd>Mittwoch und Freitag, 10–20 Uhr</dd></div>
-          <div><dt>E-Mail</dt><dd>${mail}</dd></div>
+          <div><dt>Kontakt</dt><dd>per E-Mail: ${mail}</dd></div>
         </dl>
-        <p><a class="btn btn-ghost" href="${C.maps}" rel="noopener">In Google Maps öffnen</a></p>
+        <p><a class="btn btn-ghost" href="${C.maps}" rel="noopener">Route in Google Maps öffnen</a></p>
+        <p class="map-note">Die Karte kommt von Google; beim Anzeigen werden Daten an Google übertragen. <a href="../datenschutz/#karte">Mehr dazu</a></p>
       </div>
       <div class="pinboard">
-        <a class="photo map" href="${C.maps}" rel="noopener" aria-label="Karte in Google Maps öffnen">${img('map')}<span class="tape" aria-hidden="true"></span></a>
+        <figure class="photo map"><iframe src="${C.mapEmbed}" title="Karte: ${C.person}, Münzgasse 2, Winterthur" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe><span class="tape" aria-hidden="true"></span></figure>
         <figure class="photo room">${img('praxis')}<figcaption class="hand">meine Praxis</figcaption><span class="tape" aria-hidden="true"></span></figure>
       </div>
     </div>
@@ -350,9 +359,16 @@ const body = () => `
             <p><b>Erhältlich</b> ${C.gift.versions.join(', ')}.</p>
             <p>${C.gift.note}</p>
             <p><a class="btn" href="${giftMail}">Gutschein per E-Mail bestellen</a></p>
+            <p class="small-note">Öffnet sich kein E-Mail-Programm? Schreib direkt an ${mail}.</p>
           </div>
         </div>
         ${img('giftFront', { cls: 'gift-photo' })}
+      </details>
+      <details class="faq"><summary><h3>Was ziehe ich für die Massage aus?</h3></summary>
+        <p>${C.faqUndress}</p>
+      </details>
+      <details class="faq"><summary><h3>Hilft eine Behandlung nach einem Unfall oder einer Verletzung?</h3></summary>
+        <p>${C.faqTrauma}</p>
       </details>
       <details class="faq"><summary><h3>Ergänzende Behandlungen</h3></summary>
         <ul class="dots">${C.extras.map(e => `<li>${e}</li>`).join('')}</ul>
@@ -369,7 +385,7 @@ const body = () => `
       <p class="bye">Ich freue mich auf dich! Bis bald!</p>
       <p><a class="btn" href="#karte">Termin buchen</a></p>
       <address>${C.person} · Massage &amp; Polarity<br>Münzgasse 2, 4. Stock, 8400 Winterthur<br>${mail}</address>
-      <p class="proto">Prototyp einer kompakten Website. <a href="../">Zur ausführlichen Website</a></p>
+      <p class="proto">Prototyp einer kompakten Website. <a href="../">Zur ausführlichen Website</a> · <a href="../datenschutz/">Datenschutz &amp; Impressum</a></p>
     </div>
   </div>
 </footer>`;
@@ -515,6 +531,11 @@ details[open]>summary::after{transform:translateY(2px) rotate(-135deg)}
 .cal-loading.failed img{animation:none}
 .cal-help{margin:.8rem 0 0;font-size:.95rem}
 
+.cal-hint{margin:0 0 .8rem;color:var(--ink-2)}
+.photo.map iframe{display:block;width:100%;aspect-ratio:4/3;border:0;background:var(--cream)}
+.map-note{font-size:.9rem;color:var(--ink-2);max-width:34em}
+.small-note{font-size:.95rem;color:var(--ink-2)}
+
 /* visit */
 .besuch h2{text-align:center}
 .steps{list-style:none;margin:2rem 0 0;padding:0;display:grid;gap:.4rem}
@@ -541,7 +562,7 @@ details[open]>summary::after{transform:translateY(2px) rotate(-135deg)}
 .photo img{width:100%}
 .photo .tape{top:-11px;left:50%;margin-left:-46px;transform:rotate(-3deg)}
 .photo.map{transform:rotate(-1.2deg);max-width:440px;width:100%}
-.photo.room{transform:rotate(2deg);max-width:280px;width:60%;justify-self:end;margin-top:-3rem}
+.photo.room{transform:rotate(2deg);max-width:280px;width:60%;justify-self:end;margin-top:-.4rem}   /* no overlap: Google's attribution on the map stays visible */
 .photo figcaption{text-align:center;margin-top:.3rem;font-size:1.35rem}
 a.photo:hover{transform:rotate(-.4deg) translateY(-2px)}
 a.photo{transition:transform .3s var(--ease)}
@@ -615,7 +636,7 @@ address{font-style:normal;overflow-wrap:anywhere;margin-top:1.2rem;color:var(--i
   .wide{display:inline}
   .ort-grid{grid-template-columns:1fr 1fr;gap:3rem}
   .pinboard{justify-items:end}
-  .photo.room{margin-top:-3.5rem;justify-self:start;width:56%}
+  .photo.room{margin-top:-.4rem;justify-self:start;width:56%}
   .portrait{width:36%;margin-left:2.5rem}
   .gift{grid-template-columns:120px 1fr}.gift-art{width:120px}
   .end-grid{grid-template-columns:210px 1fr}.end-art{width:210px}
@@ -721,7 +742,8 @@ const business = {
   },
 };
 
-const FONTS = 'https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Figtree:wght@400;500;600;650;700&family=Young+Serif&display=swap';
+// fonts are self-hosted in ../fonts (OFL): no request to Google
+const FONT_FACES = readFileSync(here('../fonts/kompakt.css'), 'utf8');
 
 const html = `<!doctype html>
 <!-- Generated by kompakt/build.mjs — PROTOTYPE, edit that file, not this one. -->
@@ -739,10 +761,8 @@ const html = `<!doctype html>
 <meta property="og:description" content="${DESC}">
 <meta property="og:image" content="${SITE}img/og-image.jpg">
 <link rel="icon" href="../img/sketches/massage.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="${FONTS}" rel="stylesheet">
-<style>${CSS.replace(/\n\s*/g, '\n').trim()}</style>
+${['caveat-latin', 'figtree-latin', 'young-serif-latin'].map(f => `<link rel="preload" href="../fonts/${f}.woff2" as="font" type="font/woff2" crossorigin>`).join('\n')}
+<style>${(FONT_FACES + CSS).replace(/\n\s*/g, '\n').trim()}</style>
 <script type="application/ld+json">${JSON.stringify(business)}</script>
 </head>
 <body>

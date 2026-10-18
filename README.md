@@ -16,7 +16,7 @@ burnt orange `#c46627`), with darker ambers for text so it stays readable.
 
 ## Prototype: compact one-page version
 
-`kompakt/` is a separate design prototype (https://ggzhan.github.io/miri/kompakt/): everything a customer needs on one
+`kompakt/` is a separate design prototype, synced with the main site on 2026-10-18 (claim, prices, FAQ, map, fonts) (https://ggzhan.github.io/miri/kompakt/): everything a customer needs on one
 page – treatments with the right price after «Erstes Mal hier?», the visit as a drawn sequence, location, about, and
 a few fold-outs. Own generator: `node kompakt/build.mjs` (content copied from the root `build.mjs`, keep in sync by hand).
 

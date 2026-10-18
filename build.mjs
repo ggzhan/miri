@@ -519,8 +519,6 @@ if (old) location.replace(old);`,
           <dt>Zahlung</dt><dd>${C.pay}</dd>
           <dt>Fragen</dt><dd><a href="${url('buchen')}#fragen">Häufige Fragen</a></dd>
         </dl>
-        <h2 class="h3">Meine Empfehlungen in Winterthur</h2>
-        ${F.recs()}
       </div>
       <div class="map-box">
         <iframe class="map" src="${C.mapEmbed}" title="Karte: ${C.person}, Münzgasse 2, Winterthur" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
@@ -688,6 +686,8 @@ if (pre) { history.replaceState({ typ: pre.dataset.type }, '', location.search);
       <div>
         ${C.about.map(p => `<p>${p}</p>`).join('')}
         <figure class="room">${img('praxis')}<figcaption>Meine Praxis an der Münzgasse 2</figcaption></figure>
+        <h2 class="h3">Meine Empfehlungen in Winterthur</h2>
+        ${F.recs()}
       </div>
     </div></section>
 

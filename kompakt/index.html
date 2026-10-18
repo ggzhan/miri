@@ -14,10 +14,17 @@
 <meta property="og:description" content="Klassische, Ganzheitliche und Hawaiianische Massage und Polarity in Winterthur, Münzgasse 2. Mi & Fr 10–20 Uhr. Kennenlernmassage 80 CHF. Termin direkt online buchen.">
 <meta property="og:image" content="https://ggzhan.github.io/miri/img/og-image.jpg">
 <link rel="icon" href="../img/sketches/massage.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Figtree:wght@400;500;600;650;700&family=Young+Serif&display=swap" rel="stylesheet">
-<style>:root{
+<link rel="preload" href="../fonts/caveat-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/figtree-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/young-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>/* kompakt/ fonts: Caveat, Figtree, Young Serif (OFL), self-hosted; read by kompakt/build.mjs */
+@font-face{font-family:"Caveat";font-style:normal;font-weight:600 700;font-display:swap;src:url("../fonts/caveat-latin-ext.woff2") format("woff2");unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:"Caveat";font-style:normal;font-weight:600 700;font-display:swap;src:url("../fonts/caveat-latin.woff2") format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:"Figtree";font-style:normal;font-weight:400 700;font-display:swap;src:url("../fonts/figtree-latin-ext.woff2") format("woff2");unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:"Figtree";font-style:normal;font-weight:400 700;font-display:swap;src:url("../fonts/figtree-latin.woff2") format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:"Young Serif";font-style:normal;font-weight:400;font-display:swap;src:url("../fonts/young-serif-latin-ext.woff2") format("woff2");unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:"Young Serif";font-style:normal;font-weight:400;font-display:swap;src:url("../fonts/young-serif-latin.woff2") format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+:root{
 --ink:#0d0d0d; --ink-2:#3b3226; --paper:#f9f9f9; --sheet:#fffdf8; --cream:#fbf3e2;
 --amber:#f59e0b; --amber-2:#c57f08; --amber-3:#945f06; --orange:#c46627;
 --line:rgba(13,13,13,.14);
@@ -147,6 +154,10 @@ details[open]>summary::after{transform:translateY(2px) rotate(-135deg)}
 @keyframes bob{to{transform:translateY(-6px) rotate(-2deg)}}
 .cal-loading.failed img{animation:none}
 .cal-help{margin:.8rem 0 0;font-size:.95rem}
+.cal-hint{margin:0 0 .8rem;color:var(--ink-2)}
+.photo.map iframe{display:block;width:100%;aspect-ratio:4/3;border:0;background:var(--cream)}
+.map-note{font-size:.9rem;color:var(--ink-2);max-width:34em}
+.small-note{font-size:.95rem;color:var(--ink-2)}
 /* visit */
 .besuch h2{text-align:center}
 .steps{list-style:none;margin:2rem 0 0;padding:0;display:grid;gap:.4rem}
@@ -172,7 +183,7 @@ details[open]>summary::after{transform:translateY(2px) rotate(-135deg)}
 .photo img{width:100%}
 .photo .tape{top:-11px;left:50%;margin-left:-46px;transform:rotate(-3deg)}
 .photo.map{transform:rotate(-1.2deg);max-width:440px;width:100%}
-.photo.room{transform:rotate(2deg);max-width:280px;width:60%;justify-self:end;margin-top:-3rem}
+.photo.room{transform:rotate(2deg);max-width:280px;width:60%;justify-self:end;margin-top:-.4rem}   /* no overlap: Google's attribution on the map stays visible */
 .photo figcaption{text-align:center;margin-top:.3rem;font-size:1.35rem}
 a.photo:hover{transform:rotate(-.4deg) translateY(-2px)}
 a.photo{transition:transform .3s var(--ease)}
@@ -242,7 +253,7 @@ address{font-style:normal;overflow-wrap:anywhere;margin-top:1.2rem;color:var(--i
 .wide{display:inline}
 .ort-grid{grid-template-columns:1fr 1fr;gap:3rem}
 .pinboard{justify-items:end}
-.photo.room{margin-top:-3.5rem;justify-self:start;width:56%}
+.photo.room{margin-top:-.4rem;justify-self:start;width:56%}
 .portrait{width:36%;margin-left:2.5rem}
 .gift{grid-template-columns:120px 1fr}.gift-art{width:120px}
 .end-grid{grid-template-columns:210px 1fr}.end-art{width:210px}
@@ -263,7 +274,7 @@ address{font-style:normal;overflow-wrap:anywhere;margin-top:1.2rem;color:var(--i
 .step .step-arrow,.step:nth-child(even) .step-arrow,.step:nth-child(odd) .step-arrow{left:auto;right:-3.2rem;bottom:auto;top:52px;width:70px;transform:rotate(8deg)}
 .step:nth-child(even) .step-arrow{transform:rotate(-8deg) scaleY(-1);top:40px}
 }</style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"HealthAndBeautyBusiness","name":"Miriam Pimputkar – Massage & Polarity","alternateName":["Miri's Massage & Polarity","Miri's Klassische Massage"],"description":"Massage & Polarity für Körper und Geist. Finde zurück in dein natürliches Gleichgewicht. In meiner Praxis in Winterthur begleite ich dich mit achtsamer Berührung, gezielten Massagen und stärkender Energiearbeit zu mehr Entspannung und Vitalität.","url":"https://ggzhan.github.io/miri/kompakt/","image":["https://ggzhan.github.io/miri/img/miriam.jpg","https://ggzhan.github.io/miri/img/praxis.jpg"],"email":"mirismassage@gmail.com","address":{"@type":"PostalAddress","streetAddress":"Münzgasse 2","postalCode":"8400","addressLocality":"Winterthur","addressRegion":"ZH","addressCountry":"CH"},"areaServed":{"@type":"City","name":"Winterthur"},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["https://schema.org/Wednesday","https://schema.org/Friday"],"opens":"10:00","closes":"20:00"}],"priceRange":"CHF 50–180","paymentAccepted":"TWINT, Bargeld, Karte","currenciesAccepted":"CHF","employee":{"@type":"Person","name":"Miriam Pimputkar","jobTitle":"Dipl. Klassische Masseurin, Polaritytherapeutin in Ausbildung"},"potentialAction":{"@type":"ReserveAction","target":"https://mirismassage.as.me/","name":"Termin online buchen"},"hasOfferCatalog":{"@type":"OfferCatalog","name":"Massagen & Behandlungen","itemListElement":[{"@type":"Offer","price":"50","priceCurrency":"CHF","itemOffered":{"@type":"Service","name":"Klassische Massage (30 min)","description":"Löst gezielt muskuläre Verspannungen, regt die Durchblutung an und fördert die spürbare Regeneration von Körper und Muskulatur nach körperlicher Belastung oder stressigen Tagen."}},{"@type":"Offer","price":"100","priceCurrency":"CHF","itemOffered":{"@type":"Service","name":"Klassische Massage (60 min)","description":"Löst gezielt muskuläre Verspannungen, regt die Durchblutung an und fördert die spürbare Regeneration von Körper und Muskulatur nach körperlicher Belastung oder stressigen Tagen."}},{"@type":"Offer","price":"110","priceCurrency":"CHF","itemOffered":{"@type":"Service","name":"Ganzheitliche Massage (60 min)","description":"Verbindet wirkungsvolle manuelle Techniken mit feinfühliger Körperwahrnehmung. Eine tiefgreifende Auszeit, die das gesamte Nervensystem beruhigt und neue Kraft schenkt."}},{"@type":"Offer","price":"180","priceCurrency":"CHF","itemOffered":{"@type":"Service","name":"Hawaiianische Ganzkörpermassage (90 min)","description":"Ganzheitliches Wellness-Erlebnis mit fliessenden Unterarmstrichen und viel warmem Öl. Bringt Körper, Geist und Nervensystem in tiefe Harmonie."}},{"@type":"Offer","price":"88","priceCurrency":"CHF","itemOffered":{"@type":"Service","name":"Polaritybehandlung (60 min)","description":"Unterstützt den freien Fluss der Lebensenergie durch sanfte Berührungen, Energiearbeit und gezielte Impulse – am bekleideten Körper."}},{"@type":"Offer","price":"80","priceCurrency":"CHF","itemOffered":{"@type":"Service","name":"Kennenlernmassage, klassisch oder ganzheitlich (60 min)"}},{"@type":"Offer","price":"140","priceCurrency":"CHF","itemOffered":{"@type":"Service","name":"Kennenlernen: Hawaiianische Ganzkörpermassage (90 min)"}}]}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"HealthAndBeautyBusiness","name":"Miriam Pimputkar – Massage & Polarity","alternateName":["Miri's Massage & Polarity","Miri's Klassische Massage"],"description":"Massage & Polarity für Körper und Geist. Finde zurück in dein natürliches Gleichgewicht. In meiner Praxis in Winterthur begleite ich dich mit achtsamer Berührung, gezielten Massagen und stärkender Energiearbeit zu mehr Entspannung und Vitalität.","url":"https://ggzhan.github.io/miri/kompakt/","image":["https://ggzhan.github.io/miri/img/miriam.jpg","https://ggzhan.github.io/miri/img/praxis.jpg"],"email":"mirismassage@gmail.com","address":{"@type":"PostalAddress","streetAddress":"Münzgasse 2","postalCode":"8400","addressLocality":"Winterthur","addressRegion":"ZH","addressCountry":"CH"},"areaServed":{"@type":"City","name":"Winterthur"},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["https://schema.org/Wednesday","https://schema.org/Friday"],"opens":"10:00","closes":"20:00"}],"priceRange":"CHF 50–180","paymentAccepted":"TWINT, Bargeld, Karte","currenciesAccepted":"CHF","employee":{"@type":"Person","name":"Miriam Pimputkar","jobTitle":"Dipl. Klassische Masseurin, Polaritytherapeutin in Ausbildung"},"potentialAction":{"@type":"ReserveAction","target":"https://mirismassage.as.me/","name":"Termin online buchen"},"hasOfferCatalog":{"@type":"OfferCatalog","name":"Massagen & Behandlungen","itemListElement":[{"@type":"Offer","price":"50","priceCurrency":"CHF","itemOffered":{"@type":"Service","name":"Klassische Massage (30 min)","description":"Löst gezielt muskuläre Verspannungen, regt die Durchblutung an und fördert die spürbare Regeneration von Körper und Muskulatur nach körperlicher Belastung oder stressigen Tagen."}},{"@type":"Offer","price":"100","priceCurrency":"CHF","itemOffered":{"@type":"Service","name":"Klassische Massage (60 min)","description":"Löst gezielt muskuläre Verspannungen, regt die Durchblutung an und fördert die spürbare Regeneration von Körper und Muskulatur nach körperlicher Belastung oder stressigen Tagen."}},{"@type":"Offer","price":"110","priceCurrency":"CHF","itemOffered":{"@type":"Service","name":"Ganzheitliche Massage (60 min)","description":"Verbindet wirkungsvolle manuelle Techniken mit feinfühliger Körperwahrnehmung. Eine tiefgreifende Auszeit, die das gesamte Nervensystem beruhigt und neue Kraft schenkt."}},{"@type":"Offer","price":"88","priceCurrency":"CHF","itemOffered":{"@type":"Service","name":"Polaritybehandlung (60 min)","description":"Unterstützt den freien Fluss der Lebensenergie durch sanfte Berührungen, Energiearbeit und gezielte Impulse – am bekleideten Körper."}},{"@type":"Offer","price":"180","priceCurrency":"CHF","itemOffered":{"@type":"Service","name":"Hawaiianische Ganzkörpermassage (90 min)","description":"Ganzheitliches Wellness-Erlebnis mit fliessenden Unterarmstrichen und viel warmem Öl. Bringt Körper, Geist und Nervensystem in tiefe Harmonie."}},{"@type":"Offer","price":"80","priceCurrency":"CHF","itemOffered":{"@type":"Service","name":"Kennenlernmassage, klassisch oder ganzheitlich (60 min)"}},{"@type":"Offer","price":"140","priceCurrency":"CHF","itemOffered":{"@type":"Service","name":"Kennenlernen: Hawaiianische Ganzkörpermassage (90 min)"}}]}}</script>
 </head>
 <body>
 <a class="skip" href="#karte">Zu Behandlungen und Buchung springen</a>
@@ -280,11 +291,11 @@ address{font-style:normal;overflow-wrap:anywhere;margin-top:1.2rem;color:var(--i
     <div class="wrap hero-grid">
       <div class="hero-text">
         <h1>Massage &amp; Polarity <span class="hl">in Winterthur</span></h1>
-        <p class="lead">Finde zurück in dein natürliches Gleichgewicht. In meiner Praxis in Winterthur begleite ich dich mit achtsamer Berührung, gezielten Massagen und stärkender Energiearbeit zu mehr Entspannung und Vitalität.</p>
+        <p class="lead"><b>Traumasensible Körpertherapie und Prozessbegleitung.</b> Finde zurück in dein natürliches Gleichgewicht. In meiner Praxis in Winterthur begleite ich dich mit achtsamer Berührung, gezielten Massagen und stärkender Energiearbeit zu mehr Entspannung und Vitalität.</p>
         <ul class="notes">
           <li><svg class="ck" viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 10.8C5.4 12.2 6.8 13.8 8 15.6 10.6 10.4 13.4 6.9 17 3.6"/></svg><span><b>Mi &amp; Fr</b>, 10–20 Uhr</span></li>
           <li><svg class="ck" viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 10.8C5.4 12.2 6.8 13.8 8 15.6 10.6 10.4 13.4 6.9 17 3.6"/></svg><span><b>Münzgasse 2</b>, 4. Stock, Lift</span></li>
-          <li><a class="rating" href="https://www.google.com/maps/search/?api=1&query=Miri%27s+Klassische+Massage+M%C3%BCnzgasse+2+8400+Winterthur" rel="noopener"><span class="stars" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.3 5.8.7-4.3 4 1.1 5.7L10 14.7l-5.1 2.8 1.1-5.7-4.3-4 5.8-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.3 5.8.7-4.3 4 1.1 5.7L10 14.7l-5.1 2.8 1.1-5.7-4.3-4 5.8-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.3 5.8.7-4.3 4 1.1 5.7L10 14.7l-5.1 2.8 1.1-5.7-4.3-4 5.8-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.3 5.8.7-4.3 4 1.1 5.7L10 14.7l-5.1 2.8 1.1-5.7-4.3-4 5.8-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.3 5.8.7-4.3 4 1.1 5.7L10 14.7l-5.1 2.8 1.1-5.7-4.3-4 5.8-.7z"/></svg></span><span><b>5,0</b> aus 22 Google-Bewertungen</span></a></li>
+          <li><a class="rating" href="https://maps.app.goo.gl/GMyJFSeTsDPQqhrE9" rel="noopener"><span class="stars" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.3 5.8.7-4.3 4 1.1 5.7L10 14.7l-5.1 2.8 1.1-5.7-4.3-4 5.8-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.3 5.8.7-4.3 4 1.1 5.7L10 14.7l-5.1 2.8 1.1-5.7-4.3-4 5.8-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.3 5.8.7-4.3 4 1.1 5.7L10 14.7l-5.1 2.8 1.1-5.7-4.3-4 5.8-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.3 5.8.7-4.3 4 1.1 5.7L10 14.7l-5.1 2.8 1.1-5.7-4.3-4 5.8-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.3 5.8.7-4.3 4 1.1 5.7L10 14.7l-5.1 2.8 1.1-5.7-4.3-4 5.8-.7z"/></svg></span><span><b>5,0</b> aus 22 Google-Bewertungen</span></a></li>
         </ul>
         <p class="hero-cta"><a class="btn" href="#karte">Behandlung wählen</a> <span class="hand">erstes Mal? ab 80 CHF</span></p>
       </div>
@@ -346,6 +357,22 @@ address{font-style:normal;overflow-wrap:anywhere;margin-top:1.2rem;color:var(--i
             <p class="go if-reg"><a class="btn pick" href="https://app.acuityscheduling.com/schedule.php?owner=28010488&appointmentType=79868943" data-type="79868943" data-label="Ganzheitliche Massage · 60 min · 110 CHF">Termine ansehen <span class="sr">für Ganzheitliche Massage, 60 min</span></a></p>
           </div>
         </li>
+        <li class="dish" id="polarity">
+          <img src="img/gespraech.svg" alt="Miri im begleitenden Gespräch mit einer Klientin, beide sitzen auf Stühlen" width="640" height="400" loading="lazy" decoding="async" class="dish-art">
+          <div class="dish-body">
+            <div class="dish-head">
+              <h3>Polaritybehandlung</h3>
+              <span class="leader" aria-hidden="true"></span>
+              <p class="price"><span class="if-first"><span class="small">Du bestimmst den Preis</span></span><span class="if-reg">88 CHF*</span></p>
+            </div>
+            
+            <p class="dur"><span class="if-first">90 min, Kennenlernen</span><span class="if-reg">60 min</span></p>
+            <p class="feel">Unterstützt den freien Fluss der Lebensenergie durch sanfte Berührungen, Energiearbeit und gezielte Impulse – am bekleideten Körper.</p>
+            <details class="more"><summary>Mehr erfahren</summary><p>Die erste Polaritybehandlung beinhaltet ein ausführliches Vorgespräch, bei Bedarf eine Haltungsanalyse sowie eine manuelle Behandlung auf der Liege. Du darfst am Ende selber entscheiden, wie viel dir diese erste Polarityerfahrung finanziell wert ist.</p><p><a href="#polarity">Was ist Polarity?</a></p></details>
+            <p class="go if-first"><a class="btn pick" href="https://app.acuityscheduling.com/schedule.php?owner=28010488&appointmentType=78873137" data-type="78873137" data-label="Kennenlernen: Polaritybehandlung · 90 min · Preis nach deinem Ermessen">Termine ansehen <span class="sr">für Kennenlernen: Polaritybehandlung, 90 min</span></a></p>
+            <p class="go if-reg"><a class="btn pick" href="https://app.acuityscheduling.com/schedule.php?owner=28010488&appointmentType=86048501" data-type="86048501" data-label="Polaritybehandlung · 60 min · 88 CHF*">Termine ansehen <span class="sr">für Polaritybehandlung, 60 min</span></a></p>
+          </div>
+        </li>
         <li class="dish" id="hawaiianisch">
           <img src="img/hawaii.svg" alt="Miri gibt eine hawaiianische Ganzkörpermassage mit langen, fliessenden Streichungen" width="640" height="400" loading="lazy" decoding="async" class="dish-art">
           <div class="dish-body">
@@ -362,28 +389,13 @@ address{font-style:normal;overflow-wrap:anywhere;margin-top:1.2rem;color:var(--i
             <p class="go if-reg"><a class="btn pick" href="https://app.acuityscheduling.com/schedule.php?owner=28010488&appointmentType=92469297" data-type="92469297" data-label="Hawaiianische Ganzkörpermassage · 90 min · 180 CHF">Termine ansehen <span class="sr">für Hawaiianische Ganzkörpermassage, 90 min</span></a></p>
           </div>
         </li>
-        <li class="dish" id="polarity">
-          <img src="img/gespraech.svg" alt="Miri im begleitenden Gespräch mit einer Klientin, beide sitzen auf Stühlen" width="640" height="400" loading="lazy" decoding="async" class="dish-art">
-          <div class="dish-body">
-            <div class="dish-head">
-              <h3>Polaritybehandlung</h3>
-              <span class="leader" aria-hidden="true"></span>
-              <p class="price"><span class="if-first"><span class="small">Du bestimmst den Preis</span></span><span class="if-reg">88 CHF / Std.*</span></p>
-            </div>
-            
-            <p class="dur"><span class="if-first">90 min, Kennenlernen</span><span class="if-reg">60 min</span></p>
-            <p class="feel">Unterstützt den freien Fluss der Lebensenergie durch sanfte Berührungen, Energiearbeit und gezielte Impulse – am bekleideten Körper.</p>
-            <details class="more"><summary>Mehr erfahren</summary><p>Die erste Polaritybehandlung beinhaltet ein ausführliches Vorgespräch, bei Bedarf eine Haltungsanalyse sowie eine manuelle Behandlung auf der Liege. Du darfst am Ende selber entscheiden, wie viel dir diese erste Polarityerfahrung finanziell wert ist.</p><p><a href="#polarity">Was ist Polarity?</a></p></details>
-            <p class="go if-first"><a class="btn pick" href="https://app.acuityscheduling.com/schedule.php?owner=28010488&appointmentType=78873137" data-type="78873137" data-label="Kennenlernen: Polaritybehandlung · 90 min · Preis nach deinem Ermessen">Termine ansehen <span class="sr">für Kennenlernen: Polaritybehandlung, 90 min</span></a></p>
-            <p class="go if-reg"><a class="btn pick" href="https://app.acuityscheduling.com/schedule.php?owner=28010488&appointmentType=86048501" data-type="86048501" data-label="Polaritybehandlung · 60 min · 88 CHF / Std.*">Termine ansehen <span class="sr">für Polaritybehandlung, 60 min</span></a></p>
-          </div>
-        </li>
         </ul>
         <div class="cal" id="cal" hidden>
           <div class="cal-bar">
             <button type="button" class="back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5L8 12l7 7"/></svg>andere Behandlung</button>
             <p class="chosen" tabindex="-1"></p>
           </div>
+          <p class="cal-hint">Im Kalender steht zuerst ein Begrüssungstext – die freien Termine folgen gleich darunter.</p>
           <div class="cal-frame"></div>
           <p class="cal-help">Kalender klemmt? <a class="cal-direct" href="https://app.acuityscheduling.com/schedule.php?owner=28010488" rel="noopener">Im neuen Fenster öffnen</a> oder schreib mir: <a href="mailto:mirismassage@gmail.com">mirismassage@gmail.com</a></p>
         </div>
@@ -436,14 +448,16 @@ address{font-style:normal;overflow-wrap:anywhere;margin-top:1.2rem;color:var(--i
         <h2 id="ort-h">Münzgasse 2, Winterthur</h2>
         <dl class="facts">
           <div><dt>Adresse</dt><dd>Münzgasse 2, 8400 Winterthur</dd></div>
+          <div><dt>Anfahrt</dt><dd>Wenige Gehminuten vom Hauptbahnhof Winterthur</dd></div>
           <div><dt>Zugang</dt><dd>4. Stock, Lift vorhanden</dd></div>
           <div><dt>Praxistage</dt><dd>Mittwoch und Freitag, 10–20 Uhr</dd></div>
-          <div><dt>E-Mail</dt><dd><a href="mailto:mirismassage@gmail.com">mirismassage@gmail.com</a></dd></div>
+          <div><dt>Kontakt</dt><dd>per E-Mail: <a href="mailto:mirismassage@gmail.com">mirismassage@gmail.com</a></dd></div>
         </dl>
-        <p><a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&query=Miri%27s+Klassische+Massage+M%C3%BCnzgasse+2+8400+Winterthur" rel="noopener">In Google Maps öffnen</a></p>
+        <p><a class="btn btn-ghost" href="https://maps.app.goo.gl/GMyJFSeTsDPQqhrE9" rel="noopener">Route in Google Maps öffnen</a></p>
+        <p class="map-note">Die Karte kommt von Google; beim Anzeigen werden Daten an Google übertragen. <a href="../datenschutz/#karte">Mehr dazu</a></p>
       </div>
       <div class="pinboard">
-        <a class="photo map" href="https://www.google.com/maps/search/?api=1&query=Miri%27s+Klassische+Massage+M%C3%BCnzgasse+2+8400+Winterthur" rel="noopener" aria-label="Karte in Google Maps öffnen"><img src="../img/map.jpg" alt="Karte: Massagepraxis an der Münzgasse 2, Winterthur Altstadt" width="871" height="592" loading="lazy" decoding="async"><span class="tape" aria-hidden="true"></span></a>
+        <figure class="photo map"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1350!2d8.7251487!3d47.499501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x257dda437a3e16bf%3A0x50963fd42781a491!2sMiriam%20Pimputkar%3B%20Ganzheitliche%20Massage%20%26%20Polarity!5e0!3m2!1sde!2sch!4v1760745600000!5m2!1sde!2sch" title="Karte: Miriam Pimputkar, Münzgasse 2, Winterthur" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe><span class="tape" aria-hidden="true"></span></figure>
         <figure class="photo room"><img src="../img/praxis.jpg" alt="Massagepraxis an der Münzgasse 2 in Winterthur mit Massageliege" width="320" height="242" loading="lazy" decoding="async"><figcaption class="hand">meine Praxis</figcaption><span class="tape" aria-hidden="true"></span></figure>
       </div>
     </div>
@@ -462,7 +476,7 @@ address{font-style:normal;overflow-wrap:anywhere;margin-top:1.2rem;color:var(--i
           <p>«Auf der Suche nach einer Polarity-Therapeutin in Winterthur bin ich auf Miriam Pimputkar gestossen. Ich bin durch und durch zufrieden. Sie spürt meine Blockaden sowohl auf der seelischen als auch auf der körperlichen Ebene und geht ausserordentlich sensibel & wirkungsvoll darauf ein. Für mich, die beste Körpertherapeutin, die ich schon jemals hatte.»</p>
           <footer>Géraldine, 48 J.</footer>
         </blockquote>
-        <details class="more"><summary>Weitere Stimmen</summary><blockquote class="quote small-q"><p>«Ich habe mich bei Miriam gleich wohl gefühlt. Sie gestaltet eine Atmosphäre, in der man sich entspannen kann und einen neuen Zugang zum eigenen Körper findet. Man spürt, dass sie ihr Handwerk versteht. Nach allen Sitzungen bin ich nicht nur entspannter in den Alltag gegangen, sondern die Entspannung war über die Stunden hinaus spürbar. Miriam hat eine grosse Begabung.»</p><footer>Peter, 64 J.</footer></blockquote><blockquote class="quote small-q"><p>«Anfangs 2026 war ich auf der Suche nach einer mir entsprechenden Körpertherapie. Bei Miriam habe ich mit ihrer Ganzheitlichen Massage eine wunderbare Möglichkeit gefunden. Inzwischen erlebe ich alle 2 bis 3 Wochen ihre wohltuende Behandlung. Miriams kompetente und äusserst liebenswürdige Art schätze ich überaus.»</p><footer>Ursula, 70 J.</footer></blockquote><blockquote class="quote small-q"><p>«Miriam hat mir eine wohltuende Massageerfahrung geschenkt und dabei nicht nur meine Verspannungen erfolgreich gelöst, sondern auch meiner Psyche etwas Gutes getan. Miriam, ich danke dir für deine Zeit und freue mich auf ein nächstes Mal. Ich kann einen Besuch in der Praxis auf’s Wärmste empfehlen.»</p><footer>Tamara, 27 J.</footer></blockquote><blockquote class="quote small-q"><p>«Miriam ist eine wundervolle Masseurin! Sie schöpft aus einer breiten Palette an Techniken, gepaart mit viel anatomischem und medizinischem Wissen. Ich bin mit einem spezifischen Anliegen zu Miriam gekommen, welches sie mit gezielten Massagen, Tipps und Übungen adressiert hat. Das hat mir sehr geholfen.»</p><footer>Raphael, 35 J.</footer></blockquote><p><a href="https://www.google.com/maps/search/?api=1&query=Miri%27s+Klassische+Massage+M%C3%BCnzgasse+2+8400+Winterthur" rel="noopener">Alle 22 Bewertungen auf Google</a></p></details>
+        <details class="more"><summary>Weitere Stimmen</summary><blockquote class="quote small-q"><p>«Ich habe mich bei Miriam gleich wohl gefühlt. Sie gestaltet eine Atmosphäre, in der man sich entspannen kann und einen neuen Zugang zum eigenen Körper findet. Man spürt, dass sie ihr Handwerk versteht. Nach allen Sitzungen bin ich nicht nur entspannter in den Alltag gegangen, sondern die Entspannung war über die Stunden hinaus spürbar. Miriam hat eine grosse Begabung.»</p><footer>Peter, 64 J.</footer></blockquote><blockquote class="quote small-q"><p>«Anfangs 2026 war ich auf der Suche nach einer mir entsprechenden Körpertherapie. Bei Miriam habe ich mit ihrer Ganzheitlichen Massage eine wunderbare Möglichkeit gefunden. Inzwischen erlebe ich alle 2 bis 3 Wochen ihre wohltuende Behandlung. Miriams kompetente und äusserst liebenswürdige Art schätze ich überaus.»</p><footer>Ursula, 70 J.</footer></blockquote><blockquote class="quote small-q"><p>«Miriam hat mir eine wohltuende Massageerfahrung geschenkt und dabei nicht nur meine Verspannungen erfolgreich gelöst, sondern auch meiner Psyche etwas Gutes getan. Miriam, ich danke dir für deine Zeit und freue mich auf ein nächstes Mal. Ich kann einen Besuch in der Praxis auf’s Wärmste empfehlen.»</p><footer>Tamara, 27 J.</footer></blockquote><blockquote class="quote small-q"><p>«Miriam ist eine wundervolle Masseurin! Sie schöpft aus einer breiten Palette an Techniken, gepaart mit viel anatomischem und medizinischem Wissen. Ich bin mit einem spezifischen Anliegen zu Miriam gekommen, welches sie mit gezielten Massagen, Tipps und Übungen adressiert hat. Das hat mir sehr geholfen.»</p><footer>Raphael, 35 J.</footer></blockquote><p><a href="https://maps.app.goo.gl/GMyJFSeTsDPQqhrE9" rel="noopener">Alle 22 Bewertungen auf Google</a></p></details>
         <details class="more"><summary>Ausbildung &amp; Erfahrung</summary><p class="group">Polaritytherapeutin i. A.</p><p class="items">Authentische Kommunikation · Prozessbegleitung · Embryologie · Reflexologie · Cranio · Lymphbehandlung · Yoga-/Körperübungen · Ernährungslehre</p><p class="group">Berufsmasseurin</p><p class="items">Klassische Massage · Bindegewebsmassage · Myofasziale Triggerpunktbehandlung · Schröpfkopfmassage · Hawaiianische Wellnessmassage</p><p class="group">Ergotherapie</p><p class="items">Grundjahr · Praktikum (Suchtklinik)</p><p class="group">Kurse</p><p class="items">Formatives Embodiment · IBP-Workshops (Achtsamkeit, Selbstfürsorge, Mein Raum – Dein Raum: Grenzen setzen) · Geburtsworkshops · Impact (Selbstverteidigung) · Continuum · Energetisches Heilen · Meridian Scanning (TCM)</p><p class="group">Beruflicher Hintergrund</p><p class="items">Primar- und Schwimmlehrerin · Lerncoach für Kinder und Erwachsene · Coach für verhaltensauffällige Kinder</p></details>
       </div>
     </div>
@@ -486,9 +500,16 @@ address{font-style:normal;overflow-wrap:anywhere;margin-top:1.2rem;color:var(--i
             <p><b>Erhältlich</b> als Faltkarte per Post (A6), digital zum Verschicken, digital zum selber Ausdrucken (A6 oder A5).</p>
             <p>Schreib mir per E-Mail, welche Behandlung und welche Version du möchtest – bei Postversand mit Adresse.</p>
             <p><a class="btn" href="mailto:mirismassage@gmail.com?subject=Gutscheinbestellung&body=Hallo%20Miriam%0A%0AIch%20m%C3%B6chte%20gerne%20einen%20Gutschein%20bestellen%3A%0A%0ABehandlung%3A%20%0AVersion%20(Post%20%2F%20digital%20verschicken%20%2F%20selber%20ausdrucken%20A6%20oder%20A5)%3A%20%0AName%3A%20%0AAdresse%20(bei%20Postversand)%3A%20%0A%0ALiebe%20Gr%C3%BCsse">Gutschein per E-Mail bestellen</a></p>
+            <p class="small-note">Öffnet sich kein E-Mail-Programm? Schreib direkt an <a href="mailto:mirismassage@gmail.com">mirismassage@gmail.com</a>.</p>
           </div>
         </div>
         <img src="../img/gutschein-vorne.jpg" alt="Geschenkgutschein «Zeit für dich», Vorderseite mit Massage-Zeichnung" width="900" height="639" loading="lazy" decoding="async" class="gift-photo">
+      </details>
+      <details class="faq"><summary><h3>Was ziehe ich für die Massage aus?</h3></summary>
+        <p>Das besprechen wir vor der Behandlung, und du entscheidest selbst, was für dich stimmt. Im Vorgespräch klären wir auch, wo du berührt werden möchtest und wo nicht. Polarity findet am bekleideten Körper statt.</p>
+      </details>
+      <details class="faq"><summary><h3>Hilft eine Behandlung nach einem Unfall oder einer Verletzung?</h3></summary>
+        <p>Ja. Ich arbeite traumasensibel: achtsam, in deinem Tempo und mit klaren Absprachen, welche Berührung für dich stimmt. Nach körperlichen Traumata wie Unfällen, Stürzen oder Operationen können die Ganzheitliche Massage und Polarity helfen, Spannungen zu lösen, die danach im Körper zurückbleiben, und wieder Vertrauen in deinen Körper zu finden. Sie ergänzen die ärztliche oder physiotherapeutische Behandlung, ersetzen sie aber nicht. Bei frischen Verletzungen klärst du bitte zuerst mit deiner Ärztin oder deinem Arzt ab, ob eine Behandlung jetzt passt.</p>
       </details>
       <details class="faq"><summary><h3>Ergänzende Behandlungen</h3></summary>
         <ul class="dots"><li>Myofasziale Triggerpunktbehandlung</li><li>Schröpfmassage (mit Schröpfgläsern)</li><li>Reflexologie (z.B. Füsse, Hände, Ohren)</li></ul>
@@ -505,7 +526,7 @@ address{font-style:normal;overflow-wrap:anywhere;margin-top:1.2rem;color:var(--i
       <p class="bye">Ich freue mich auf dich! Bis bald!</p>
       <p><a class="btn" href="#karte">Termin buchen</a></p>
       <address>Miriam Pimputkar · Massage &amp; Polarity<br>Münzgasse 2, 4. Stock, 8400 Winterthur<br><a href="mailto:mirismassage@gmail.com">mirismassage@gmail.com</a></address>
-      <p class="proto">Prototyp einer kompakten Website. <a href="../">Zur ausführlichen Website</a></p>
+      <p class="proto">Prototyp einer kompakten Website. <a href="../">Zur ausführlichen Website</a> · <a href="../datenschutz/">Datenschutz &amp; Impressum</a></p>
     </div>
   </div>
 </footer>
