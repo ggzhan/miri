@@ -537,3 +537,7 @@ h2.h3 { color: var(--amber-dark); }
 .legal h3 { font-size: 20px; margin: 1.6em 0 .4em; }
 .legal-date { margin-top: 2em; color: var(--muted); font-size: 15px; }
 .map-note { margin: 6px 0 0; font-size: 14px; color: var(--muted); }
+/* Angebot: a pointer for gift buyers, with the little present drawing */
+.ph-gift { display: flex; align-items: center; gap: 10px; margin: 16px 0 0; font-weight: 600; }
+.ph-gift img { height: 52px; width: auto; flex: none; }
+.ph-gift a { display: inline-flex; align-items: center; min-height: 44px; }

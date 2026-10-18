@@ -219,7 +219,7 @@ const FAQ = [
   // TODO Miri: confirm this answer (drafted from the Vorgespräch and Polarity texts)
   ['Was ziehe ich für die Massage aus?', `Das besprechen wir vor der Behandlung, und du entscheidest selbst, was für dich stimmt. Im Vorgespräch klären wir auch, wo du berührt werden möchtest und wo nicht. Polarity findet am bekleideten Körper statt.`],
   ['Was muss ich zum ersten Termin mitbringen?', `Nur etwas Zeit und bequeme Kleidung. Beim Ersttermin beginnen wir mit einem kurzen Vorgespräch. Polarity findet am bekleideten Körper statt.`],
-  ['Gibt es Geschenkgutscheine?', `Ja – für eine bestimmte Behandlung oder nach Wahl, als Faltkarte per Post, digital zum Verschicken oder zum selber Ausdrucken. Bestellung per E-Mail.`],
+  ['Gibt es Geschenkgutscheine?', `Ja – für eine bestimmte Behandlung oder nach Wahl, als Faltkarte per Post, digital zum Verschicken oder zum selber Ausdrucken. Bestellung per E-Mail.`, ['Zum Gutschein', 'angebot', '#gutschein']],
   ['Gibt es vergünstigte Behandlungen?', `Ja. Falls du nicht- oder wenigverdienend bist, komme ich dir gerne finanziell entgegen. Melde dich vorab per E-Mail.`],
 ];
 
@@ -289,7 +289,7 @@ const F = {
   topics: (h = 'h3') => C.polarity.topics.map(t => `<details class="topic"><summary><${h}>${t.h}</${h}></summary>${t.p.map(p => `<p>${p}</p>`).join('')}</details>`).join(''),
   training: (h = 'h3') => C.training.map(t => `<details class="training"><summary><${h}>${t.h}</${h}></summary>${t.groups.map(([g, items]) =>
     `${g ? `<p class="group">${g}</p>` : ''}<ul>${items.map(i => `<li>${i}</li>`).join('')}</ul>`).join('')}</details>`).join(''),
-  faq: (h = 'h3') => FAQ.map(([q, a]) => `<details class="faq"><summary><${h}>${q}</${h}></summary><p>${a}</p></details>`).join(''),
+  faq: (h = 'h3') => FAQ.map(([q, a, l]) => `<details class="faq"><summary><${h}>${q}</${h}></summary><p>${a}${l ? ` <a href="${url(l[1])}${l[2]}">${l[0]}&nbsp;→</a>` : ''}</p></details>`).join(''),
   tips: () => `<ul class="tips">${C.visit.tips.map(t => `<li>${t}</li>`).join('')}</ul>`,
   gift: () => `<p>${C.gift.lead}</p><ul class="kinds-list">${C.gift.kinds.map(k => `<li>${k}</li>`).join('')}</ul><p><b>Erhältlich</b> ${C.gift.versions.join(' · ')}.</p><p>${C.gift.note}</p>`,
   recs: () => `<ul class="recs">${C.recs.map(([n, u]) => `<li><a href="${u}" rel="noopener">${n}</a></li>`).join('')}</ul>`,
@@ -444,7 +444,7 @@ const KENNENLERN = () => `${url('buchen')}?typ=39957629`;
 const pageHero = (art, h1, lead = '', extra = '') => `
     <section class="page-hero${art ? ' has-art' : ''}"><div class="container">
       <div class="ph-text"><h1>${h1}</h1>${lead ? `<p class="lead">${lead}</p>` : ''}${extra}</div>
-      ${art ? `<div class="ph-art">${img(art, { deco: true })}</div>` : ''}
+      ${art ? `<div class="ph-art">${img(art, { deco: true, eager: true })}</div>` : ''}
     </div></section>`;
 
 const serviceCard = s => `<article class="card sheet" id="${s.id}">${img(SERVICE_ART[s.id], { cls: 'card-art' })}<div class="card-top"><span class="dur">${s.t}</span><span class="price">${s.p}</span></div><h3>${s.n}</h3>${s.alt ? `<p class="alt">${s.alt}</p>` : ''}<p>${s.d}</p>${F.more(s)}${s.id === 'polarity-behandlung' ? `<a class="sub-link" href="${url('polarity')}">Polarity ansehen&nbsp;→</a>` : ''}<p class="first">${s.first}</p><a class="go" href="${url('buchen')}?behandlung=${s.id}">Termin buchen&nbsp;→</a></article>`;
@@ -529,7 +529,7 @@ if (old) location.replace(old);`,
     slug: 'angebot', title: 'Angebot & Preise: Massage & Polarity in Winterthur | Miriam Pimputkar',
     desc: 'Klassische Massage ab 50 CHF, Ganzheitliche Massage 110 CHF, Hawaiianische Ganzkörpermassage 180 CHF und Polarity in Winterthur. Kennenlernmassage 80 CHF, Geschenkgutscheine, Online-Buchung.',
     band: { art: 'jump', h: 'Welche Behandlung passt zu dir?', p: 'Bei deinem ersten Besuch kostet die Kennenlernmassage 80 CHF – klassisch oder ganzheitlich.', cta: 'Kennenlernmassage buchen', href: '' },
-    body: () => `${pageHero('angebot', 'Angebot &amp; Preise', C.offerLead)}
+    body: () => `${pageHero('angebot', 'Angebot &amp; Preise', C.offerLead, `<p class="ph-gift">${img('geschenk', { deco: true, eager: true })}<a href="#gutschein">Ein Geschenk? Zum Gutschein&nbsp;→</a></p>`)}
     <section><div class="container">
       <h2 class="sr">Behandlungen</h2>
       <div class="cards" id="preise">${C.services.slice(0, 2).map(serviceCard).join('')}<p class="difference sheet">${C.difference}</p>${C.services.slice(2).map(serviceCard).join('')}</div>
@@ -537,17 +537,7 @@ if (old) location.replace(old);`,
       <p class="center relief">${C.relief}</p>
     </div></section>
 
-    <section class="alt" id="konditionen"><div class="container twocol">
-      <div>
-        <h2>Gut zu wissen</h2>
-        ${F.terms()}
-        <p>${C.prices.cancel}</p>
-        ${F.polarityNote()}
-      </div>
-      <div class="social-box"><h3>Soziales Entgegenkommen</h3><p>${C.prices.social} ${mail}</p></div>
-    </div></section>
-
-    <section id="gutschein"><div class="container gift">
+    <section class="alt" id="gutschein"><div class="container gift">
       <div>
         ${img('geschenk', { cls: 'sketch', deco: true })}
         <h2>${C.gift.title}</h2>
@@ -557,6 +547,16 @@ if (old) location.replace(old);`,
         <p class="mail-alt">Öffnet sich kein E-Mail-Programm? Schreib direkt an ${mail}.</p>
       </div>
       <div class="gift-imgs">${img('giftFront')}${img('giftBack')}</div>
+    </div></section>
+
+    <section id="konditionen"><div class="container twocol">
+      <div>
+        <h2>Gut zu wissen</h2>
+        ${F.terms()}
+        <p>${C.prices.cancel}</p>
+        ${F.polarityNote()}
+      </div>
+      <div class="social-box"><h3>Soziales Entgegenkommen</h3><p>${C.prices.social} ${mail}</p></div>
     </div></section>`,
   },
   {
