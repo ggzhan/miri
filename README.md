@@ -58,7 +58,7 @@ LAUNCH=1 node build.mjs   # launch build: indexable
 - Set `SITE` in `build.mjs` to the real domain (canonical URL, og:image, JSON-LD), then build with `LAUNCH=1`.
 - Payment methods differ between sources: Acuity says bar/TWINT/Banküberweisung, Webador says TWINT/bar/Karte. The site uses Webador's.
 - The gift-voucher order is a pre-filled e-mail (no form backend).
-- Miri to confirm: the FAQ answer «Was ziehe ich für die Massage aus?» (drafted, marked TODO in `build.mjs`) and the
+- Miri to confirm: the FAQ answers «Was ziehe ich für die Massage aus?» and «Hilft eine Behandlung nach einem Unfall oder einer Verletzung?», the claim «Traumasensible Körpertherapie und Prozessbegleitung» (drafted, marked TODO in `build.mjs`) and the
   softened health wording (massage and stress, Polarity Selbstheilung, Ernährung, Reinigung) – the originals promised
   medical effects. No phone number is published; Kontakt says «per E-Mail». Parking info is still missing.
 - `/datenschutz/` (Datenschutz & Impressum) is a draft, not legal advice: Miri to review it, especially the health-data

@@ -53,9 +53,9 @@ const C = {
     { svc: 'hawaiianisch', n: 'Hawaiianische Ganzkörper&shy;massage', art: 'hawaii', d: 'Lomi Lomi: fliessende Unterarmstriche mit warmem Öl.', first: ['92472809'], regular: ['92469297'] },
   ],
   tagline: 'Massage & Polarity für Körper und Geist',
-  claim: 'Achtsame Körperarbeit und Prozessbegleitung',
+  claim: 'Traumasensible Körpertherapie und Prozessbegleitung',   // TODO Miri: confirm («traumasensibel»)
   // the start page's first sentence: what happens and what it costs (facts from below)
-  heroLead: 'Achtsame Massagen und Polarity an der Münzgasse 2. Dein erster Besuch: Kennenlernmassage mit Vorgespräch, 80&nbsp;CHF.',
+  heroLead: 'Massagen und Polarity an der Münzgasse 2. Dein erster Besuch: Kennenlernmassage mit Vorgespräch, 80&nbsp;CHF.',
   intro: 'Finde zurück in dein natürliches Gleichgewicht. In meiner Praxis in Winterthur begleite ich dich mit achtsamer Berührung, gezielten Massagen und stärkender Energiearbeit zu mehr Entspannung und Vitalität.',
   motto: ['Der Körper weiss, was der nächste Schritt ist.', 'Der Verstand ist oft mehrere Schritte zu weit.'],
   welcome: 'Herzlich Willkommen! Schön, dass du hier bist!',
@@ -216,6 +216,8 @@ const FAQ = [
   ['Wie buche ich einen Termin?', `Direkt hier auf der Seite unter «Termin online buchen»: Behandlung wählen, freien Termin aussuchen, fertig. Du siehst alle freien Termine in Echtzeit.`],
   ['Wann wähle ich bei der Kennenlernmassage klassisch oder ganzheitlich?', `Ganz einfach beim Termin: Im Vorgespräch schauen wir zusammen, was dir gerade guttut, und entscheiden dann gemeinsam.`],
   ['Kann ich einen Termin absagen?', `Ja. Eine Absage mindestens 24 Stunden vorher ist kostenfrei. Bitte melde dich schriftlich ab, sonst wird der Termin verrechnet.`],
+  // TODO Miri: confirm this answer (wording kept as support alongside medical care, not a promise of healing)
+  ['Hilft eine Behandlung nach einem Unfall oder einer Verletzung?', `Ja. Ich arbeite traumasensibel: achtsam, in deinem Tempo und mit klaren Absprachen, welche Berührung für dich stimmt. Nach körperlichen Traumata wie Unfällen, Stürzen oder Operationen können die Ganzheitliche Massage und Polarity helfen, Spannungen zu lösen, die danach im Körper zurückbleiben, und wieder Vertrauen in deinen Körper zu finden. Sie ergänzen die ärztliche oder physiotherapeutische Behandlung, ersetzen sie aber nicht. Bei frischen Verletzungen klärst du bitte zuerst mit deiner Ärztin oder deinem Arzt ab, ob eine Behandlung jetzt passt.`],
   // TODO Miri: confirm this answer (drafted from the Vorgespräch and Polarity texts)
   ['Was ziehe ich für die Massage aus?', `Das besprechen wir vor der Behandlung, und du entscheidest selbst, was für dich stimmt. Im Vorgespräch klären wir auch, wo du berührt werden möchtest und wo nicht. Polarity findet am bekleideten Körper statt.`],
   ['Was muss ich zum ersten Termin mitbringen?', `Nur etwas Zeit und bequeme Kleidung. Beim Ersttermin beginnen wir mit einem kurzen Vorgespräch. Polarity findet am bekleideten Körper statt.`],
@@ -469,7 +471,7 @@ if (old) location.replace(old);`,
     <section class="hero"><div class="container">
       <div>
         <h1>Massage &amp; Polarity in Winterthur</h1>
-        <p class="lead">${C.heroLead}</p>
+        <p class="lead"><b>${C.claim}</b> – ${C.heroLead}</p>
         <div class="actions">
           <a class="btn btn-primary" href="${url('buchen')}">Termin buchen</a>
           <a class="btn btn-ghost" href="${url('angebot')}">Angebot ansehen</a>
